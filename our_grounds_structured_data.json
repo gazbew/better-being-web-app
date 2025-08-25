@@ -1,0 +1,188 @@
+{
+  "company_profile": {
+    "name": "Our Grounds",
+    "former_name": "Better Being",
+    "tagline": "Conscious Wellness and Sustainable Products for a Better, Heart-Centered Future",
+    "website": "https://our-grounds.com/",
+    "location": {
+      "country": "South Africa",
+      "city": "Cape Town",
+      "address": "Satellite Office: 171 Blaauwberg rd, Table View, Cape Town 7441"
+    },
+    "contact": {
+      "email": "info@our-grounds.com",
+      "website_contact_form": "https://our-grounds.com/contact-us/"
+    },
+    "business_model": {
+      "type": "E-commerce + Consultation Services",
+      "revenue_streams": [
+        "Physical wellness products",
+        "Digital recipe e-books",
+        "Wellness consultation services",
+        "Structured wellness programs"
+      ]
+    }
+  },
+  "brand_positioning": {
+    "focus_areas": [
+      "Conscious wellness",
+      "Sustainable products",
+      "Natural health solutions",
+      "Community wellness"
+    ],
+    "target_market": [
+      "Health-conscious consumers",
+      "Parents seeking natural children's products",
+      "Wellness enthusiasts",
+      "Sustainable living advocates",
+      "Professional wellness seekers"
+    ],
+    "unique_value_propositions": [
+      "Traditional remedies with modern application",
+      "Comprehensive wellness approach (products + education + community)",
+      "South African local expertise",
+      "Digital integration with physical products",
+      "Professional wellness consultation access"
+    ]
+  },
+  "product_catalog": {
+    "total_products": 20,
+    "categories": {
+      "wellness": {
+        "count": 17,
+        "subcategories": [
+          "Health supplements",
+          "Natural remedies",
+          "Children's health products",
+          "Skincare products",
+          "Digital recipe guides",
+          "Wellness programs"
+        ]
+      },
+      "spirit": {
+        "count": 3,
+        "description": "Spiritual wellness products"
+      }
+    },
+    "price_ranges": {
+      "budget": {
+        "range": "R30 - R150",
+        "products": ["Recipe e-books", "Children's products"]
+      },
+      "mid_range": {
+        "range": "R185 - R225",
+        "products": ["Most supplements and remedies"]
+      },
+      "premium": {
+        "range": "R420+",
+        "products": ["Collagen supplements", "Specialized treatments"]
+      },
+      "services": {
+        "range": "Custom pricing",
+        "products": ["Consultation services", "Wellness programs"]
+      }
+    },
+    "featured_products": [
+      {
+        "name": "Go Go Pain – Intense Pain Reliever",
+        "price": "R185.00",
+        "category": "Pain Relief",
+        "key_features": ["MSM and magnesium oil", "15 herbal oils blend", "Anti-inflammatory"]
+      },
+      {
+        "name": "Raw Pro-Biotic Gut Repair",
+        "price": "R225.00",
+        "category": "Digestive Health",
+        "key_features": ["Probiotic formulation", "Gut health support"]
+      },
+      {
+        "name": "Just Collagen",
+        "price": "R420.00",
+        "category": "Premium Supplements",
+        "key_features": ["Premium collagen", "Skin and joint health"]
+      },
+      {
+        "name": "Night Care",
+        "price": "R200.00",
+        "category": "Skincare",
+        "key_features": ["50ml evening skincare", "Essential oils", "Moisture barrier repair"]
+      }
+    ]
+  },
+  "website_structure": {
+    "platform": "WordPress with WooCommerce",
+    "theme": "Hello Elementor",
+    "key_plugins": [
+      "Elementor Pro",
+      "WooCommerce",
+      "Instagram Feed",
+      "Store Locator",
+      "Contact Form 7"
+    ],
+    "analytics": "Google Analytics (GT-WRDDWZL)",
+    "main_navigation": [
+      "Shop",
+      "Blog",
+      "About Us",
+      "Contact",
+      "Store Locator",
+      "My Account",
+      "Cart"
+    ],
+    "additional_sections": [
+      "Marketing",
+      "Investors Pool",
+      "Community",
+      "Tech",
+      "Farming"
+    ]
+  },
+  "content_strategy": {
+    "blog_posts": {
+      "count": "22+",
+      "topics": [
+        "Hormonal health approaches",
+        "Natural facial care routines",
+        "Sustainable farming solutions",
+        "Wellness education",
+        "Product usage guides"
+      ]
+    },
+    "educational_focus": [
+      "Root cause approach to health",
+      "Natural ingredient education",
+      "Sustainable living practices",
+      "Community wellness building"
+    ]
+  },
+  "distribution_channels": {
+    "primary": "Direct-to-consumer online sales",
+    "secondary": [
+      "Physical retail partnerships (Store Locator)",
+      "Stockist program for retail partners"
+    ]
+  },
+  "competitive_advantages": [
+    "Natural formulations based on traditional remedies",
+    "Comprehensive approach combining products, education, and community",
+    "Local South African expertise and knowledge",
+    "Digital integration with physical products",
+    "Access to professional wellness consultation"
+  ],
+  "scraping_metadata": {
+    "scrape_date": "2025-08-19",
+    "total_pages_scraped": 12,
+    "total_products_detailed": 20,
+    "blog_posts_identified": 22,
+    "navigation_items": 20,
+    "data_sources": [
+      "Homepage content",
+      "Product pages",
+      "About page",
+      "Contact page",
+      "Blog section",
+      "Shop catalog",
+      "Additional policy pages"
+    ]
+  }
+}

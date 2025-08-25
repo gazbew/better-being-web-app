@@ -1,0 +1,53 @@
+{
+  "name": "grounds-dimension-shift-server",
+  "version": "1.0.0",
+  "description": "Backend server for Grounds Dimension Shift",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "seed": "node run-seed.js",
+    "migrate": "node src/config/migrate-drizzle.js migrate",
+    "migrate:status": "node src/config/migrate.js status",
+    "migrate:health": "node src/config/migrate-drizzle.js health",
+    "db:optimize": "npm run migrate && npm run seed",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.1",
+    "@sentry/node": "^10.5.0",
+    "@sentry/profiling-node": "^10.5.0",
+    "@sentry/tracing": "^7.120.4",
+    "axios": "^1.11.0",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "drizzle-kit": "^0.31.4",
+    "drizzle-orm": "^0.44.2",
+    "express": "^4.18.2",
+    "express-rate-limit": "^8.0.1",
+    "express-validator": "^7.2.1",
+    "helmet": "^8.1.0",
+    "isomorphic-dompurify": "^2.26.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.0.2",
+    "pg": "^8.11.3",
+    "redis": "^4.6.12",
+    "stripe": "^18.4.0",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2",
+    "rollup-plugin-visualizer": "^6.0.3",
+    "supertest": "^7.1.4",
+    "vite-bundle-analyzer": "^1.2.1",
+    "vitest": "^3.2.4"
+  }
+}

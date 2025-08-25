@@ -1,0 +1,13 @@
+Complete semantic design token upgrade: Convert all components to use design system tokens
+
+- Converted Header to use semantic tokens (bg-background, text-foreground, text-muted-foreground)
+- Updated HeroSection with semantic color system and gradient-hero
+- Transformed WellnessJourney to use primary, accent, and semantic colors
+- Refactored ProductsSection to use bg-card, text-foreground, and semantic variants
+- Updated Footer secondary color usage to design system tokens
+- Eliminated all hardcoded colors (#BB4500, #C1581B, #626675, etc.)
+- Replaced gray-* classes with muted-foreground, border, and semantic equivalents
+- Maintained professional health & wellness design aesthetic
+- All components now use consistent design system for scalability
+
+Design system now 100% semantic token compliant across all major components.

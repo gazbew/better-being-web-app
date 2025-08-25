@@ -1,0 +1,284 @@
+/**
+ * Brand Gradient Utilities
+ * Better Being brand-specific gradient system
+ */
+
+:root {
+  /* Brand Color Variables for Gradients */
+  --bb-orange: #C1581B;
+  --bb-champagne: #F5F0E8;
+  --bb-green: #84CC16;
+  --bb-gray: #6B7280;
+  --bb-black-bean: #1F2937;
+  
+  /* Brand Gradient Definitions */
+  --gradient-hero: linear-gradient(135deg, var(--bb-orange) 0%, var(--bb-green) 100%);
+  --gradient-hero-soft: linear-gradient(135deg, var(--bb-orange) 0%, rgba(132, 204, 22, 0.8) 100%);
+  --gradient-hero-radial: radial-gradient(ellipse at center, var(--bb-orange) 0%, var(--bb-green) 100%);
+  
+  --gradient-wellness: linear-gradient(120deg, var(--bb-champagne) 0%, rgba(245, 240, 232, 0.6) 50%, var(--bb-green) 100%);
+  --gradient-wellness-soft: linear-gradient(120deg, rgba(245, 240, 232, 0.9) 0%, rgba(132, 204, 22, 0.3) 100%);
+  --gradient-wellness-vertical: linear-gradient(to bottom, var(--bb-champagne) 0%, rgba(132, 204, 22, 0.1) 100%);
+  
+  --gradient-premium: linear-gradient(45deg, var(--bb-orange) 0%, var(--bb-champagne) 50%, var(--bb-orange) 100%);
+  --gradient-premium-gold: linear-gradient(135deg, #D4AF37 0%, var(--bb-champagne) 50%, #B8860B 100%);
+  --gradient-premium-subtle: linear-gradient(135deg, rgba(193, 88, 27, 0.1) 0%, rgba(245, 240, 232, 0.8) 100%);
+  
+  /* Overlay Gradients */
+  --gradient-overlay-dark: linear-gradient(to bottom, rgba(31, 41, 55, 0.7) 0%, rgba(31, 41, 55, 0.9) 100%);
+  --gradient-overlay-light: linear-gradient(to bottom, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.95) 100%);
+  --gradient-overlay-brand: linear-gradient(to bottom, rgba(193, 88, 27, 0.8) 0%, rgba(132, 204, 22, 0.6) 100%);
+  
+  /* Text Gradients */
+  --gradient-text-brand: linear-gradient(135deg, var(--bb-orange) 0%, var(--bb-green) 100%);
+  --gradient-text-premium: linear-gradient(135deg, #D4AF37 0%, var(--bb-orange) 100%);
+  --gradient-text-wellness: linear-gradient(120deg, var(--bb-green) 0%, var(--bb-orange) 100%);
+}
+
+/* =============================================================================
+   HERO GRADIENTS - For main hero sections and primary CTAs
+   ============================================================================= */
+
+.bg-gradient-hero {
+  background: var(--gradient-hero);
+}
+
+.bg-gradient-hero-soft {
+  background: var(--gradient-hero-soft);
+}
+
+.bg-gradient-hero-radial {
+  background: var(--gradient-hero-radial);
+}
+
+/* Hero gradient with animation */
+.bg-gradient-hero-animated {
+  background: linear-gradient(135deg, var(--bb-orange) 0%, var(--bb-green) 100%);
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease-in-out infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* =============================================================================
+   WELLNESS GRADIENTS - For health and wellness focused sections
+   ============================================================================= */
+
+.bg-gradient-wellness {
+  background: var(--gradient-wellness);
+}
+
+.bg-gradient-wellness-soft {
+  background: var(--gradient-wellness-soft);
+}
+
+.bg-gradient-wellness-vertical {
+  background: var(--gradient-wellness-vertical);
+}
+
+/* Wellness gradient with subtle animation */
+.bg-gradient-wellness-breathing {
+  background: var(--gradient-wellness);
+  animation: wellness-breathe 6s ease-in-out infinite;
+}
+
+@keyframes wellness-breathe {
+  0%, 100% { opacity: 0.9; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.02); }
+}
+
+/* =============================================================================
+   PREMIUM GRADIENTS - For premium products and exclusive content
+   ============================================================================= */
+
+.bg-gradient-premium {
+  background: var(--gradient-premium);
+}
+
+.bg-gradient-premium-gold {
+  background: var(--gradient-premium-gold);
+}
+
+.bg-gradient-premium-subtle {
+  background: var(--gradient-premium-subtle);
+}
+
+/* Premium gradient with shimmer effect */
+.bg-gradient-premium-shimmer {
+  background: var(--gradient-premium);
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-gradient-premium-shimmer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* =============================================================================
+   OVERLAY GRADIENTS - For content overlays and image treatments
+   ============================================================================= */
+
+.bg-gradient-overlay-dark {
+  background: var(--gradient-overlay-dark);
+}
+
+.bg-gradient-overlay-light {
+  background: var(--gradient-overlay-light);
+}
+
+.bg-gradient-overlay-brand {
+  background: var(--gradient-overlay-brand);
+}
+
+/* =============================================================================
+   TEXT GRADIENTS - For gradient text effects
+   ============================================================================= */
+
+.text-gradient-brand {
+  background: var(--gradient-text-brand);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-gradient-premium {
+  background: var(--gradient-text-premium);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-gradient-wellness {
+  background: var(--gradient-text-wellness);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+/* =============================================================================
+   BUTTON GRADIENTS - For interactive elements
+   ============================================================================= */
+
+.btn-gradient-hero {
+  background: var(--gradient-hero);
+  color: white;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-gradient-hero:hover {
+  background: linear-gradient(135deg, #B34E16 0%, #6BA80F 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(193, 88, 27, 0.3);
+}
+
+.btn-gradient-wellness {
+  background: var(--gradient-wellness);
+  color: var(--bb-black-bean);
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-gradient-wellness:hover {
+  background: var(--gradient-wellness-soft);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(132, 204, 22, 0.2);
+}
+
+.btn-gradient-premium {
+  background: var(--gradient-premium);
+  color: white;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-gradient-premium:hover {
+  background: var(--gradient-premium-gold);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+}
+
+/* =============================================================================
+   CARD GRADIENTS - For card backgrounds
+   ============================================================================= */
+
+.card-gradient-wellness {
+  background: var(--gradient-wellness-vertical);
+  border: 1px solid rgba(132, 204, 22, 0.2);
+}
+
+.card-gradient-premium {
+  background: var(--gradient-premium-subtle);
+  border: 1px solid rgba(193, 88, 27, 0.2);
+}
+
+/* =============================================================================
+   RESPONSIVE GRADIENTS - Adaptive gradients for different screen sizes
+   ============================================================================= */
+
+@media (max-width: 768px) {
+  .bg-gradient-hero-responsive {
+    background: linear-gradient(to bottom, var(--bb-orange) 0%, var(--bb-green) 100%);
+  }
+  
+  .bg-gradient-wellness-responsive {
+    background: linear-gradient(to bottom, var(--bb-champagne) 0%, rgba(132, 204, 22, 0.1) 100%);
+  }
+}
+
+@media (min-width: 769px) {
+  .bg-gradient-hero-responsive {
+    background: var(--gradient-hero);
+  }
+  
+  .bg-gradient-wellness-responsive {
+    background: var(--gradient-wellness);
+  }
+}
+
+/* =============================================================================
+   ACCESSIBILITY SUPPORT
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-gradient-hero-animated,
+  .bg-gradient-wellness-breathing,
+  .bg-gradient-premium-shimmer {
+    animation: none;
+  }
+  
+  .bg-gradient-premium-shimmer::before {
+    display: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .text-gradient-brand,
+  .text-gradient-premium,
+  .text-gradient-wellness {
+    background: none;
+    -webkit-background-clip: unset;
+    -webkit-text-fill-color: unset;
+    background-clip: unset;
+    color: var(--bb-black-bean);
+  }
+}

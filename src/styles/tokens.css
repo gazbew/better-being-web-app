@@ -1,0 +1,289 @@
+/**
+ * BetterBeingWEB Design System Tokens
+ * Professional design tokens aligned with Brand Bible
+ */
+
+/* =============================================================================
+   SPACING SCALE - 8pt Grid System
+   ============================================================================= */
+:root {
+  /* Base spacing unit */
+  --space-px: 1px;
+  --space-0: 0;
+  --space-0_5: 0.125rem; /* 2px */
+  --space-1: 0.25rem;    /* 4px */
+  --space-1_5: 0.375rem; /* 6px */
+  --space-2: 0.5rem;     /* 8px */
+  --space-2_5: 0.625rem; /* 10px */
+  --space-3: 0.75rem;    /* 12px */
+  --space-3_5: 0.875rem; /* 14px */
+  --space-4: 1rem;       /* 16px */
+  --space-5: 1.25rem;    /* 20px */
+  --space-6: 1.5rem;     /* 24px */
+  --space-7: 1.75rem;    /* 28px */
+  --space-8: 2rem;       /* 32px */
+  --space-9: 2.25rem;    /* 36px */
+  --space-10: 2.5rem;    /* 40px */
+  --space-11: 2.75rem;   /* 44px */
+  --space-12: 3rem;      /* 48px */
+  --space-14: 3.5rem;    /* 56px */
+  --space-16: 4rem;      /* 64px */
+  --space-18: 4.5rem;    /* 72px */
+  --space-20: 5rem;      /* 80px */
+  --space-24: 6rem;      /* 96px */
+  --space-28: 7rem;      /* 112px */
+  --space-32: 8rem;      /* 128px */
+  --space-36: 9rem;      /* 144px */
+  --space-40: 10rem;     /* 160px */
+  --space-44: 11rem;     /* 176px */
+  --space-48: 12rem;     /* 192px */
+  --space-52: 13rem;     /* 208px */
+  --space-56: 14rem;     /* 224px */
+  --space-60: 15rem;     /* 240px */
+  --space-64: 16rem;     /* 256px */
+  --space-72: 18rem;     /* 288px */
+  --space-80: 20rem;     /* 320px */
+  --space-96: 24rem;     /* 384px */
+}
+
+/* =============================================================================
+   TYPOGRAPHY SCALE - Brand Bible Aligned
+   ============================================================================= */
+:root {
+  /* Font Sizes - Modular Scale 1.250 (Major Third) */
+  --text-xs: 0.75rem;     /* 12px */
+  --text-sm: 0.875rem;    /* 14px */
+  --text-base: 1rem;      /* 16px */
+  --text-lg: 1.125rem;    /* 18px */
+  --text-xl: 1.25rem;     /* 20px */
+  --text-2xl: 1.5rem;     /* 24px */
+  --text-3xl: 1.875rem;   /* 30px */
+  --text-4xl: 2.25rem;    /* 36px */
+  --text-5xl: 3rem;       /* 48px */
+  --text-6xl: 3.75rem;    /* 60px */
+  --text-7xl: 4.5rem;     /* 72px */
+  --text-8xl: 6rem;       /* 96px */
+  --text-9xl: 8rem;       /* 128px */
+
+  /* Line Heights */
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+
+  /* Font Weights */
+  --font-thin: 100;
+  --font-extralight: 200;
+  --font-light: 300;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
+  --font-black: 900;
+
+  /* Letter Spacing - Brand Bible */
+  --tracking-brand: 0.088em;    /* 88pt as per Brand Bible for headings */
+  --tracking-body: 0em;         /* 0pt for body text */
+  --tracking-tighter: -0.05em;
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.1em;
+}
+
+/* =============================================================================
+   BORDER RADIUS - Modern & Clean
+   ============================================================================= */
+:root {
+  --radius-none: 0px;
+  --radius-sm: 0.125rem;    /* 2px */
+  --radius-base: 0.25rem;   /* 4px */
+  --radius-md: 0.375rem;    /* 6px */
+  --radius-lg: 0.5rem;      /* 8px */
+  --radius-xl: 0.75rem;     /* 12px */
+  --radius-2xl: 1rem;       /* 16px */
+  --radius-3xl: 1.5rem;     /* 24px */
+  --radius-full: 9999px;
+}
+
+/* =============================================================================
+   SHADOWS - Elegant Elevation System
+   ============================================================================= */
+:root {
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-base: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+  
+  /* Brand-specific shadows */
+  --shadow-mahogany: 0 4px 20px hsl(17 100% 37% / 0.15);
+  --shadow-citron: 0 4px 20px hsl(60 51% 50% / 0.15);
+  --shadow-wellness: 0 8px 25px hsl(17 100% 37% / 0.1), 0 4px 10px hsl(60 51% 50% / 0.05);
+  --shadow-premium: 0 20px 40px -10px hsl(17 100% 37% / 0.2);
+}
+
+/* =============================================================================
+   Z-INDEX SCALE - Logical Layer Management
+   ============================================================================= */
+:root {
+  --z-hide: -1;
+  --z-auto: auto;
+  --z-base: 0;
+  --z-docked: 10;
+  --z-dropdown: 1000;
+  --z-sticky: 1100;
+  --z-banner: 1200;
+  --z-overlay: 1300;
+  --z-modal: 1400;
+  --z-popover: 1500;
+  --z-skiplink: 1600;
+  --z-toast: 1700;
+  --z-tooltip: 1800;
+}
+
+/* =============================================================================
+   TRANSITIONS - Smooth & Professional
+   ============================================================================= */
+:root {
+  /* Timing Functions */
+  --ease-linear: linear;
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-wellness: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Durations */
+  --duration-75: 75ms;
+  --duration-100: 100ms;
+  --duration-150: 150ms;
+  --duration-200: 200ms;
+  --duration-300: 300ms;
+  --duration-500: 500ms;
+  --duration-700: 700ms;
+  --duration-1000: 1000ms;
+
+  /* Common Transition Presets */
+  --transition-fast: all var(--duration-150) var(--ease-out);
+  --transition-base: all var(--duration-200) var(--ease-out);
+  --transition-slow: all var(--duration-300) var(--ease-out);
+  --transition-wellness: all var(--duration-500) var(--ease-wellness);
+  --transition-bounce: all var(--duration-300) var(--ease-bounce);
+}
+
+/* =============================================================================
+   BREAKPOINTS - Responsive Design System
+   ============================================================================= */
+:root {
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1440px;
+  --breakpoint-2xl: 1920px;
+}
+
+/* =============================================================================
+   COMPONENT-SPECIFIC TOKENS
+   ============================================================================= */
+:root {
+  /* Buttons */
+  --button-height-sm: 2rem;      /* 32px */
+  --button-height-base: 2.5rem;  /* 40px */
+  --button-height-lg: 3rem;      /* 48px */
+  --button-padding-sm: 0.5rem 0.75rem;
+  --button-padding-base: 0.625rem 1rem;
+  --button-padding-lg: 0.75rem 1.5rem;
+
+  /* Inputs */
+  --input-height-sm: 2rem;       /* 32px */
+  --input-height-base: 2.5rem;   /* 40px */
+  --input-height-lg: 3rem;       /* 48px */
+  --input-padding: 0.5rem 0.75rem;
+
+  /* Cards */
+  --card-padding: 1.5rem;
+  --card-radius: var(--radius-lg);
+  --card-border: 1px solid hsl(var(--border));
+
+  /* Navigation */
+  --nav-height: 4rem;             /* 64px */
+  --nav-padding: 0 1.5rem;
+  
+  /* Sidebar */
+  --sidebar-width: 16rem;         /* 256px */
+  --sidebar-width-collapsed: 4rem; /* 64px */
+}
+
+/* =============================================================================
+   UTILITIES - Common Patterns
+   ============================================================================= */
+
+/* Glass morphism effect */
+.glass-effect {
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* Brand gradient text */
+.gradient-text-brand {
+  background: linear-gradient(135deg, 
+    hsl(var(--bb-mahogany)) 0%, 
+    hsl(var(--bb-citron)) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Professional focus ring */
+.focus-ring {
+  outline: 2px solid hsl(var(--bb-mahogany));
+  outline-offset: 2px;
+  box-shadow: 
+    0 0 0 2px hsl(var(--background)),
+    0 0 0 4px hsl(var(--bb-citron) / 0.3);
+}
+
+/* Accessibility helpers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* High contrast mode adjustments */
+@media (prefers-contrast: high) {
+  :root {
+    --border: 0 0% 20%;
+    --input: 0 0% 95%;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

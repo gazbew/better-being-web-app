@@ -1,0 +1,697 @@
+/**
+ * Brand Animation System
+ * Better Being brand-specific animations and motion design
+ */
+
+:root {
+  /* Animation Timing Functions - Brand Specific */
+  --ease-brand-gentle: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-brand-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-brand-wellness: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-brand-premium: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-brand-natural: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Animation Durations - Brand Timing */
+  --duration-instant: 100ms;
+  --duration-quick: 200ms;
+  --duration-smooth: 300ms;
+  --duration-gentle: 500ms;
+  --duration-slow: 700ms;
+  --duration-wellness: 1000ms;
+  
+  /* Animation Delays */
+  --delay-none: 0ms;
+  --delay-short: 100ms;
+  --delay-medium: 200ms;
+  --delay-long: 300ms;
+  --delay-extra-long: 500ms;
+}
+
+/* =============================================================================
+   BRAND KEYFRAME ANIMATIONS
+   ============================================================================= */
+
+/* Float Animation - Gentle floating motion for wellness elements */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes float-gentle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes float-premium {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-12px) scale(1.02);
+  }
+}
+
+/* Glow Animation - Subtle glow effects for premium elements */
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(193, 88, 27, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(193, 88, 27, 0.4);
+  }
+}
+
+@keyframes glow-wellness {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(132, 204, 22, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(132, 204, 22, 0.4);
+  }
+}
+
+@keyframes glow-premium {
+  0%, 100% {
+    box-shadow: 
+      0 0 20px rgba(193, 88, 27, 0.3),
+      0 0 40px rgba(212, 175, 55, 0.1);
+  }
+  50% {
+    box-shadow: 
+      0 0 30px rgba(193, 88, 27, 0.5),
+      0 0 60px rgba(212, 175, 55, 0.2);
+  }
+}
+
+/* Bounce Gentle - Soft bounce for interactive elements */
+@keyframes bounce-gentle {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-6px);
+  }
+  60% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes bounce-wellness {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-4px) scale(1.05);
+  }
+}
+
+@keyframes bounce-premium {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  25% {
+    transform: translateY(-8px) scale(1.1);
+  }
+  50% {
+    transform: translateY(-4px) scale(1.05);
+  }
+  75% {
+    transform: translateY(-2px) scale(1.02);
+  }
+}
+
+/* Fade In Animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Scale In Animations */
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scale-in-center {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scale-in-wellness {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scale-in-premium {
+  from {
+    opacity: 0;
+    transform: scale(0.9) rotate(-1deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* Slide In Animations */
+@keyframes slide-in-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-down {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Brand-Specific Animations */
+@keyframes wellness-breathe {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 1;
+  }
+}
+
+@keyframes premium-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes brand-pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(193, 88, 27, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(193, 88, 27, 0);
+  }
+}
+
+@keyframes wellness-wave {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-2px) rotate(0.5deg);
+  }
+  50% {
+    transform: translateY(0) rotate(0deg);
+  }
+  75% {
+    transform: translateY(2px) rotate(-0.5deg);
+  }
+}
+
+/* =============================================================================
+   ANIMATION UTILITY CLASSES
+   ============================================================================= */
+
+/* Float Animations */
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-float-gentle {
+  animation: float-gentle 4s ease-in-out infinite;
+}
+
+.animate-float-premium {
+  animation: float-premium 2.5s var(--ease-brand-premium) infinite;
+}
+
+/* Glow Animations */
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.animate-glow-wellness {
+  animation: glow-wellness 3s ease-in-out infinite;
+}
+
+.animate-glow-premium {
+  animation: glow-premium 2s ease-in-out infinite;
+}
+
+/* Bounce Animations */
+.animate-bounce-gentle {
+  animation: bounce-gentle 1s ease-in-out;
+}
+
+.animate-bounce-wellness {
+  animation: bounce-wellness 0.6s var(--ease-brand-wellness);
+}
+
+.animate-bounce-premium {
+  animation: bounce-premium 0.8s var(--ease-brand-premium);
+}
+
+/* Fade In Animations */
+.animate-fade-in {
+  animation: fade-in var(--duration-smooth) var(--ease-brand-natural);
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up var(--duration-smooth) var(--ease-brand-natural);
+}
+
+.animate-fade-in-down {
+  animation: fade-in-down var(--duration-smooth) var(--ease-brand-natural);
+}
+
+.animate-fade-in-left {
+  animation: fade-in-left var(--duration-smooth) var(--ease-brand-natural);
+}
+
+.animate-fade-in-right {
+  animation: fade-in-right var(--duration-smooth) var(--ease-brand-natural);
+}
+
+/* Scale In Animations */
+.animate-scale-in {
+  animation: scale-in var(--duration-smooth) var(--ease-brand-natural);
+}
+
+.animate-scale-in-center {
+  animation: scale-in-center var(--duration-gentle) var(--ease-brand-gentle);
+}
+
+.animate-scale-in-wellness {
+  animation: scale-in-wellness var(--duration-gentle) var(--ease-brand-wellness);
+}
+
+.animate-scale-in-premium {
+  animation: scale-in-premium var(--duration-gentle) var(--ease-brand-premium);
+}
+
+/* Slide In Animations */
+.animate-slide-in-up {
+  animation: slide-in-up var(--duration-smooth) var(--ease-brand-natural);
+}
+
+.animate-slide-in-down {
+  animation: slide-in-down var(--duration-smooth) var(--ease-brand-natural);
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left var(--duration-smooth) var(--ease-brand-natural);
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right var(--duration-smooth) var(--ease-brand-natural);
+}
+
+/* Brand-Specific Animations */
+.animate-wellness-breathe {
+  animation: wellness-breathe var(--duration-wellness) ease-in-out infinite;
+}
+
+.animate-premium-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.animate-premium-shimmer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: premium-shimmer 3s infinite;
+}
+
+.animate-brand-pulse {
+  animation: brand-pulse 2s ease-in-out infinite;
+}
+
+.animate-wellness-wave {
+  animation: wellness-wave 4s ease-in-out infinite;
+}
+
+/* =============================================================================
+   ANIMATION DELAY UTILITIES
+   ============================================================================= */
+
+.animate-delay-none { animation-delay: var(--delay-none); }
+.animate-delay-short { animation-delay: var(--delay-short); }
+.animate-delay-medium { animation-delay: var(--delay-medium); }
+.animate-delay-long { animation-delay: var(--delay-long); }
+.animate-delay-extra-long { animation-delay: var(--delay-extra-long); }
+
+/* Staggered Animation Delays */
+.animate-delay-100 { animation-delay: 100ms; }
+.animate-delay-200 { animation-delay: 200ms; }
+.animate-delay-300 { animation-delay: 300ms; }
+.animate-delay-400 { animation-delay: 400ms; }
+.animate-delay-500 { animation-delay: 500ms; }
+.animate-delay-600 { animation-delay: 600ms; }
+.animate-delay-700 { animation-delay: 700ms; }
+.animate-delay-800 { animation-delay: 800ms; }
+.animate-delay-900 { animation-delay: 900ms; }
+.animate-delay-1000 { animation-delay: 1000ms; }
+
+/* =============================================================================
+   ANIMATION TIMING UTILITIES
+   ============================================================================= */
+
+.animate-duration-instant { animation-duration: var(--duration-instant); }
+.animate-duration-quick { animation-duration: var(--duration-quick); }
+.animate-duration-smooth { animation-duration: var(--duration-smooth); }
+.animate-duration-gentle { animation-duration: var(--duration-gentle); }
+.animate-duration-slow { animation-duration: var(--duration-slow); }
+.animate-duration-wellness { animation-duration: var(--duration-wellness); }
+
+/* Animation Timing Functions */
+.animate-ease-gentle { animation-timing-function: var(--ease-brand-gentle); }
+.animate-ease-bounce { animation-timing-function: var(--ease-brand-bounce); }
+.animate-ease-wellness { animation-timing-function: var(--ease-brand-wellness); }
+.animate-ease-premium { animation-timing-function: var(--ease-brand-premium); }
+.animate-ease-natural { animation-timing-function: var(--ease-brand-natural); }
+
+/* =============================================================================
+   HOVER AND INTERACTION ANIMATIONS
+   ============================================================================= */
+
+.hover-float:hover {
+  animation: float-gentle 0.6s ease-in-out;
+}
+
+.hover-glow:hover {
+  animation: glow-wellness 0.8s ease-in-out;
+}
+
+.hover-bounce:hover {
+  animation: bounce-gentle 0.6s ease-in-out;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+  transition: transform var(--duration-quick) var(--ease-brand-gentle);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  transition: transform var(--duration-quick) var(--ease-brand-gentle);
+}
+
+.hover-wellness:hover {
+  transform: translateY(-2px) scale(1.02);
+  transition: all var(--duration-smooth) var(--ease-brand-wellness);
+  box-shadow: 0 8px 25px rgba(132, 204, 22, 0.2);
+}
+
+.hover-premium:hover {
+  transform: translateY(-4px) scale(1.05);
+  transition: all var(--duration-smooth) var(--ease-brand-premium);
+  box-shadow: 0 12px 35px rgba(193, 88, 27, 0.3);
+}
+
+/* =============================================================================
+   FOCUS AND ACTIVE STATES
+   ============================================================================= */
+
+.focus-pulse:focus {
+  animation: brand-pulse 0.6s ease-out;
+}
+
+.focus-glow:focus {
+  animation: glow-wellness 0.8s ease-out;
+}
+
+.active-bounce:active {
+  animation: bounce-gentle 0.3s ease-out;
+}
+
+.active-scale:active {
+  transform: scale(0.95);
+  transition: transform var(--duration-instant) ease-out;
+}
+
+/* =============================================================================
+   LOADING AND STATE ANIMATIONS
+   ============================================================================= */
+
+.loading-pulse {
+  animation: brand-pulse 1.5s ease-in-out infinite;
+}
+
+.loading-breathe {
+  animation: wellness-breathe 2s ease-in-out infinite;
+}
+
+.loading-shimmer {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: premium-shimmer 1.5s infinite;
+}
+
+/* =============================================================================
+   SCROLL-TRIGGERED ANIMATIONS
+   ============================================================================= */
+
+.scroll-fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all var(--duration-gentle) var(--ease-brand-natural);
+}
+
+.scroll-fade-in.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-scale-in {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: all var(--duration-gentle) var(--ease-brand-gentle);
+}
+
+.scroll-scale-in.in-view {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.scroll-slide-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: all var(--duration-gentle) var(--ease-brand-natural);
+}
+
+.scroll-slide-left.in-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.scroll-slide-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: all var(--duration-gentle) var(--ease-brand-natural);
+}
+
+.scroll-slide-right.in-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* =============================================================================
+   ACCESSIBILITY SUPPORT
+   ============================================================================= */
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-float-gentle,
+  .animate-float-premium,
+  .animate-glow,
+  .animate-glow-wellness,
+  .animate-glow-premium,
+  .animate-bounce-gentle,
+  .animate-bounce-wellness,
+  .animate-bounce-premium,
+  .animate-wellness-breathe,
+  .animate-premium-shimmer,
+  .animate-brand-pulse,
+  .animate-wellness-wave,
+  .loading-pulse,
+  .loading-breathe,
+  .loading-shimmer {
+    animation: none;
+  }
+  
+  .animate-premium-shimmer::before {
+    display: none;
+  }
+  
+  .hover-float:hover,
+  .hover-glow:hover,
+  .hover-bounce:hover,
+  .hover-scale:hover,
+  .hover-lift:hover,
+  .hover-wellness:hover,
+  .hover-premium:hover {
+    animation: none;
+    transform: none;
+    transition: none;
+  }
+  
+  .scroll-fade-in,
+  .scroll-scale-in,
+  .scroll-slide-left,
+  .scroll-slide-right {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  
+  /* Keep essential animations but make them instant */
+  .animate-fade-in,
+  .animate-fade-in-up,
+  .animate-fade-in-down,
+  .animate-fade-in-left,
+  .animate-fade-in-right,
+  .animate-scale-in,
+  .animate-scale-in-center,
+  .animate-scale-in-wellness,
+  .animate-scale-in-premium,
+  .animate-slide-in-up,
+  .animate-slide-in-down,
+  .animate-slide-in-left,
+  .animate-slide-in-right {
+    animation-duration: 0.01ms;
+  }
+}
+
+/* High contrast mode adjustments */
+@media (prefers-contrast: high) {
+  .animate-glow,
+  .animate-glow-wellness,
+  .animate-glow-premium,
+  .hover-glow:hover,
+  .focus-glow:focus,
+  .loading-pulse {
+    box-shadow: none;
+  }
+}
+
+/* Print styles - remove all animations */
+@media print {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}

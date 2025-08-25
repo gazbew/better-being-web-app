@@ -1,0 +1,33 @@
+[
+  {
+    "url": "https://our-grounds.com/product/go-go-pain-intense-pain-reliever/",
+    "name": "Go Go Pain – Intense Pain Reliever",
+    "price": "R185,00",
+    "short_description": "Go Go Pain is an intense pain reliever enhanced with MSM and magnesium oil and combines the anti-inflammatory and relaxing power of 15 herbal oils to offer relief from the most stubborn aches and pains.",
+    "images": [
+      "https://our-grounds.com/wp-content/uploads/2024/10/all_prouct_shots-1.webp",
+      "https://our-grounds.com/wp-content/uploads/2024/07/ouor-grounds-2024-logo.webp"
+    ],
+    "category": "Wellness"
+  },
+  {
+    "url": "https://our-grounds.com/product/night-care/",
+    "name": "Night Care",
+    "price": "R200,00",
+    "short_description": "50mlJust like climbing into a made bed feels like a reward for the hard work of the day, your skin deserves an indulgent evening routine.",
+    "images": [
+      "https://our-grounds.com/wp-content/uploads/2024/10/12-1-1.webp"
+    ],
+    "category": "Wellness"
+  },
+  {
+    "url": "https://our-grounds.com/product/raw-pro-biotic-gut-repair/",
+    "name": "Raw Pro-Biotic Gut Repair",
+    "price": "R225,00",
+    "short_description": "Raw Pro-biotic Gut Repair is a vegan probiotic that contains multiple strains and classes of beneficial live bacteria.",
+    "images": [
+      "https://our-grounds.com/wp-content/uploads/2024/08/vegan_probiotic-600x600.webp"
+    ],
+    "category": "Wellness"
+  }
+]

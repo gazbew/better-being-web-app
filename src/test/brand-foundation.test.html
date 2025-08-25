@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand Foundation Test</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            padding: 2rem;
+            background: var(--bb-bg-primary);
+            color: var(--bb-text-primary);
+        }
+        .test-section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: var(--bb-bg-secondary);
+            border-radius: var(--bb-radius-lg);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .color-swatch {
+            height: 80px;
+            border-radius: var(--bb-radius-md);
+            display: flex;
+            align-items: end;
+            padding: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+        .typography-example {
+            margin: 1rem 0;
+            padding: 1rem;
+            border-left: 4px solid var(--bb-orange);
+            background: var(--bb-champagne-50);
+        }
+        .spacing-demo {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .spacing-box {
+            background: var(--bb-orange-100);
+            border: 2px solid var(--bb-orange);
+            border-radius: var(--bb-radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--bb-orange-800);
+        }
+        h2 {
+            color: var(--bb-text-primary);
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--bb-orange);
+            padding-bottom: 0.5rem;
+        }
+        .theme-toggle-btn {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background: var(--bb-orange);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--bb-radius-md);
+            cursor: pointer;
+            font-weight: 600;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle-btn" onclick="toggleTheme()">Toggle Dark Mode</button>
+
+    <h1 class="bb-heading-display text-bb-5xl mb-bb-8 text-gradient-brand">
+        Brand Foundation System Test
+    </h1>
+
+    <!-- Color System Test -->
+    <div class="test-section">
+        <h2 class="bb-h2">Brand Color System</h2>
+        
+        <h3 class="bb-h3 mt-bb-6 mb-bb-4">Primary Brand Colors</h3>
+        <div class="color-grid">
+            <div class="color-swatch bg-bb-orange">Orange<br>#C1581B</div>
+            <div class="color-swatch bg-bb-champagne" style="color: var(--bb-black-bean);">Champagne<br>#F5F0E8</div>
+            <div class="color-swatch bg-bb-green">Green<br>#84CC16</div>
+            <div class="color-swatch bg-bb-gray">Gray<br>#6B7280</div>
+            <div class="color-swatch bg-bb-black-bean">Black Bean<br>#1F2937</div>
+        </div>
+
+        <h3 class="bb-h3 mt-bb-6 mb-bb-4">Semantic Colors</h3>
+        <div class="color-grid">
+            <div class="color-swatch bg-bb-success">Success</div>
+            <div class="color-swatch bg-bb-warning">Warning</div>
+            <div class="color-swatch bg-bb-error">Error</div>
+            <div class="color-swatch bg-bb-info">Info</div>
+        </div>
+
+        <h3 class="bb-h3 mt-bb-6 mb-bb-4">Orange Scale</h3>
+        <div class="color-grid">
+            <div class="color-swatch bg-bb-orange-100" style="color: var(--bb-orange-800);">100</div>
+            <div class="color-swatch bg-bb-orange-200" style="color: var(--bb-orange-800);">200</div>
+            <div class="color-swatch bg-bb-orange-300" style="color: var(--bb-orange-800);">300</div>
+            <div class="color-swatch bg-bb-orange-400">400</div>
+            <div class="color-swatch bg-bb-orange-500">500</div>
+            <div class="color-swatch bg-bb-orange-600">600</div>
+            <div class="color-swatch bg-bb-orange-700">700</div>
+            <div class="color-swatch bg-bb-orange-800">800</div>
+            <div class="color-swatch bg-bb-orange-900">900</div>
+        </div>
+    </div>
+
+    <!-- Typography System Test -->
+    <div class="test-section">
+        <h2 class="bb-h2">Brand Typography System</h2>
+        
+        <div class="typography-example">
+            <h1 class="bb-h1">H1 - Display Heading (Playfair Display)</h1>
+            <p class="bb-body-sm text-bb-secondary">Font: Playfair Display, Size: 3rem (48px), Weight: Bold, Tracking: Brand</p>
+        </div>
+
+        <div class="typography-example">
+            <h2 class="bb-h2">H2 - Section Heading (League Spartan)</h2>
+            <p class="bb-body-sm text-bb-secondary">Font: League Spartan, Size: 1.875rem (30px), Weight: Semibold, Uppercase</p>
+        </div>
+
+        <div class="typography-example">
+            <h3 class="bb-h3">H3 - Subsection Heading</h3>
+            <p class="bb-body-sm text-bb-secondary">Font: League Spartan, Size: 1.5rem (24px), Weight: Medium</p>
+        </div>
+
+        <div class="typography-example">
+            <h4 class="bb-h4">H4 - Component Heading</h4>
+            <p class="bb-body-sm text-bb-secondary">Font: League Spartan, Size: 1.25rem (20px), Weight: Medium</p>
+        </div>
+
+        <div class="typography-example">
+            <p class="bb-body-xl">Body XL - Large body text for important content and introductions.</p>
+            <p class="bb-body-sm text-bb-secondary">Font: League Spartan, Size: 1.25rem (20px), Weight: Normal</p>
+        </div>
+
+        <div class="typography-example">
+            <p class="bb-body-lg">Body LG - Default body text for most content and descriptions.</p>
+            <p class="bb-body-sm text-bb-secondary">Font: League Spartan, Size: 1.125rem (18px), Weight: Normal</p>
+        </div>
+
+        <div class="typography-example">
+            <p class="bb-body-md">Body MD - Standard body text for regular content.</p>
+            <p class="bb-body-sm text-bb-secondary">Font: League Spartan, Size: 1rem (16px), Weight: Normal</p>
+        </div>
+
+        <div class="typography-example">
+            <p class="bb-body-sm">Body SM - Small body text for secondary information.</p>
+            <p class="bb-body-xs text-bb-tertiary">Font: League Spartan, Size: 0.875rem (14px), Weight: Normal</p>
+        </div>
+
+        <div class="typography-example">
+            <p class="bb-body-xs">Body XS - Caption text for labels and micro-content.</p>
+            <p class="bb-body-xs text-bb-tertiary">Font: Inter, Size: 0.75rem (12px), Weight: Normal</p>
+        </div>
+
+        <div class="typography-example">
+            <blockquote class="bb-quote">
+                "This is a brand quote example using Playfair Display with italic styling and brand accent."
+            </blockquote>
+        </div>
+
+        <div class="typography-example">
+            <label class="bb-label">Form Label Example</label>
+            <p class="bb-body-sm text-bb-secondary">Font: League Spartan, Uppercase, Semibold</p>
+        </div>
+    </div>
+
+    <!-- Spacing System Test -->
+    <div class="test-section">
+        <h2 class="bb-h2">Brand Spacing System</h2>
+        
+        <h3 class="bb-h3 mt-bb-6 mb-bb-4">Base Spacing Scale (4px increments)</h3>
+        <div class="spacing-demo">
+            <div class="spacing-box p-bb-1">p-bb-1 (4px)</div>
+            <div class="spacing-box p-bb-2">p-bb-2 (8px)</div>
+            <div class="spacing-box p-bb-3">p-bb-3 (12px)</div>
+            <div class="spacing-box p-bb-4">p-bb-4 (16px)</div>
+            <div class="spacing-box p-bb-6">p-bb-6 (24px)</div>
+            <div class="spacing-box p-bb-8">p-bb-8 (32px)</div>
+            <div class="spacing-box p-bb-12">p-bb-12 (48px)</div>
+        </div>
+
+        <h3 class="bb-h3 mt-bb-6 mb-bb-4">Semantic Spacing</h3>
+        <div class="spacing-demo">
+            <div class="spacing-box p-bb-button-sm">Button SM</div>
+            <div class="spacing-box p-bb-button-md">Button MD</div>
+            <div class="spacing-box p-bb-button-lg">Button LG</div>
+        </div>
+
+        <h3 class="bb-h3 mt-bb-6 mb-bb-4">Card Spacing Examples</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+            <div class="bg-bb-champagne-100 border-bb-orange rounded-bb-lg p-bb-card-sm">
+                <h4 class="bb-h4 mb-bb-2">Card SM</h4>
+                <p class="bb-body-sm">Small card padding</p>
+            </div>
+            <div class="bg-bb-champagne-100 border-bb-orange rounded-bb-lg p-bb-card-md">
+                <h4 class="bb-h4 mb-bb-2">Card MD</h4>
+                <p class="bb-body-sm">Medium card padding</p>
+            </div>
+            <div class="bg-bb-champagne-100 border-bb-orange rounded-bb-lg p-bb-card-lg">
+                <h4 class="bb-h4 mb-bb-2">Card LG</h4>
+                <p class="bb-body-sm">Large card padding</p>
+            </div>
+        </div>
+
+        <h3 class="bb-h3 mt-bb-6 mb-bb-4">Container Examples</h3>
+        <div class="bb-container bg-bb-champagne-100 rounded-bb-lg py-bb-4">
+            <p class="bb-body-md text-center">Standard Container (1200px max-width)</p>
+        </div>
+        
+        <div class="bb-container-sm bg-bb-green-100 rounded-bb-lg py-bb-4 mt-bb-4">
+            <p class="bb-body-md text-center">Small Container (640px max-width)</p>
+        </div>
+    </div>
+
+    <!-- Layout Examples -->
+    <div class="test-section">
+        <h2 class="bb-h2">Layout Examples</h2>
+        
+        <h3 class="bb-h3 mt-bb-6 mb-bb-4">Grid with Brand Spacing</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-bb-6">
+            <div class="bg-bb-orange-100 p-bb-6 rounded-bb-lg">
+                <h4 class="bb-h4 text-bb-orange-800 mb-bb-3">Feature 1</h4>
+                <p class="bb-body-sm text-bb-orange-700">Grid item with brand spacing</p>
+            </div>
+            <div class="bg-bb-green-100 p-bb-6 rounded-bb-lg">
+                <h4 class="bb-h4 text-bb-green-800 mb-bb-3">Feature 2</h4>
+                <p class="bb-body-sm text-bb-green-700">Grid item with brand spacing</p>
+            </div>
+            <div class="bg-bb-champagne-200 p-bb-6 rounded-bb-lg">
+                <h4 class="bb-h4 text-bb-gray-800 mb-bb-3">Feature 3</h4>
+                <p class="bb-body-sm text-bb-gray-700">Grid item with brand spacing</p>
+            </div>
+        </div>
+
+        <h3 class="bb-h3 mt-bb-8 mb-bb-4">Section Spacing Example</h3>
+        <div class="bb-section bg-bb-champagne-100 rounded-bb-lg">
+            <div class="bb-container">
+                <h3 class="bb-h3 text-center mb-bb-6">Section with Brand Spacing</h3>
+                <p class="bb-body-lg text-center">This section uses semantic spacing classes for consistent vertical rhythm.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Border Radius Examples -->
+    <div class="test-section">
+        <h2 class="bb-h2">Border Radius System</h2>
+        
+        <div class="spacing-demo">
+            <div class="spacing-box rounded-bb-none p-bb-4">None</div>
+            <div class="spacing-box rounded-bb-sm p-bb-4">SM (2px)</div>
+            <div class="spacing-box rounded-bb p-bb-4">Base (4px)</div>
+            <div class="spacing-box rounded-bb-md p-bb-4">MD (6px)</div>
+            <div class="spacing-box rounded-bb-lg p-bb-4">LG (8px)</div>
+            <div class="spacing-box rounded-bb-xl p-bb-4">XL (12px)</div>
+            <div class="spacing-box rounded-bb-2xl p-bb-4">2XL (16px)</div>
+            <div class="spacing-box rounded-bb-3xl p-bb-4">3XL (24px)</div>
+            <div class="spacing-box rounded-bb-full p-bb-4" style="width: 80px; height: 80px;">Full</div>
+        </div>
+    </div>
+
+    <!-- Theme Testing -->
+    <div class="test-section">
+        <h2 class="bb-h2">Theme System Test</h2>
+        
+        <p class="bb-body-lg mb-bb-4">
+            Click the "Toggle Dark Mode" button in the top-right to test theme switching.
+            All colors should adapt automatically while maintaining proper contrast ratios.
+        </p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-bb-6">
+            <div class="bg-bb-primary p-bb-6 rounded-bb-lg border border-bb-primary">
+                <h4 class="bb-h4 text-bb-primary mb-bb-3">Primary Background</h4>
+                <p class="bb-body-sm text-bb-secondary">Uses theme-aware background and text colors</p>
+            </div>
+            <div class="bg-bb-secondary p-bb-6 rounded-bb-lg border border-bb-secondary">
+                <h4 class="bb-h4 text-bb-primary mb-bb-3">Secondary Background</h4>
+                <p class="bb-body-sm text-bb-secondary">Automatically adapts to light/dark theme</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            
+            // Update button text
+            const btn = document.querySelector('.theme-toggle-btn');
+            const isDark = document.documentElement.classList.contains('dark');
+            btn.textContent = isDark ? 'Toggle Light Mode' : 'Toggle Dark Mode';
+        }
+
+        // Test responsive behavior
+        function logCurrentSpacing() {
+            const container = document.querySelector('.bb-container');
+            const computedStyle = window.getComputedStyle(container);
+            console.log('Container padding:', computedStyle.paddingLeft, computedStyle.paddingRight);
+        }
+
+        // Log spacing on resize
+        window.addEventListener('resize', logCurrentSpacing);
+        
+        // Initial log
+        logCurrentSpacing();
+
+        // Test CSS custom properties
+        console.log('Brand Colors:', {
+            orange: getComputedStyle(document.documentElement).getPropertyValue('--bb-orange'),
+            champagne: getComputedStyle(document.documentElement).getPropertyValue('--bb-champagne'),
+            green: getComputedStyle(document.documentElement).getPropertyValue('--bb-green'),
+            gray: getComputedStyle(document.documentElement).getPropertyValue('--bb-gray'),
+            blackBean: getComputedStyle(document.documentElement).getPropertyValue('--bb-black-bean')
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,267 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master, develop ]
+
+env:
+  NODE_VERSION: '18'
+  PNPM_VERSION: '8'
+
+jobs:
+  # Quality Gates
+  quality-checks:
+    name: Code Quality & Security
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for better analysis
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript check
+        run: npx tsc --noEmit
+
+      - name: ESLint check
+        run: npm run lint
+
+      - name: Security audit
+        run: npm audit --audit-level moderate
+        continue-on-error: true
+
+      - name: License check
+        run: npx license-checker --summary
+        continue-on-error: true
+
+  # Frontend Tests
+  frontend-tests:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm run test:run
+
+      - name: Generate test coverage
+        run: npm run test:coverage
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./coverage/lcov.info
+          flags: frontend
+          name: frontend-coverage
+          fail_ci_if_error: false
+
+      - name: Coverage threshold check
+        run: |
+          coverage=$(node -e "
+            const fs = require('fs');
+            try {
+              const summary = JSON.parse(fs.readFileSync('./coverage/coverage-summary.json', 'utf8'));
+              const lines = summary.total.lines.pct;
+              console.log(lines);
+            } catch (e) {
+              console.log(0);
+            }
+          ")
+          echo "Coverage: $coverage%"
+          if [ $(echo "$coverage >= 70" | bc -l) -eq 1 ]; then
+            echo "✅ Coverage threshold met"
+          else
+            echo "❌ Coverage below 70% threshold"
+            exit 1
+          fi
+
+  # Backend Tests  
+  backend-tests:
+    name: Backend Tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: test_password
+          POSTGRES_USER: test_user
+          POSTGRES_DB: test_db
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          cd server && npm ci
+
+      - name: Setup test database
+        env:
+          DATABASE_URL: postgresql://test_user:test_password@localhost:5432/test_db
+        run: |
+          cd server
+          node src/config/init-db.js
+
+      - name: Run backend tests
+        env:
+          NODE_ENV: test
+          DATABASE_URL: postgresql://test_user:test_password@localhost:5432/test_db
+          JWT_SECRET: test_jwt_secret_key_for_ci
+        run: |
+          cd server
+          npm run test:run
+
+      - name: Backend coverage
+        env:
+          NODE_ENV: test
+          DATABASE_URL: postgresql://test_user:test_password@localhost:5432/test_db
+          JWT_SECRET: test_jwt_secret_key_for_ci
+        run: |
+          cd server
+          npm run test:coverage
+
+  # Build Tests
+  build-test:
+    name: Build Verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install all dependencies
+        run: npm run install:all
+
+      - name: Build frontend
+        run: npm run build:frontend
+
+      - name: Build server for production
+        run: npm run build:server
+
+      - name: Verify build artifacts
+        run: |
+          if [ ! -d "dist" ]; then
+            echo "❌ Frontend build failed - no dist directory"
+            exit 1
+          fi
+          if [ ! -f "dist/index.html" ]; then
+            echo "❌ Frontend build failed - no index.html"
+            exit 1
+          fi
+          echo "✅ Build verification passed"
+
+      - name: Cache build artifacts
+        uses: actions/cache@v4
+        with:
+          path: |
+            dist/
+            server/node_modules/
+          key: ${{ runner.os }}-build-${{ github.sha }}
+
+  # Performance Budget Check
+  performance-check:
+    name: Performance Budget
+    runs-on: ubuntu-latest
+    needs: build-test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Restore build cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            dist/
+            server/node_modules/
+          key: ${{ runner.os }}-build-${{ github.sha }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build if cache miss
+        run: |
+          if [ ! -d "dist" ]; then
+            npm run build:frontend
+          fi
+
+      - name: Analyze bundle size
+        run: |
+          # Check main bundle size (should be < 1MB)
+          main_size=$(find dist/assets -name "index-*.js" -exec stat -f%z {} \; 2>/dev/null || find dist/assets -name "index-*.js" -exec stat -c%s {} \;)
+          echo "Main bundle size: $main_size bytes"
+          
+          if [ "$main_size" -gt 1048576 ]; then
+            echo "❌ Main bundle exceeds 1MB limit"
+            exit 1
+          fi
+          
+          # Check total dist size (should be < 5MB)
+          total_size=$(du -sb dist | cut -f1)
+          echo "Total dist size: $total_size bytes"
+          
+          if [ "$total_size" -gt 5242880 ]; then
+            echo "❌ Total build size exceeds 5MB limit"
+            exit 1
+          fi
+          
+          echo "✅ Performance budget checks passed"
+
+  # Integration Summary
+  ci-success:
+    name: CI Pipeline Success
+    runs-on: ubuntu-latest
+    needs: [quality-checks, frontend-tests, backend-tests, build-test, performance-check]
+    if: success()
+    steps:
+      - name: Success notification
+        run: |
+          echo "🎉 All CI checks passed successfully!"
+          echo "✅ Code quality verified"
+          echo "✅ Tests passed with coverage"
+          echo "✅ Build completed successfully"
+          echo "✅ Performance budget met"

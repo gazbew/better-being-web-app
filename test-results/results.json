@@ -1,0 +1,373 @@
+{
+  "config": {
+    "configFile": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/playwright.config.ts",
+    "rootDir": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/tests",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/tests/global-setup.ts",
+    "globalTeardown": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/tests/global-teardown.ts",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "playwright-report",
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ],
+      [
+        "junit",
+        {
+          "outputFile": "test-results/junit.xml"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "design-capture",
+        "name": "design-capture",
+        "testDir": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/design-capture/**/*.spec.ts"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "visual-regression",
+        "name": "visual-regression",
+        "testDir": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/visual-regression/**/*.spec.ts"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "component-visual",
+        "name": "component-visual",
+        "testDir": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/components/**/*.visual.spec.ts"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile",
+        "name": "mobile",
+        "testDir": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/mobile/**/*.spec.ts"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "tablet",
+        "name": "tablet",
+        "testDir": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/tablet/**/*.spec.ts"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/desktop/**/*.spec.ts"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/cross-browser/**/*.spec.ts"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/cross-browser/**/*.spec.ts"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/cross-browser/**/*.spec.ts"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "accessibility",
+        "name": "accessibility",
+        "testDir": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/accessibility/**/*.spec.ts"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "performance",
+        "name": "performance",
+        "testDir": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/performance/**/*.spec.ts"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.55.0",
+    "workers": 4,
+    "webServer": {
+      "command": "npm run dev",
+      "url": "http://localhost:5173",
+      "reuseExistingServer": true,
+      "timeout": 120000,
+      "stderr": "pipe",
+      "stdout": "pipe"
+    }
+  },
+  "suites": [
+    {
+      "title": "design-capture/brand-bible-home.spec.ts",
+      "file": "design-capture/brand-bible-home.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Brand Bible Home Page Validation",
+          "file": "design-capture/brand-bible-home.spec.ts",
+          "line": 11,
+          "column": 6,
+          "specs": [
+            {
+              "title": "Validate Mahogany Color Implementation",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "design-capture",
+                  "projectName": "design-capture",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 9461,
+                      "error": {
+                        "message": "Error: A snapshot doesn't exist at /home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/tests/design-capture/brand-bible-home.spec.ts-snapshots/primary-button-mahogany-design-capture-linux.png, writing actual.",
+                        "stack": "Error: A snapshot doesn't exist at /home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/tests/design-capture/brand-bible-home.spec.ts-snapshots/primary-button-mahogany-design-capture-linux.png, writing actual.\n    at /home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/tests/design-capture/brand-bible-home.spec.ts:78:7",
+                        "location": {
+                          "file": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/tests/design-capture/brand-bible-home.spec.ts",
+                          "column": 7,
+                          "line": 78
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 76 |\u001b[39m     \u001b[36mconst\u001b[39m primaryButton \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'button'\u001b[39m)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n \u001b[90m 77 |\u001b[39m     \u001b[36mif\u001b[39m (\u001b[36mawait\u001b[39m primaryButton\u001b[33m.\u001b[39misVisible()) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 78 |\u001b[39m       \u001b[36mawait\u001b[39m expect(primaryButton)\u001b[33m.\u001b[39mtoHaveScreenshot(\u001b[32m'primary-button-mahogany.png'\u001b[39m\u001b[33m,\u001b[39m {\n \u001b[90m    |\u001b[39m       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 79 |\u001b[39m         animations\u001b[33m:\u001b[39m \u001b[32m'disabled'\u001b[39m\n \u001b[90m 80 |\u001b[39m       })\u001b[33m;\u001b[39m\n \u001b[90m 81 |\u001b[39m       console\u001b[33m.\u001b[39mlog(\u001b[32m'🔘 Primary button captured'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/tests/design-capture/brand-bible-home.spec.ts",
+                            "column": 7,
+                            "line": 78
+                          },
+                          "message": "Error: A snapshot doesn't exist at /home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/tests/design-capture/brand-bible-home.spec.ts-snapshots/primary-button-mahogany-design-capture-linux.png, writing actual.\n\n\u001b[0m \u001b[90m 76 |\u001b[39m     \u001b[36mconst\u001b[39m primaryButton \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'button'\u001b[39m)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n \u001b[90m 77 |\u001b[39m     \u001b[36mif\u001b[39m (\u001b[36mawait\u001b[39m primaryButton\u001b[33m.\u001b[39misVisible()) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 78 |\u001b[39m       \u001b[36mawait\u001b[39m expect(primaryButton)\u001b[33m.\u001b[39mtoHaveScreenshot(\u001b[32m'primary-button-mahogany.png'\u001b[39m\u001b[33m,\u001b[39m {\n \u001b[90m    |\u001b[39m       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 79 |\u001b[39m         animations\u001b[33m:\u001b[39m \u001b[32m'disabled'\u001b[39m\n \u001b[90m 80 |\u001b[39m       })\u001b[33m;\u001b[39m\n \u001b[90m 81 |\u001b[39m       console\u001b[33m.\u001b[39mlog(\u001b[32m'🔘 Primary button captured'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/tests/design-capture/brand-bible-home.spec.ts:78:7\u001b[22m"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "🎯 Testing Mahogany color fix (#BB4500)...\n"
+                        },
+                        {
+                          "text": "🎨 Primary colors detected: { primary: \u001b[32m'16 100% 36%'\u001b[39m, bbOrange: \u001b[32m''\u001b[39m }\n"
+                        },
+                        {
+                          "text": "🔍 Found 28 elements with brand colors\n"
+                        },
+                        {
+                          "text": "🔘 Primary button captured\n"
+                        },
+                        {
+                          "text": "✅ Mahogany color validation complete\n"
+                        },
+                        {
+                          "text": "🎯 Test \"Validate Mahogany Color Implementation\" completed with status: failed\n"
+                        },
+                        {
+                          "text": "❌ Test failed - capturing debug screenshot\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-24T02:21:13.771Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "primary-button-mahogany-expected.png",
+                          "contentType": "image/png",
+                          "path": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/tests/design-capture/brand-bible-home.spec.ts-snapshots/primary-button-mahogany-design-capture-linux.png"
+                        },
+                        {
+                          "name": "primary-button-mahogany-actual.png",
+                          "contentType": "image/png",
+                          "path": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/test-results/design-capture-brand-bible-a1d61-hogany-Color-Implementation-design-capture/primary-button-mahogany-actual.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/test-results/design-capture-brand-bible-a1d61-hogany-Color-Implementation-design-capture/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/test-results/design-capture-brand-bible-a1d61-hogany-Color-Implementation-design-capture/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/test-results/design-capture-brand-bible-a1d61-hogany-Color-Implementation-design-capture/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/tests/design-capture/brand-bible-home.spec.ts",
+                        "column": 7,
+                        "line": 78
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "a35164bfb0fa34cabe5d-84a1700b3d1fe339b347",
+              "file": "design-capture/brand-bible-home.spec.ts",
+              "line": 53,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-08-24T02:21:09.870Z",
+    "duration": 14701.823,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

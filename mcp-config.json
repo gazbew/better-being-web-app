@@ -1,0 +1,237 @@
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "@microsoft/playwright-mcp",
+        "--headless",
+        "false",
+        "--browser",
+        "chromium"
+      ],
+      "env": {
+        "NODE_ENV": "development",
+        "BASE_URL": "http://localhost:5173",
+        "PLAYWRIGHT_BROWSERS_PATH": "./node_modules/playwright/.local-browsers",
+        "PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD": "false",
+        "DEBUG": "playwright:*"
+      },
+      "cwd": "BetterBeingWEB",
+      "settings": {
+        "timeout": 60000,
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "defaultBrowser": "chromium",
+        "headless": false,
+        "screenshotPath": "./test-results/design-screenshots",
+        "videoPath": "./test-results/videos",
+        "tracePath": "./test-results/traces"
+      }
+    },
+    "playwright-design-workflow": {
+      "command": "node",
+      "args": [
+        "scripts/ai-design-iteration.js"
+      ],
+      "env": {
+        "NODE_ENV": "development",
+        "BASE_URL": "http://localhost:5173",
+        "DESIGN_ITERATION_MODE": "ai-native",
+        "OUTPUT_DIR": "ai-design-analysis",
+        "SCREENSHOT_DIR": "test-results/design-screenshots",
+        "REPORT_DIR": "design-iteration-reports"
+      },
+      "cwd": "BetterBeingWEB",
+      "settings": {
+        "autorun": false,
+        "iterationThreshold": 0.8,
+        "designTokenValidation": true,
+        "visualRegressionEnabled": true,
+        "responsiveTestingEnabled": true,
+        "accessibilityTestingEnabled": true
+      }
+    },
+    "playwright-visual-regression": {
+      "command": "npx",
+      "args": [
+        "playwright",
+        "test",
+        "--project=visual-regression",
+        "--reporter=json"
+      ],
+      "env": {
+        "NODE_ENV": "development",
+        "BASE_URL": "http://localhost:5173",
+        "CI": "false",
+        "PLAYWRIGHT_TEST_BASE_URL": "http://localhost:5173"
+      },
+      "cwd": "BetterBeingWEB",
+      "settings": {
+        "threshold": 0.2,
+        "updateSnapshots": false,
+        "failOnMissingBaseline": false,
+        "animations": "disabled"
+      }
+    },
+    "playwright-component-testing": {
+      "command": "npx",
+      "args": [
+        "playwright",
+        "test",
+        "--project=component-visual",
+        "--headed"
+      ],
+      "env": {
+        "NODE_ENV": "development",
+        "BASE_URL": "http://localhost:5173",
+        "COMPONENT_TESTING": "true"
+      },
+      "cwd": "BetterBeingWEB",
+      "settings": {
+        "isolatedComponents": true,
+        "storybook": false,
+        "designSystemValidation": true
+      }
+    }
+  },
+  "globalSettings": {
+    "betterBeing": {
+      "designPrinciples": "./context/design-principles.md",
+      "styleGuide": "./context/style-guide.md",
+      "brandColors": {
+        "primary": "#B85A3E",
+        "secondary": "#7A9B7A",
+        "champagne": "#F5E6D3",
+        "charcoal": "#2A1F1A"
+      },
+      "typography": {
+        "fontFamily": "Inter",
+        "fontWeights": [300, 400, 500, 600, 700, 800]
+      },
+      "spacing": {
+        "baseUnit": 8,
+        "scale": [4, 8, 12, 16, 24, 32, 48, 64, 96]
+      },
+      "breakpoints": {
+        "mobile": 375,
+        "tablet": 768,
+        "desktop": 1024,
+        "wide": 1440
+      },
+      "thresholds": {
+        "colorConsistency": 0.95,
+        "spacingAdherence": 0.90,
+        "typographyScale": 0.95,
+        "componentAlignment": 0.92,
+        "visualRegression": 0.85,
+        "accessibilityCompliance": 0.90
+      }
+    }
+  },
+  "workflows": {
+    "aiDesignIteration": {
+      "name": "AI-Native Design Iteration Workflow",
+      "description": "Automated design feedback loop using Claude + Playwright MCP",
+      "steps": [
+        {
+          "name": "Start Dev Server",
+          "server": "playwright",
+          "action": "navigate",
+          "params": {
+            "url": "http://localhost:5173"
+          }
+        },
+        {
+          "name": "Capture Design State",
+          "server": "playwright",
+          "action": "screenshot",
+          "params": {
+            "fullPage": true,
+            "animations": "disabled"
+          }
+        },
+        {
+          "name": "Run Visual Regression",
+          "server": "playwright-visual-regression",
+          "action": "test"
+        },
+        {
+          "name": "Generate AI Recommendations",
+          "server": "playwright-design-workflow",
+          "action": "analyze"
+        },
+        {
+          "name": "Component Validation",
+          "server": "playwright-component-testing",
+          "action": "test"
+        }
+      ],
+      "triggers": [
+        "file_change:src/**/*.tsx",
+        "file_change:src/**/*.css",
+        "file_change:tailwind.config.ts"
+      ]
+    },
+    "designSystemAudit": {
+      "name": "Complete Design System Audit",
+      "description": "Comprehensive design system compliance check",
+      "steps": [
+        {
+          "name": "Color Palette Validation",
+          "server": "playwright",
+          "action": "evaluate",
+          "params": {
+            "script": "getComputedStyle(document.documentElement).getPropertyValue('--primary')"
+          }
+        },
+        {
+          "name": "Typography Scale Check",
+          "server": "playwright",
+          "action": "screenshot",
+          "params": {
+            "selector": "h1, h2, h3, h4, h5, h6, p"
+          }
+        },
+        {
+          "name": "Spacing Grid Validation",
+          "server": "playwright",
+          "action": "evaluate",
+          "params": {
+            "script": "Array.from(document.querySelectorAll('*')).map(el => ({ margins: getComputedStyle(el).margin, paddings: getComputedStyle(el).padding }))"
+          }
+        }
+      ]
+    }
+  },
+  "integrations": {
+    "zed": {
+      "taskRunner": true,
+      "terminalIntegration": true,
+      "commandPalette": [
+        {
+          "name": "AI Design Iteration",
+          "command": "playwright-design-workflow",
+          "shortcut": "Cmd+Shift+D"
+        },
+        {
+          "name": "Visual Regression Test",
+          "command": "playwright-visual-regression",
+          "shortcut": "Cmd+Shift+V"
+        },
+        {
+          "name": "Component Testing",
+          "command": "playwright-component-testing",
+          "shortcut": "Cmd+Shift+C"
+        }
+      ]
+    },
+    "claude": {
+      "designFeedbackLoop": true,
+      "visualAnalysis": true,
+      "recommendationEngine": true,
+      "iterativeImprovement": true
+    }
+  }
+}

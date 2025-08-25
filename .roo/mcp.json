@@ -1,0 +1,56 @@
+{
+  "mcpServers": {
+    "github": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "GITHUB_PERSONAL_ACCESS_TOKEN",
+        "-e",
+        "GITHUB_TOOLSETS",
+        "-e",
+        "GITHUB_READ_ONLY",
+        "ghcr.io/github/github-mcp-server"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "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",
+        "GITHUB_TOOLSETS": "",
+        "GITHUB_READ_ONLY": ""
+      },
+      "disabled": false,
+      "alwaysAllow": []
+    },
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@playwright/mcp@latest",
+        "--browser=",
+        "--headless=",
+        "--viewport-size="
+      ]
+    },
+    "composer-trade": {
+      "command": "uvx",
+      "args": [
+        "composer-trade-mcp==0.1.4",
+        "--hash",
+        "sha256:37d8fcfd6ddc9c8155633f755159f3fcb1a63e7acc2a32513613341a851c84e2"
+      ],
+      "env": {
+        "COMPOSER_API_KEY": "",
+        "COMPOSER_SECRET_KEY": ""
+      }
+    },
+    "neon": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://mcp.neon.tech/sse"
+      ]
+    }
+  }
+}

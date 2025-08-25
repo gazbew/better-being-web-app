@@ -1,0 +1,363 @@
+/**
+ * Premium Design System - Phase 1
+ * World-class CSS foundation with HSL color system, glassmorphism, and neumorphism
+ */
+
+:root {
+  /* =============================================================================
+     PREMIUM COLOR SYSTEM - HSL with CSS Color Module Level 4
+     ============================================================================= */
+  
+  /* Primary Brand Colors - Wellness focused */
+  --color-primary-h: 17;
+  --color-primary-s: 100%;
+  --color-primary-l: 37%;
+  --color-primary: hsl(var(--color-primary-h) var(--color-primary-s) var(--color-primary-l));
+  --color-primary-dark: hsl(var(--color-primary-h) var(--color-primary-s) calc(var(--color-primary-l) - 10%));
+  --color-primary-light: hsl(var(--color-primary-h) var(--color-primary-s) calc(var(--color-primary-l) + 10%));
+  
+  /* Secondary Brand Colors - Citron */
+  --color-secondary-h: 60;
+  --color-secondary-s: 51%;
+  --color-secondary-l: 50%;
+  --color-secondary: hsl(var(--color-secondary-h) var(--color-secondary-s) var(--color-secondary-l));
+  --color-secondary-dark: hsl(var(--color-secondary-h) var(--color-secondary-s) calc(var(--color-secondary-l) - 10%));
+  --color-secondary-light: hsl(var(--color-secondary-h) var(--color-secondary-s) calc(var(--color-secondary-l) + 10%));
+  
+  /* Neutral Scale - Sophisticated grays */
+  --color-neutral-50: hsl(220 20% 98%);
+  --color-neutral-100: hsl(220 15% 95%);
+  --color-neutral-200: hsl(220 10% 90%);
+  --color-neutral-300: hsl(220 8% 80%);
+  --color-neutral-400: hsl(220 6% 70%);
+  --color-neutral-500: hsl(220 5% 50%);
+  --color-neutral-600: hsl(220 6% 40%);
+  --color-neutral-700: hsl(220 8% 30%);
+  --color-neutral-800: hsl(220 10% 20%);
+  --color-neutral-900: hsl(220 15% 10%);
+  
+  /* Semantic Colors */
+  --color-success: hsl(142 71% 45%);
+  --color-warning: hsl(38 92% 50%);
+  --color-error: hsl(0 84% 60%);
+  --color-info: hsl(200 90% 50%);
+  
+  /* Dark theme colors */
+  --color-dark-bg: hsl(220 15% 8%);
+  --color-dark-surface: hsl(220 15% 12%);
+  --color-dark-surface-elevated: hsl(220 15% 16%);
+  --color-dark-border: hsl(220 10% 25%);
+  --color-dark-text: hsl(220 15% 90%);
+  --color-dark-text-secondary: hsl(220 10% 70%);
+  
+  /* Light theme colors */
+  --color-light-bg: hsl(220 20% 98%);
+  --color-light-surface: hsl(0 0% 100%);
+  --color-light-surface-elevated: hsl(0 0% 100%);
+  --color-light-border: hsl(220 15% 90%);
+  --color-light-text: hsl(220 15% 10%);
+  --color-light-text-secondary: hsl(220 10% 40%);
+  
+  /* =============================================================================
+     GLASSMORPHISM SYSTEM - Premium frosted glass effects
+     ============================================================================= */
+  
+  /* Glass backgrounds */
+  --glass-bg-light: rgba(255 255 255 / 0.1);
+  --glass-bg-dark: rgba(0 0 0 / 0.1);
+  --glass-border-light: rgba(255 255 255 / 0.2);
+  --glass-border-dark: rgba(0 0 0 / 0.2);
+  
+  /* Glass blur intensities */
+  --glass-blur-xs: blur(4px);
+  --glass-blur-sm: blur(8px);
+  --glass-blur-md: blur(16px);
+  --glass-blur-lg: blur(24px);
+  --glass-blur-xl: blur(40px);
+  
+  /* Glass shadows */
+  --glass-shadow-light: 0 8px 32px rgba(0 0 0 / 0.1);
+  --glass-shadow-dark: 0 8px 32px rgba(0 0 0 / 0.3);
+  --glass-shadow-inset: inset 0 1px 0 rgba(255 255 255 / 0.1);
+  
+  /* =============================================================================
+     NEUMORPHISM SYSTEM - Soft UI effects
+     ============================================================================= */
+  
+  /* Neumorphic shadows - Light theme */
+  --neumorphic-light-shadow: 
+    8px 8px 16px rgba(0 0 0 / 0.1),
+    -8px -8px 16px rgba(255 255 255 / 0.7),
+    inset 2px 2px 4px rgba(0 0 0 / 0.05);
+  
+  --neumorphic-light-shadow-inset:
+    inset 4px 4px 8px rgba(0 0 0 / 0.1),
+    inset -4px -4px 8px rgba(255 255 255 / 0.7);
+  
+  /* Neumorphic shadows - Dark theme */
+  --neumorphic-dark-shadow:
+    8px 8px 16px rgba(0 0 0 / 0.4),
+    -8px -8px 16px rgba(255 255 255 / 0.05),
+    inset 2px 2px 4px rgba(0 0 0 / 0.2);
+  
+  --neumorphic-dark-shadow-inset:
+    inset 4px 4px 8px rgba(0 0 0 / 0.4),
+    inset -4px -4px 8px rgba(255 255 255 / 0.05);
+  
+  /* =============================================================================
+     ADVANCED SHADOW SYSTEM - Multi-layer shadows
+     ============================================================================= */
+  
+  /* Elevation system */
+  --shadow-0: none;
+  --shadow-1: 0 1px 2px rgba(0 0 0 / 0.05);
+  --shadow-2: 0 1px 3px rgba(0 0 0 / 0.1), 0 1px 2px rgba(0 0 0 / 0.06);
+  --shadow-3: 0 4px 6px rgba(0 0 0 / 0.1), 0 2px 4px rgba(0 0 0 / 0.06);
+  --shadow-4: 0 10px 15px rgba(0 0 0 / 0.1), 0 4px 6px rgba(0 0 0 / 0.05);
+  --shadow-5: 0 20px 25px rgba(0 0 0 / 0.1), 0 10px 10px rgba(0 0 0 / 0.04);
+  --shadow-6: 0 25px 50px rgba(0 0 0 / 0.25);
+  
+  /* Premium colored shadows */
+  --shadow-primary: 0 10px 25px hsl(var(--color-primary-h) var(--color-primary-s) var(--color-primary-l) / 0.3);
+  --shadow-secondary: 0 10px 25px hsl(var(--color-secondary-h) var(--color-secondary-s) var(--color-secondary-l) / 0.3);
+  
+  /* =============================================================================
+     ADVANCED LAYOUT SYSTEM - CSS Grid & Flexbox
+     ============================================================================= */
+  
+  /* Grid systems */
+  --grid-cols-1: 1;
+  --grid-cols-2: 2;
+  --grid-cols-3: 3;
+  --grid-cols-4: 4;
+  --grid-cols-6: 6;
+  --grid-cols-12: 12;
+  
+  /* Grid gaps */
+  --grid-gap-xs: 0.5rem;
+  --grid-gap-sm: 1rem;
+  --grid-gap-md: 1.5rem;
+  --grid-gap-lg: 2rem;
+  --grid-gap-xl: 3rem;
+  
+  /* Container queries */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1536px;
+  
+  /* =============================================================================
+     MOTION SYSTEM - Advanced animations
+     ============================================================================= */
+  
+  /* Timing functions */
+  --ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --ease-in-out-cubic: cubic-bezier(0.645, 0.045, 0.355, 1);
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-in-out-expo: cubic-bezier(1, 0, 0, 1);
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  
+  /* Durations */
+  --duration-150: 150ms;
+  --duration-200: 200ms;
+  --duration-300: 300ms;
+  --duration-500: 500ms;
+  --duration-700: 700ms;
+  
+  /* =============================================================================
+     THEME SYSTEM - CSS color-scheme support
+     ============================================================================= */
+  
+  color-scheme: light dark;
+}
+
+/* =============================================================================
+   STATE ANIMATIONS
+   ============================================================================= */
+
+@keyframes button-hover {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes button-active {
+  0% { transform: scale(1); }
+  100% { transform: scale(0.95); }
+}
+
+@keyframes focus-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(var(--color-primary), 0.4); }
+  100% { box-shadow: 0 0 0 0.5rem rgba(var(--color-primary), 0); }
+}
+
+.button {
+  transition: all var(--duration-300) var(--ease-out-cubic);
+}
+
+.button:hover {
+  animation: button-hover 0.3s ease;
+}
+
+.button:active {
+  animation: button-active 0.1s ease;
+}
+
+.button:focus-visible {
+  animation: focus-pulse 0.5s ease-out;
+}
+
+/* =============================================================================
+   GLASSMORPHISM UTILITIES
+   ============================================================================= */
+
+.glass {
+  background: var(--glass-bg-light);
+  backdrop-filter: var(--glass-blur-md);
+  -webkit-backdrop-filter: var(--glass-blur-md);
+  border: 1px solid var(--glass-border-light);
+  box-shadow: var(--glass-shadow-light);
+}
+
+.glass-dark {
+  background: var(--glass-bg-dark);
+  backdrop-filter: var(--glass-blur-md);
+  -webkit-backdrop-filter: var(--glass-blur-md);
+  border: 1px solid var(--glass-border-dark);
+  box-shadow: var(--glass-shadow-dark);
+}
+
+.glass-blur-xs { backdrop-filter: var(--glass-blur-xs); -webkit-backdrop-filter: var(--glass-blur-xs); }
+.glass-blur-sm { backdrop-filter: var(--glass-blur-sm); -webkit-backdrop-filter: var(--glass-blur-sm); }
+.glass-blur-md { backdrop-filter: var(--glass-blur-md); -webkit-backdrop-filter: var(--glass-blur-md); }
+.glass-blur-lg { backdrop-filter: var(--glass-blur-lg); -webkit-backdrop-filter: var(--glass-blur-lg); }
+.glass-blur-xl { backdrop-filter: var(--glass-blur-xl); -webkit-backdrop-filter: var(--glass-blur-xl); }
+
+/* =============================================================================
+   NEUMORPHISM UTILITIES
+   ============================================================================= */
+
+.neumorphic {
+  background: var(--color-light-surface);
+  box-shadow: var(--neumorphic-light-shadow);
+  border-radius: 1rem;
+  transition: all var(--duration-300) var(--ease-out-cubic);
+}
+
+.neumorphic:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    12px 12px 24px rgba(0 0 0 / 0.15),
+    -12px -12px 24px rgba(255 255 255 / 0.8),
+    inset 1px 1px 2px rgba(0 0 0 / 0.05);
+}
+
+.neumorphic-dark {
+  background: var(--color-dark-surface);
+  box-shadow: var(--neumorphic-dark-shadow);
+  border-radius: 1rem;
+  transition: all var(--duration-300) var(--ease-out-cubic);
+}
+
+.neumorphic-dark:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    12px 12px 24px rgba(0 0 0 / 0.5),
+    -12px -12px 24px rgba(255 255 255 / 0.1),
+    inset 1px 1px 2px rgba(0 0 0 / 0.3);
+}
+
+.neumorphic-inset {
+  box-shadow: var(--neumorphic-light-shadow-inset);
+}
+
+.neumorphic-dark-inset {
+  box-shadow: var(--neumorphic-dark-shadow-inset);
+}
+
+/* =============================================================================
+   ADVANCED GRID SYSTEM - CSS Grid with container queries
+   ============================================================================= */
+
+.grid-auto-fit {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: var(--grid-gap-md);
+}
+
+.grid-responsive {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols-1), 1fr);
+  gap: var(--grid-gap-md);
+}
+
+@container (min-width: 640px) {
+  .grid-responsive { grid-template-columns: repeat(var(--grid-cols-2), 1fr); }
+}
+
+@container (min-width: 768px) {
+  .grid-responsive { grid-template-columns: repeat(var(--grid-cols-3), 1fr); }
+}
+
+@container (min-width: 1024px) {
+  .grid-responsive { grid-template-columns: repeat(var(--grid-cols-4), 1fr); }
+}
+
+/* =============================================================================
+   ELEVATION SYSTEM - Layered shadows
+   ============================================================================= */
+
+.elevation-0 { box-shadow: var(--shadow-0); }
+.elevation-1 { box-shadow: var(--shadow-1); }
+.elevation-2 { box-shadow: var(--shadow-2); }
+.elevation-3 { box-shadow: var(--shadow-3); }
+.elevation-4 { box-shadow: var(--shadow-4); }
+.elevation-5 { box-shadow: var(--shadow-5); }
+.elevation-6 { box-shadow: var(--shadow-6); }
+
+/* =============================================================================
+   DARK MODE SUPPORT
+   ============================================================================= */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --glass-bg-light: var(--glass-bg-dark);
+    --glass-border-light: var(--glass-border-dark);
+    --glass-shadow-light: var(--glass-shadow-dark);
+  }
+  
+  .neumorphic {
+    background: var(--color-dark-surface);
+    box-shadow: var(--neumorphic-dark-shadow);
+  }
+  
+  .neumorphic:hover {
+    box-shadow: 
+      12px 12px 24px rgba(0 0 0 / 0.5),
+      -12px -12px 24px rgba(255 255 255 / 0.1),
+      inset 1px 1px 2px rgba(0 0 0 / 0.3);
+  }
+}
+
+/* =============================================================================
+   CONTAINER QUERIES SUPPORT
+   ============================================================================= */
+
+@supports (container-type: inline-size) {
+  .container-responsive {
+    container-type: inline-size;
+  }
+}
+
+/* =============================================================================
+   REDUCED MOTION SUPPORT
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .neumorphic,
+  .neumorphic-dark,
+  .glass {
+    transition: none;
+  }
+}

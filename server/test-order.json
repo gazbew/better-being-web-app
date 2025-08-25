@@ -1,0 +1,24 @@
+{
+  "shippingAddress": {
+    "firstName": "John",
+    "lastName": "Doe", 
+    "phone": "+27123456789",
+    "streetAddress": "123 Main Street",
+    "suburb": "Midrand",
+    "city": "Johannesburg",
+    "province": "Gauteng",
+    "postalCode": "1685",
+    "deliveryInstructions": "Ring the bell"
+  },
+  "billingAddress": {
+    "firstName": "John",
+    "lastName": "Doe",
+    "streetAddress": "123 Main Street", 
+    "suburb": "Midrand",
+    "city": "Johannesburg",
+    "province": "Gauteng",
+    "postalCode": "1685"
+  },
+  "paymentMethod": "card",
+  "customerNotes": "Please handle with care"
+}

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand Animations Test</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            padding: 2rem;
+            background: #f9fafb;
+        }
+        .test-section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .test-item {
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            background: white;
+            border: 1px solid #e5e7eb;
+        }
+        h2 {
+            color: #1F2937;
+            margin-bottom: 1rem;
+        }
+        h3 {
+            color: #6B7280;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .trigger-btn {
+            background: #C1581B;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0.25rem;
+        }
+        .trigger-btn:hover {
+            background: #B34E16;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="text-gradient-brand animate-fade-in-down" style="font-size: 2.5rem; font-weight: bold; margin-bottom: 2rem; text-align: center;">
+        Brand Animation System Test
+    </h1>
+
+    <!-- Float Animations -->
+    <div class="test-section">
+        <h2>Float Animations</h2>
+        
+        <div class="test-grid">
+            <div class="test-item animate-float">
+                <h4>Standard Float</h4>
+                <p>3s ease-in-out infinite</p>
+            </div>
+            <div class="test-item animate-float-gentle">
+                <h4>Gentle Float</h4>
+                <p>4s ease-in-out infinite</p>
+            </div>
+            <div class="test-item animate-float-premium bg-gradient-premium" style="color: white;">
+                <h4>Premium Float</h4>
+                <p>2.5s with scale effect</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Glow Animations -->
+    <div class="test-section">
+        <h2>Glow Animations</h2>
+        
+        <div class="test-grid">
+            <div class="test-item animate-glow">
+                <h4>Brand Glow</h4>
+                <p>Orange brand glow</p>
+            </div>
+            <div class="test-item animate-glow-wellness">
+                <h4>Wellness Glow</h4>
+                <p>Green wellness glow</p>
+            </div>
+            <div class="test-item animate-glow-premium">
+                <h4>Premium Glow</h4>
+                <p>Multi-layer glow</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bounce Animations -->
+    <div class="test-section">
+        <h2>Bounce Animations (Click to Trigger)</h2>
+        
+        <div class="test-grid">
+            <div class="test-item">
+                <h4>Gentle Bounce</h4>
+                <button class="trigger-btn" onclick="triggerAnimation(this, 'animate-bounce-gentle')">Trigger</button>
+            </div>
+            <div class="test-item">
+                <h4>Wellness Bounce</h4>
+                <button class="trigger-btn" onclick="triggerAnimation(this, 'animate-bounce-wellness')">Trigger</button>
+            </div>
+            <div class="test-item">
+                <h4>Premium Bounce</h4>
+                <button class="trigger-btn" onclick="triggerAnimation(this, 'animate-bounce-premium')">Trigger</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fade In Animations -->
+    <div class="test-section">
+        <h2>Fade In Animations</h2>
+        
+        <div class="test-grid">
+            <div class="test-item animate-fade-in animate-delay-100">
+                <h4>Fade In</h4>
+                <p>Basic fade in</p>
+            </div>
+            <div class="test-item animate-fade-in-up animate-delay-200">
+                <h4>Fade In Up</h4>
+                <p>Fade with upward motion</p>
+            </div>
+            <div class="test-item animate-fade-in-left animate-delay-300">
+                <h4>Fade In Left</h4>
+                <p>Fade from left</p>
+            </div>
+            <div class="test-item animate-fade-in-right animate-delay-400">
+                <h4>Fade In Right</h4>
+                <p>Fade from right</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scale In Animations -->
+    <div class="test-section">
+        <h2>Scale In Animations</h2>
+        
+        <div class="test-grid">
+            <div class="test-item animate-scale-in animate-delay-100">
+                <h4>Scale In</h4>
+                <p>Basic scale</p>
+            </div>
+            <div class="test-item animate-scale-in-center animate-delay-200">
+                <h4>Scale Center</h4>
+                <p>Center-focused</p>
+            </div>
+            <div class="test-item animate-scale-in-wellness animate-delay-300 bg-gradient-wellness-soft">
+                <h4>Wellness Scale</h4>
+                <p>Wellness-themed</p>
+            </div>
+            <div class="test-item animate-scale-in-premium animate-delay-400 bg-gradient-premium-subtle">
+                <h4>Premium Scale</h4>
+                <p>With rotation</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Brand-Specific Animations -->
+    <div class="test-section">
+        <h2>Brand-Specific Animations</h2>
+        
+        <div class="test-grid">
+            <div class="test-item animate-wellness-breathe bg-gradient-wellness-soft">
+                <h4>Wellness Breathe</h4>
+                <p>Breathing animation</p>
+            </div>
+            <div class="test-item animate-premium-shimmer bg-gradient-premium" style="color: white;">
+                <h4>Premium Shimmer</h4>
+                <p>Shimmer effect</p>
+            </div>
+            <div class="test-item animate-brand-pulse">
+                <h4>Brand Pulse</h4>
+                <p>Pulsing with brand colors</p>
+            </div>
+            <div class="test-item animate-wellness-wave">
+                <h4>Wellness Wave</h4>
+                <p>Gentle wave motion</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hover Animations -->
+    <div class="test-section">
+        <h2>Hover Animations (Hover to Test)</h2>
+        
+        <div class="test-grid">
+            <div class="test-item hover-float">
+                <h4>Hover Float</h4>
+                <p>Hover me!</p>
+            </div>
+            <div class="test-item hover-glow">
+                <h4>Hover Glow</h4>
+                <p>Hover me!</p>
+            </div>
+            <div class="test-item hover-bounce">
+                <h4>Hover Bounce</h4>
+                <p>Hover me!</p>
+            </div>
+            <div class="test-item hover-scale">
+                <h4>Hover Scale</h4>
+                <p>Hover me!</p>
+            </div>
+            <div class="test-item hover-lift">
+                <h4>Hover Lift</h4>
+                <p>Hover me!</p>
+            </div>
+            <div class="test-item hover-wellness bg-gradient-wellness-soft">
+                <h4>Hover Wellness</h4>
+                <p>Hover me!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading States -->
+    <div class="test-section">
+        <h2>Loading State Animations</h2>
+        
+        <div class="test-grid">
+            <div class="test-item loading-pulse">
+                <h4>Loading Pulse</h4>
+                <p>Pulsing loader</p>
+            </div>
+            <div class="test-item loading-breathe bg-gradient-wellness-soft">
+                <h4>Loading Breathe</h4>
+                <p>Breathing loader</p>
+            </div>
+            <div class="test-item loading-shimmer">
+                <h4>Loading Shimmer</h4>
+                <p>Shimmer loader</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Animation Timing -->
+    <div class="test-section">
+        <h2>Animation Timing Examples</h2>
+        
+        <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem;">
+            <div class="test-item animate-fade-in animate-duration-instant animate-delay-100" style="min-width: 120px;">
+                <small>Instant (100ms)</small>
+            </div>
+            <div class="test-item animate-fade-in animate-duration-quick animate-delay-200" style="min-width: 120px;">
+                <small>Quick (200ms)</small>
+            </div>
+            <div class="test-item animate-fade-in animate-duration-smooth animate-delay-300" style="min-width: 120px;">
+                <small>Smooth (300ms)</small>
+            </div>
+            <div class="test-item animate-fade-in animate-duration-gentle animate-delay-400" style="min-width: 120px;">
+                <small>Gentle (500ms)</small>
+            </div>
+            <div class="test-item animate-fade-in animate-duration-slow animate-delay-500" style="min-width: 120px;">
+                <small>Slow (700ms)</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Focus and Active States -->
+    <div class="test-section">
+        <h2>Focus and Active States (Tab/Click to Test)</h2>
+        
+        <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem;">
+            <button class="trigger-btn focus-pulse">Focus Pulse (Tab)</button>
+            <button class="trigger-btn focus-glow">Focus Glow (Tab)</button>
+            <button class="trigger-btn active-bounce">Active Bounce (Click)</button>
+            <button class="trigger-btn active-scale">Active Scale (Click)</button>
+        </div>
+    </div>
+
+    <!-- Accessibility Test -->
+    <div class="test-section">
+        <h2>Accessibility Test</h2>
+        <p>Open browser developer tools and add <code>@media (prefers-reduced-motion: reduce)</code> to test reduced motion support.</p>
+        <p>All animations should either be disabled or significantly reduced when this preference is active.</p>
+        
+        <button class="trigger-btn" onclick="toggleReducedMotion()">
+            Toggle Reduced Motion Test
+        </button>
+        <div id="reduced-motion-status" style="margin-top: 1rem; font-weight: bold;"></div>
+    </div>
+
+    <script>
+        function triggerAnimation(button, animationClass) {
+            const parent = button.parentElement;
+            parent.classList.remove(animationClass);
+            
+            // Force reflow
+            parent.offsetHeight;
+            
+            parent.classList.add(animationClass);
+            
+            // Remove class after animation completes
+            setTimeout(() => {
+                parent.classList.remove(animationClass);
+            }, 1000);
+        }
+
+        function toggleReducedMotion() {
+            const style = document.createElement('style');
+            const statusDiv = document.getElementById('reduced-motion-status');
+            
+            if (document.getElementById('reduced-motion-test')) {
+                document.getElementById('reduced-motion-test').remove();
+                statusDiv.textContent = 'Reduced motion test: OFF';
+                statusDiv.style.color = 'green';
+            } else {
+                style.id = 'reduced-motion-test';
+                style.textContent = `
+                    * {
+                        animation-duration: 0.01ms !important;
+                        animation-iteration-count: 1 !important;
+                        transition-duration: 0.01ms !important;
+                    }
+                `;
+                document.head.appendChild(style);
+                statusDiv.textContent = 'Reduced motion test: ON';
+                statusDiv.style.color = 'red';
+            }
+        }
+
+        // Initialize status
+        document.getElementById('reduced-motion-status').textContent = 'Reduced motion test: OFF';
+        document.getElementById('reduced-motion-status').style.color = 'green';
+
+        // Add some interactivity logging
+        document.addEventListener('animationstart', (e) => {
+            console.log('Animation started:', e.animationName, 'on', e.target);
+        });
+
+        document.addEventListener('animationend', (e) => {
+            console.log('Animation ended:', e.animationName, 'on', e.target);
+        });
+    </script>
+</body>
+</html>

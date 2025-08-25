@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "sku": "BB-001",
+    "name": "Vegan Probiotic",
+    "description": "A gentle daily probiotic for gut health.",
+    "price": 199,
+    "original_price": 249,
+    "rating": 4.6,
+    "reviews_count": 124,
+    "benefits": ["Gut health", "Immune support"],
+    "ingredients": ["Lactobacillus", "Bifidobacterium"],
+    "usage": "Take one capsule daily.",
+    "category_name": "Wellness Essentials",
+    "image_url": "/public/vegan_probiotic-600x600.webp",
+    "is_featured": true,
+    "is_popular": true,
+    "in_stock": true,
+    "stock_count": 42,
+    "tags": ["probiotic", "vegan"]
+  },
+  {
+    "id": 2,
+    "sku": "BB-002",
+    "name": "Bronchial Relief",
+    "description": "Natural support for respiratory comfort.",
+    "price": 149,
+    "original_price": 179,
+    "rating": 4.4,
+    "reviews_count": 58,
+    "benefits": ["Respiratory support"],
+    "ingredients": ["Mullein", "Licorice root"],
+    "usage": "Take two capsules daily with food.",
+    "category_name": "Herbal Remedies",
+    "image_url": "/public/bronchial_relief-600x600.webp",
+    "is_featured": false,
+    "is_popular": true,
+    "in_stock": true,
+    "stock_count": 15,
+    "tags": ["herbal", "respiratory"]
+  }
+]

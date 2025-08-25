@@ -1,0 +1,121 @@
+{
+  "name": "BetterBeing Asset Optimization",
+  "description": "CloudFlare configuration for maximum performance optimization",
+  "rules": [
+    {
+      "targets": [
+        {
+          "target": "url",
+          "constraint": {
+            "operator": "matches",
+            "value": "*.{jpg,jpeg,png,gif,webp,avif,svg}"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "id": "automatic_platform_optimization",
+          "value": "on"
+        },
+        {
+          "id": "polish",
+          "value": "lossy"
+        },
+        {
+          "id": "mirage",
+          "value": "on"
+        },
+        {
+          "id": "cache_level",
+          "value": "aggressive"
+        },
+        {
+          "id": "edge_cache_ttl",
+          "value": 31536000
+        },
+        {
+          "id": "browser_cache_ttl",
+          "value": 31536000
+        }
+      ]
+    },
+    {
+      "targets": [
+        {
+          "target": "url",
+          "constraint": {
+            "operator": "matches",
+            "value": "*.{js,css,woff,woff2,eot,ttf,otf}"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "id": "cache_level",
+          "value": "aggressive"
+        },
+        {
+          "id": "edge_cache_ttl",
+          "value": 31536000
+        },
+        {
+          "id": "browser_cache_ttl",
+          "value": 31536000
+        },
+        {
+          "id": "compression",
+          "value": "brotli"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "automatic_platform_optimization": {
+      "cache_by_device_type": false,
+      "cf": true,
+      "css": true,
+      "html": true,
+      "js": true
+    },
+    "brotli": "on",
+    "minify": {
+      "css": "on",
+      "html": "on", 
+      "js": "on"
+    },
+    "polish": "lossy",
+    "webp": "on",
+    "cache_level": "aggressive",
+    "development_mode": "off",
+    "rocket_loader": "on",
+    "mirage": "on",
+    "image_resizing": "on",
+    "http2": "on",
+    "http3": "on",
+    "0rtt": "on",
+    "ipv6": "on",
+    "pseudo_ipv4": "add_header",
+    "response_buffering": "on",
+    "sort_query_string_for_cache": "on",
+    "true_client_ip_header": "on"
+  },
+  "image_resizing": {
+    "enabled": true,
+    "resize_filter": "lanczos3",
+    "quality": 75,
+    "format": "auto"
+  },
+  "workers": {
+    "image_optimization": {
+      "script": "// CloudFlare Worker for advanced image optimization\naddEventListener('fetch', event => {\n  event.respondWith(handleRequest(event.request));\n});\n\nasync function handleRequest(request) {\n  const url = new URL(request.url);\n  \n  // Check if it's an image request\n  if (!/\\.(jpg|jpeg|png|gif|webp|avif)$/i.test(url.pathname)) {\n    return fetch(request);\n  }\n  \n  // Extract optimization parameters\n  const width = url.searchParams.get('w');\n  const quality = url.searchParams.get('q') || '75';\n  const format = url.searchParams.get('f') || 'auto';\n  \n  // Build optimized URL\n  const optimizedUrl = new URL(request.url);\n  optimizedUrl.searchParams.delete('w');\n  optimizedUrl.searchParams.delete('q');\n  optimizedUrl.searchParams.delete('f');\n  \n  // Use CloudFlare Image Resizing\n  const imageRequest = new Request(optimizedUrl.toString(), {\n    headers: request.headers,\n    method: request.method,\n    body: request.body,\n    redirect: 'follow'\n  });\n  \n  // Apply optimizations\n  const options = {\n    quality: parseInt(quality),\n    format: format === 'auto' ? 'webp' : format\n  };\n  \n  if (width) {\n    options.width = parseInt(width);\n  }\n  \n  return fetch(imageRequest, {\n    cf: {\n      image: options\n    }\n  });\n}"
+    }
+  },
+  "performance_headers": {
+    "Cache-Control": "public, max-age=31536000, immutable",
+    "Vary": "Accept-Encoding, Accept",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "SAMEORIGIN",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Permissions-Policy": "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
+  }
+}

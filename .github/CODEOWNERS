@@ -1,0 +1,54 @@
+# Better Being Web - Code Ownership
+
+# Global ownership - primary maintainer
+* @gareth-bew
+
+# Core application files
+/src/ @gareth-bew
+/server/ @gareth-bew
+
+# Configuration files require extra attention
+package.json @gareth-bew
+package-lock.json @gareth-bew
+/server/package.json @gareth-bew
+/server/package-lock.json @gareth-bew
+tsconfig*.json @gareth-bew
+vite.config.ts @gareth-bew
+tailwind.config.ts @gareth-bew
+vercel.json @gareth-bew
+
+# CI/CD and automation
+/.github/ @gareth-bew
+Dockerfile @gareth-bew
+docker-compose*.yml @gareth-bew
+nginx.conf @gareth-bew
+
+# Database and migrations
+/server/src/config/ @gareth-bew
+/server/src/migrations/ @gareth-bew
+*.sql @gareth-bew
+
+# Security sensitive files
+/server/src/middleware/auth.js @gareth-bew
+/server/src/middleware/security.js @gareth-bew
+/server/src/routes/users.js @gareth-bew
+/src/contexts/AuthContext.tsx @gareth-bew
+
+# Environment and secrets
+.env* @gareth-bew
+/server/.env* @gareth-bew
+
+# Documentation
+/docs/ @gareth-bew
+README.md @gareth-bew
+*.md @gareth-bew
+
+# Build and deployment
+/dist/ @gareth-bew
+/build/ @gareth-bew
+
+# Testing configuration
+vitest.config.ts @gareth-bew
+/server/vitest.config.js @gareth-bew
+/src/test/ @gareth-bew
+/server/src/test/ @gareth-bew

@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "optimize:images": "node scripts/optimize-images.js",
+    "optimize:fonts": "node scripts/optimize-fonts.js",
+    "analyze:bundle": "npm run build && npx vite-bundle-analyzer dist",
+    "performance:audit": "lighthouse http://localhost:3000 --output=json --output-path=./performance-audit.json",
+    "cdn:deploy": "node scripts/deploy-cdn.js",
+    "optimize:all": "npm run optimize:images && npm run optimize:fonts && npm run build"
+  }
+}

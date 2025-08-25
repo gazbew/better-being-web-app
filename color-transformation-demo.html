@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Better Being Color Transformation - Harsh to Soft & Sophisticated</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #f7f3eb 0%, #f0e9d2 100%);
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #7a4d3b;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+        }
+
+        /* OLD HARSH COLORS */
+        .old {
+            background: linear-gradient(135deg, #BB4500, #280B0B);
+            color: white;
+        }
+
+        .old h2 {
+            color: #FF6B35;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .old .color-swatch {
+            background: #BB4500;
+            color: white;
+            border: 3px solid #280B0B;
+        }
+
+        .old .text-sample {
+            color: #280B0B;
+            background: white;
+            border: 2px solid #BB4500;
+        }
+
+        .old .button-sample {
+            background: #BB4500;
+            color: white;
+            border: 2px solid #280B0B;
+        }
+
+        .old .card-sample {
+            background: white;
+            border: 3px solid #BB4500;
+            color: #280B0B;
+        }
+
+        /* NEW SOFT COLORS */
+        .new {
+            background: linear-gradient(135deg, #f7f3eb, #e5c287);
+            color: #7a4d3b;
+        }
+
+        .new h2 {
+            color: #7a4d3b;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .new .color-swatch {
+            background: #e5c287;
+            color: #7a4d3b;
+            border: 3px solid #d4b8a1;
+        }
+
+        .new .text-sample {
+            color: #7a4d3b;
+            background: #faf8f1;
+            border: 2px solid #e5c287;
+        }
+
+        .new .button-sample {
+            background: linear-gradient(135deg, #e5c287, #d4b8a1);
+            color: #7a4d3b;
+            border: 2px solid #a67c52;
+        }
+
+        .new .card-sample {
+            background: #faf8f1;
+            border: 3px solid #e5c287;
+            color: #7a4d3b;
+        }
+
+        /* SHARED STYLES */
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .color-swatch {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .color-swatch:hover {
+            transform: scale(1.05);
+        }
+
+        .text-sample, .button-sample, .card-sample {
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .button-sample {
+            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .button-sample:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .card-sample {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .comparison-title {
+            text-align: center;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .old .comparison-title {
+            background: rgba(255,255,255,0.9);
+            color: #BB4500;
+        }
+
+        .new .comparison-title {
+            background: rgba(255,255,255,0.9);
+            color: #7a4d3b;
+        }
+
+        .improvement-notes {
+            background: linear-gradient(135deg, #e5c287, #d4b8a1);
+            color: #7a4d3b;
+            padding: 2rem;
+            border-radius: 20px;
+            margin-top: 3rem;
+        }
+
+        .improvement-notes h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .improvement-notes ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .improvement-notes li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .improvement-notes li:before {
+            content: "✨";
+            position: absolute;
+            left: 0;
+        }
+
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .color-palette {
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            }
+
+            .color-swatch {
+                height: 60px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Better Being Color Transformation</h1>
+        <p style="text-align: center; font-size: 1.2rem; margin-bottom: 3rem; color: #7a4d3b;">
+            From Harsh & Aggressive to Soft & Sophisticated
+        </p>
+
+        <div class="comparison">
+            <!-- OLD HARSH COLORS -->
+            <div class="section old">
+                <div class="comparison-title">❌ OLD: Harsh & Aggressive</div>
+                <h2>The Problem Colors</h2>
+
+                <div class="color-palette">
+                    <div class="color-swatch">#BB4500<br/>Harsh Orange</div>
+                    <div class="color-swatch" style="background: #280B0B;">#280B0B<br/>Heavy Brown</div>
+                    <div class="color-swatch" style="background: #C4C240; color: #280B0B;">#C4C240<br/>Sharp Yellow</div>
+                </div>
+
+                <div class="text-sample">
+                    <h4>Sample Heading</h4>
+                    <p>This text uses the harsh black-brown color that feels heavy and aggressive. It's hard on the eyes and lacks sophistication.</p>
+                </div>
+
+                <div class="button-sample">
+                    Shop Now - Aggressive Style
+                </div>
+
+                <div class="card-sample">
+                    <h4>Product Card</h4>
+                    <p>The harsh orange borders and heavy brown text create an unpleasant, aggressive feeling that doesn't inspire wellness.</p>
+                </div>
+            </div>
+
+            <!-- NEW SOFT COLORS -->
+            <div class="section new">
+                <div class="comparison-title">✅ NEW: Soft & Sophisticated</div>
+                <h2>The Solution Colors</h2>
+
+                <div class="color-palette">
+                    <div class="color-swatch">#e5c287<br/>Gentle Honey</div>
+                    <div class="color-swatch" style="background: #7a4d3b; color: #f7f3eb;">#7a4d3b<br/>Warm Chocolate</div>
+                    <div class="color-swatch" style="background: #d4b8a1;">#d4b8a1<br/>Soft Tan</div>
+                </div>
+
+                <div class="text-sample">
+                    <h4>Sample Heading</h4>
+                    <p>This text uses warm chocolate brown that feels sophisticated and gentle. It's easy on the eyes and conveys premium wellness.</p>
+                </div>
+
+                <div class="button-sample">
+                    Shop Now - Sophisticated Style
+                </div>
+
+                <div class="card-sample">
+                    <h4>Product Card</h4>
+                    <p>The soft honey borders and warm chocolate text create a luxurious, spa-like feeling that inspires trust and wellness.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="improvement-notes">
+            <h3>🌟 Key Improvements Achieved</h3>
+            <ul>
+                <li><strong>Primary Brand Color:</strong> Changed from harsh #BB4500 to gentle #e5c287 (soft honey)</li>
+                <li><strong>Text Color:</strong> Changed from heavy #280B0B to warm #7a4d3b (chocolate brown)</li>
+                <li><strong>Visual Impact:</strong> Reduced eye strain and created a more sophisticated, spa-like atmosphere</li>
+                <li><strong>Brand Perception:</strong> Shifted from aggressive/harsh to premium/wellness-focused</li>
+                <li><strong>User Experience:</strong> Much easier on the eyes, especially for longer reading sessions</li>
+                <li><strong>Color Harmony:</strong> Created a cohesive palette inspired by natural wellness themes</li>
+                <li><strong>Accessibility:</strong> Better contrast ratios while maintaining warmth and sophistication</li>
+                <li><strong>Emotional Response:</strong> Now evokes calm, trust, and premium quality instead of harshness</li>
+            </ul>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem; color: #7a4d3b;">
+            <h3>🎯 Result: Professional, Sophisticated, Wellness-Focused Design</h3>
+            <p style="font-size: 1.1rem; margin-top: 1rem;">
+                The new color palette maintains brand warmth while creating a much more refined, premium experience that aligns with wellness and natural product values.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

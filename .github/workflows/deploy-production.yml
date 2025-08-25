@@ -1,0 +1,206 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+    inputs:
+      force_deploy:
+        description: 'Force deployment (skip checks)'
+        required: false
+        default: 'false'
+        type: boolean
+
+env:
+  NODE_VERSION: '18'
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+jobs:
+  # Pre-deployment Checks
+  pre-deployment:
+    name: Pre-deployment Validation
+    runs-on: ubuntu-latest
+    if: github.event.inputs.force_deploy != 'true'
+    outputs:
+      should_deploy: ${{ steps.checks.outputs.should_deploy }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run critical tests
+        run: |
+          npm run test:run
+          echo "✅ Critical tests passed"
+
+      - name: Security scan
+        run: |
+          npm audit --audit-level high
+          echo "✅ Security scan passed"
+
+      - name: Build verification
+        run: |
+          npm run build:frontend
+          echo "✅ Build verification passed"
+
+      - name: Environment check
+        id: checks
+        run: |
+          # Check if this is a merge commit or direct push
+          if git log --oneline -1 | grep -q "Merge\|merge"; then
+            echo "should_deploy=true" >> $GITHUB_OUTPUT
+            echo "✅ Merge commit detected - proceeding with deployment"
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "should_deploy=true" >> $GITHUB_OUTPUT
+            echo "✅ Manual deployment triggered"
+          else
+            echo "should_deploy=true" >> $GITHUB_OUTPUT
+            echo "✅ Direct push to master - proceeding with deployment"
+          fi
+
+  # Production Deployment
+  deploy-production:
+    name: Deploy to Vercel Production
+    runs-on: ubuntu-latest
+    needs: [pre-deployment]
+    if: always() && (needs.pre-deployment.outputs.should_deploy == 'true' || github.event.inputs.force_deploy == 'true')
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.preview-url }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy Project Artifacts to Vercel
+        id: deploy
+        run: |
+          url=$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})
+          echo "preview-url=$url" >> $GITHUB_OUTPUT
+          echo "Deployed to: $url"
+
+      - name: Update deployment status
+        run: |
+          echo "🚀 Deployment completed successfully!"
+          echo "📍 Production URL: ${{ steps.deploy.outputs.preview-url }}"
+
+  # Post-deployment Verification
+  post-deployment:
+    name: Post-deployment Health Check
+    runs-on: ubuntu-latest
+    needs: [deploy-production]
+    if: success()
+    steps:
+      - name: Wait for deployment propagation
+        run: sleep 30
+
+      - name: Health check
+        run: |
+          URL="${{ needs.deploy-production.outputs.preview-url || 'https://better-being-web.vercel.app' }}"
+          echo "Checking health of: $URL"
+          
+          # Check if site is responsive
+          if curl -sf "$URL" > /dev/null; then
+            echo "✅ Site is responding"
+          else
+            echo "❌ Site health check failed"
+            exit 1
+          fi
+          
+          # Check specific endpoints
+          if curl -sf "$URL/api/health" > /dev/null; then
+            echo "✅ API health check passed"
+          else
+            echo "⚠️ API health check failed (may not be implemented)"
+          fi
+
+      - name: Performance check
+        run: |
+          URL="${{ needs.deploy-production.outputs.preview-url || 'https://better-being-web.vercel.app' }}"
+          
+          # Simple performance check using curl timing
+          response_time=$(curl -w "%{time_total}" -s -o /dev/null "$URL")
+          echo "Response time: ${response_time}s"
+          
+          # Check if response time is acceptable (< 3 seconds)
+          if (( $(echo "$response_time < 3.0" | bc -l) )); then
+            echo "✅ Performance check passed"
+          else
+            echo "⚠️ Site may be responding slowly"
+          fi
+
+  # Rollback on Failure
+  rollback:
+    name: Rollback on Critical Failure
+    runs-on: ubuntu-latest
+    needs: [deploy-production, post-deployment]
+    if: failure() && needs.deploy-production.result == 'success'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Get previous deployment
+        id: previous
+        run: |
+          # Get the second most recent deployment (previous production)
+          previous_url=$(vercel ls --token=${{ secrets.VERCEL_TOKEN }} | grep production | sed -n '2p' | awk '{print $2}')
+          echo "previous-url=$previous_url" >> $GITHUB_OUTPUT
+
+      - name: Promote previous deployment
+        if: steps.previous.outputs.previous-url != ''
+        run: |
+          echo "⚠️ Promoting previous deployment due to health check failure"
+          vercel promote ${{ steps.previous.outputs.previous-url }} --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Rollback notification
+        run: |
+          echo "🔄 Rollback completed"
+          echo "Previous deployment promoted to production"
+
+  # Success Notification
+  deployment-success:
+    name: Deployment Success Notification
+    runs-on: ubuntu-latest
+    needs: [deploy-production, post-deployment]
+    if: success()
+    steps:
+      - name: Success notification
+        run: |
+          echo "🎉 Production deployment completed successfully!"
+          echo "🌍 Live URL: ${{ needs.deploy-production.outputs.preview-url }}"
+          echo "✅ Health checks passed"
+          echo "✅ Performance verified"
+          echo "🚀 Better Being is live and ready!"

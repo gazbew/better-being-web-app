@@ -1,0 +1,296 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - region "Notifications (F8)":
+    - list
+  - region "Notifications alt+T"
+  - generic [ref=e3]:
+    - navigation [ref=e4]:
+      - generic [ref=e6]:
+        - generic [ref=e7]: FREE SHIPPING ON ORDERS OVER R500
+        - generic [ref=e9]: NEED HELP? +27 12 345 6789
+      - generic [ref=e11]:
+        - link "Better Being Natural Wellness Solutions" [ref=e12] [cursor=pointer]:
+          - /url: /
+          - img [ref=e14] [cursor=pointer]
+          - generic [ref=e17] [cursor=pointer]:
+            - generic [ref=e18] [cursor=pointer]: Better Being
+            - generic [ref=e19] [cursor=pointer]: Natural Wellness Solutions
+        - generic [ref=e20]:
+          - link "Home" [ref=e21] [cursor=pointer]:
+            - /url: /
+          - link "Shop" [ref=e22] [cursor=pointer]:
+            - /url: /products
+          - link "About" [ref=e23] [cursor=pointer]:
+            - /url: /about
+          - link "Wellness" [ref=e24] [cursor=pointer]:
+            - /url: /wellness
+          - link "Contact" [ref=e25] [cursor=pointer]:
+            - /url: /contact
+        - generic [ref=e26]:
+          - generic [ref=e27]:
+            - searchbox "Search products..." [ref=e28]
+            - img [ref=e29]
+          - link [ref=e32] [cursor=pointer]:
+            - /url: /wishlist
+            - button [ref=e33] [cursor=pointer]:
+              - img
+          - link [ref=e34] [cursor=pointer]:
+            - /url: /cart
+            - button [ref=e35] [cursor=pointer]:
+              - img
+          - generic [ref=e36]:
+            - link "Sign In" [ref=e37] [cursor=pointer]:
+              - /url: /login
+              - button "Sign In" [ref=e38] [cursor=pointer]
+            - link "Shop Now" [ref=e39] [cursor=pointer]:
+              - /url: /products
+              - button "Shop Now" [ref=e40] [cursor=pointer]:
+                - img
+                - generic [ref=e41] [cursor=pointer]: Shop Now
+    - generic [ref=e48]:
+      - generic [ref=e49]:
+        - img [ref=e51]
+        - generic [ref=e53]: Premium Natural Wellness
+        - generic [ref=e54]: New Collection
+      - heading "Transform Your Life with Better Being" [level=1] [ref=e55]:
+        - text: Transform Your Life with
+        - generic [ref=e56]: Better Being
+      - paragraph [ref=e57]: Discover premium natural products, personalized wellness journeys, and expert guidance to unlock your body's incredible potential for transformation and vitality.
+      - generic [ref=e58]:
+        - link "Explore Products" [ref=e59] [cursor=pointer]:
+          - /url: /products
+          - img
+          - text: Explore Products
+          - img
+        - link "Start Your Journey" [ref=e60] [cursor=pointer]:
+          - /url: /wellness
+          - img
+          - text: Start Your Journey
+      - generic [ref=e61]:
+        - generic [ref=e62]:
+          - img [ref=e64]
+          - generic [ref=e69]:
+            - generic [ref=e70]: 50,000+
+            - generic [ref=e71]: Lives Transformed
+        - generic [ref=e72]:
+          - img [ref=e74]
+          - generic [ref=e76]:
+            - generic [ref=e77]: 100%
+            - generic [ref=e78]: Natural Products
+        - generic [ref=e79]:
+          - img [ref=e81]
+          - generic [ref=e83]:
+            - generic [ref=e84]: 4.9★
+            - generic [ref=e85]: Customer Rating
+    - generic [ref=e87]:
+      - generic [ref=e88]:
+        - heading "Discover Your Perfect Match" [level=2] [ref=e89]
+        - paragraph [ref=e90]: Explore our curated collections designed for every aspect of your wellness journey
+      - generic [ref=e91]:
+        - button "Wellness" [ref=e92] [cursor=pointer]
+        - button "Nutrition" [ref=e93] [cursor=pointer]
+        - button "Mindfulness" [ref=e94] [cursor=pointer]
+        - button "Sleep" [ref=e95] [cursor=pointer]
+        - button "Fitness" [ref=e96] [cursor=pointer]
+    - generic [ref=e98]:
+      - generic [ref=e99]:
+        - generic [ref=e100]:
+          - heading "This Week's Highlights" [level=2] [ref=e101]
+          - paragraph [ref=e102]: Handpicked premium products for your wellness transformation
+        - link "See All" [ref=e103] [cursor=pointer]:
+          - /url: /products
+          - text: See All
+          - img [ref=e104] [cursor=pointer]
+      - generic [ref=e106]:
+        - generic [ref=e107] [cursor=pointer]:
+          - generic [ref=e108] [cursor=pointer]:
+            - generic [ref=e109] [cursor=pointer]: Best Seller
+            - img "Women's Algorithm" [ref=e110] [cursor=pointer]
+          - generic [ref=e111] [cursor=pointer]:
+            - generic [ref=e112] [cursor=pointer]:
+              - generic [ref=e113] [cursor=pointer]: Hormonal Support
+              - heading "Women's Algorithm" [level=3] [ref=e114] [cursor=pointer]
+            - generic [ref=e115] [cursor=pointer]:
+              - generic [ref=e116] [cursor=pointer]:
+                - img [ref=e117] [cursor=pointer]
+                - img [ref=e119] [cursor=pointer]
+                - img [ref=e121] [cursor=pointer]
+                - img [ref=e123] [cursor=pointer]
+                - img [ref=e125] [cursor=pointer]
+              - generic [ref=e127] [cursor=pointer]: 4.8 (124 reviews)
+            - generic [ref=e128] [cursor=pointer]:
+              - generic [ref=e129] [cursor=pointer]:
+                - generic [ref=e130] [cursor=pointer]: R245
+                - generic [ref=e131] [cursor=pointer]: R295
+              - button "Add to Cart" [ref=e132] [cursor=pointer]
+        - generic [ref=e133] [cursor=pointer]:
+          - generic [ref=e134] [cursor=pointer]:
+            - generic [ref=e135] [cursor=pointer]: New
+            - img "Acidosis pH Control" [ref=e136] [cursor=pointer]
+          - generic [ref=e137] [cursor=pointer]:
+            - generic [ref=e138] [cursor=pointer]:
+              - generic [ref=e139] [cursor=pointer]: pH Balance
+              - heading "Acidosis pH Control" [level=3] [ref=e140] [cursor=pointer]
+            - generic [ref=e141] [cursor=pointer]:
+              - generic [ref=e142] [cursor=pointer]:
+                - img [ref=e143] [cursor=pointer]
+                - img [ref=e145] [cursor=pointer]
+                - img [ref=e147] [cursor=pointer]
+                - img [ref=e149] [cursor=pointer]
+                - img [ref=e151] [cursor=pointer]
+              - generic [ref=e153] [cursor=pointer]: 4.9 (89 reviews)
+            - generic [ref=e154] [cursor=pointer]:
+              - generic [ref=e156] [cursor=pointer]: R225
+              - button "Add to Cart" [ref=e157] [cursor=pointer]
+        - generic [ref=e158] [cursor=pointer]:
+          - img "Magnesium Complex" [ref=e160] [cursor=pointer]
+          - generic [ref=e161] [cursor=pointer]:
+            - generic [ref=e162] [cursor=pointer]:
+              - generic [ref=e163] [cursor=pointer]: Mineral Support
+              - heading "Magnesium Complex" [level=3] [ref=e164] [cursor=pointer]
+            - generic [ref=e165] [cursor=pointer]:
+              - generic [ref=e166] [cursor=pointer]:
+                - img [ref=e167] [cursor=pointer]
+                - img [ref=e169] [cursor=pointer]
+                - img [ref=e171] [cursor=pointer]
+                - img [ref=e173] [cursor=pointer]
+                - img [ref=e175] [cursor=pointer]
+              - generic [ref=e177] [cursor=pointer]: 4.7 (156 reviews)
+            - generic [ref=e178] [cursor=pointer]:
+              - generic [ref=e179] [cursor=pointer]:
+                - generic [ref=e180] [cursor=pointer]: R145
+                - generic [ref=e181] [cursor=pointer]: R185
+              - button "Add to Cart" [ref=e182] [cursor=pointer]
+    - generic [ref=e184]:
+      - generic [ref=e185]:
+        - heading "Why Choose Better Being?" [level=2] [ref=e186]
+        - paragraph [ref=e187]: We're committed to your wellness journey with uncompromising quality and personalized support
+      - generic [ref=e188]:
+        - generic [ref=e190]:
+          - img [ref=e192]
+          - heading "100% Natural" [level=3] [ref=e195]
+          - paragraph [ref=e196]: Carefully sourced premium ingredients from nature's finest sources
+        - generic [ref=e198]:
+          - img [ref=e200]
+          - heading "Lab Tested" [level=3] [ref=e202]
+          - paragraph [ref=e203]: Rigorously tested for purity, potency, and safety by third-party labs
+        - generic [ref=e205]:
+          - img [ref=e207]
+          - heading "Science-Backed" [level=3] [ref=e209]
+          - paragraph [ref=e210]: Formulated with cutting-edge research and traditional wisdom
+        - generic [ref=e212]:
+          - img [ref=e214]
+          - heading "Award Winning" [level=3] [ref=e217]
+          - paragraph [ref=e218]: Recognized by wellness experts and loved by thousands
+    - generic [ref=e221]:
+      - generic [ref=e222]:
+        - img [ref=e223]
+        - generic [ref=e226]: Join the Movement
+      - heading "Ready to Transform Your Wellness?" [level=2] [ref=e227]
+      - paragraph [ref=e228]: Take the first step towards optimal health with our personalized wellness assessment and discover products tailored specifically for your unique needs.
+      - generic [ref=e229]:
+        - link "Start Free Assessment" [ref=e230] [cursor=pointer]:
+          - /url: /wellness
+        - link "Learn Our Story" [ref=e231] [cursor=pointer]:
+          - /url: /about
+    - generic [ref=e234]:
+      - heading "Stay Connected to Your Wellness" [level=2] [ref=e235]
+      - paragraph [ref=e236]: Get exclusive wellness tips, early access to new products, and special offers delivered to your inbox.
+      - generic [ref=e237]:
+        - textbox "Enter your email address" [ref=e238]
+        - button "Subscribe" [ref=e239] [cursor=pointer]
+      - generic [ref=e240]:
+        - generic [ref=e241]:
+          - img [ref=e242]
+          - generic [ref=e244]: 50,000+ subscribers
+        - generic [ref=e245]:
+          - img [ref=e246]
+          - generic [ref=e248]: No spam, unsubscribe anytime
+    - contentinfo [ref=e249]:
+      - generic [ref=e250]:
+        - generic [ref=e251]:
+          - generic [ref=e252]:
+            - heading "Better Being" [level=3] [ref=e253]
+            - paragraph [ref=e254]: Your journey to wellness starts here. Discover premium supplements and wellness products.
+            - generic [ref=e255]:
+              - link [ref=e256] [cursor=pointer]:
+                - /url: "#"
+                - img [ref=e257] [cursor=pointer]
+              - link [ref=e259] [cursor=pointer]:
+                - /url: "#"
+                - img [ref=e260] [cursor=pointer]
+              - link [ref=e262] [cursor=pointer]:
+                - /url: "#"
+                - img [ref=e263] [cursor=pointer]
+              - link [ref=e266] [cursor=pointer]:
+                - /url: "#"
+                - img [ref=e267] [cursor=pointer]
+          - generic [ref=e270]:
+            - heading "Quick Links" [level=4] [ref=e271]
+            - list [ref=e272]:
+              - listitem [ref=e273]:
+                - link "Products" [ref=e274] [cursor=pointer]:
+                  - /url: /products
+              - listitem [ref=e275]:
+                - link "Wellness Hub" [ref=e276] [cursor=pointer]:
+                  - /url: /wellness
+              - listitem [ref=e277]:
+                - link "Blog" [ref=e278] [cursor=pointer]:
+                  - /url: /blog
+              - listitem [ref=e279]:
+                - link "Community" [ref=e280] [cursor=pointer]:
+                  - /url: /community
+              - listitem [ref=e281]:
+                - link "Farming Solutions" [ref=e282] [cursor=pointer]:
+                  - /url: /farming
+              - listitem [ref=e283]:
+                - link "About Us" [ref=e284] [cursor=pointer]:
+                  - /url: /about
+              - listitem [ref=e285]:
+                - link "Contact" [ref=e286] [cursor=pointer]:
+                  - /url: /contact
+          - generic [ref=e287]:
+            - heading "Services & Support" [level=4] [ref=e288]
+            - list [ref=e289]:
+              - listitem [ref=e290]:
+                - link "My Account" [ref=e291] [cursor=pointer]:
+                  - /url: /account
+              - listitem [ref=e292]:
+                - link "Shipping Info" [ref=e293] [cursor=pointer]:
+                  - /url: /shipping
+              - listitem [ref=e294]:
+                - link "Refund Policy" [ref=e295] [cursor=pointer]:
+                  - /url: /refund-policy
+              - listitem [ref=e296]:
+                - link "Store Locator" [ref=e297] [cursor=pointer]:
+                  - /url: /store-locator
+              - listitem [ref=e298]:
+                - link "Testimonials" [ref=e299] [cursor=pointer]:
+                  - /url: /testimonials
+              - listitem [ref=e300]:
+                - link "Become a Stockist" [ref=e301] [cursor=pointer]:
+                  - /url: /become-stockist
+          - generic [ref=e302]:
+            - heading "Stay Updated" [level=4] [ref=e303]
+            - paragraph [ref=e304]: Subscribe to our newsletter for wellness tips and exclusive offers.
+            - generic [ref=e305]:
+              - textbox "Your email" [ref=e306]
+              - button "Subscribe" [ref=e307] [cursor=pointer]
+        - generic [ref=e309]:
+          - paragraph [ref=e310]: © 2024 Better Being. All rights reserved.
+          - generic [ref=e311]:
+            - link "Privacy Policy" [ref=e312] [cursor=pointer]:
+              - /url: /privacy
+            - link "Terms of Service" [ref=e313] [cursor=pointer]:
+              - /url: /terms
+            - link "Refund Policy" [ref=e314] [cursor=pointer]:
+              - /url: /refund-policy
+            - link "Marketing Partners" [ref=e315] [cursor=pointer]:
+              - /url: /marketing
+            - link "Investors" [ref=e316] [cursor=pointer]:
+              - /url: /investors-pool
+            - link "Technology" [ref=e317] [cursor=pointer]:
+              - /url: /tech
+```

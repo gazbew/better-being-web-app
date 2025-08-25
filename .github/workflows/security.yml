@@ -1,0 +1,230 @@
+name: Security Scanning
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+    # Run security scans daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+  security-events: write
+
+jobs:
+  # Dependency Security Audit
+  dependency-audit:
+    name: Dependency Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Frontend dependency audit
+        run: |
+          echo "🔍 Auditing frontend dependencies..."
+          npm audit --audit-level moderate --json > frontend-audit.json || true
+          npm audit --audit-level moderate
+
+      - name: Backend dependency audit
+        run: |
+          echo "🔍 Auditing backend dependencies..."
+          cd server
+          npm ci
+          npm audit --audit-level moderate --json > ../backend-audit.json || true
+          npm audit --audit-level moderate
+
+      - name: Process audit results
+        run: |
+          echo "📊 Processing audit results..."
+          
+          # Check for critical vulnerabilities
+          frontend_critical=$(jq '.vulnerabilities | to_entries | map(select(.value.severity == "critical")) | length' frontend-audit.json 2>/dev/null || echo "0")
+          backend_critical=$(jq '.vulnerabilities | to_entries | map(select(.value.severity == "critical")) | length' backend-audit.json 2>/dev/null || echo "0")
+          
+          echo "Frontend critical vulnerabilities: $frontend_critical"
+          echo "Backend critical vulnerabilities: $backend_critical"
+          
+          if [ "$frontend_critical" -gt 0 ] || [ "$backend_critical" -gt 0 ]; then
+            echo "❌ Critical vulnerabilities found!"
+            exit 1
+          else
+            echo "✅ No critical vulnerabilities found"
+          fi
+
+      - name: Upload audit results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: security-audit-results
+          path: |
+            frontend-audit.json
+            backend-audit.json
+
+  # SAST - Static Application Security Testing
+  sast-scan:
+    name: Static Application Security Testing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run CodeQL Analysis
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+          queries: security-and-quality
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+
+  # Secret Scanning
+  secret-scan:
+    name: Secret Detection
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run TruffleHog OSS
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: master
+          head: HEAD
+          extra_args: --debug --only-verified
+
+  # License Compliance
+  license-check:
+    name: License Compliance
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          cd server && npm ci
+
+      - name: Install license checker
+        run: npm install -g license-checker
+
+      - name: Check frontend licenses
+        run: |
+          echo "📄 Checking frontend licenses..."
+          license-checker --onlyAllow "MIT;Apache-2.0;BSD;BSD-2-Clause;BSD-3-Clause;ISC;CC0-1.0;Unlicense" --excludePrivatePackages > frontend-licenses.txt || true
+          
+      - name: Check backend licenses
+        run: |
+          echo "📄 Checking backend licenses..."
+          cd server
+          license-checker --onlyAllow "MIT;Apache-2.0;BSD;BSD-2-Clause;BSD-3-Clause;ISC;CC0-1.0;Unlicense" --excludePrivatePackages > ../backend-licenses.txt || true
+
+      - name: Upload license reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: license-reports
+          path: |
+            frontend-licenses.txt
+            backend-licenses.txt
+
+  # Container Security (Future)
+  container-scan:
+    name: Container Security Scan
+    runs-on: ubuntu-latest
+    if: false  # Disabled until Docker implementation
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          echo "🐳 Building Docker image for security scan..."
+          # docker build -t better-being:latest .
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'better-being:latest'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy scan results
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  # Security Summary
+  security-summary:
+    name: Security Summary
+    runs-on: ubuntu-latest
+    needs: [dependency-audit, sast-scan, secret-scan, license-check]
+    if: always()
+    steps:
+      - name: Generate security summary
+        run: |
+          echo "🛡️ Security Scan Summary"
+          echo "========================"
+          echo ""
+          
+          if [ "${{ needs.dependency-audit.result }}" = "success" ]; then
+            echo "✅ Dependency audit: PASSED"
+          else
+            echo "❌ Dependency audit: FAILED"
+          fi
+          
+          if [ "${{ needs.sast-scan.result }}" = "success" ]; then
+            echo "✅ SAST scan: PASSED"
+          else
+            echo "❌ SAST scan: FAILED"
+          fi
+          
+          if [ "${{ needs.secret-scan.result }}" = "success" ]; then
+            echo "✅ Secret scan: PASSED"
+          else
+            echo "❌ Secret scan: FAILED"
+          fi
+          
+          if [ "${{ needs.license-check.result }}" = "success" ]; then
+            echo "✅ License check: PASSED"
+          else
+            echo "❌ License check: FAILED"
+          fi
+          
+          echo ""
+          echo "📊 View detailed results in the workflow artifacts and security tab"
+
+      - name: Fail on critical issues
+        run: |
+          if [ "${{ needs.dependency-audit.result }}" = "failure" ] || [ "${{ needs.secret-scan.result }}" = "failure" ]; then
+            echo "❌ Critical security issues detected!"
+            echo "Please review and address the security findings before proceeding."
+            exit 1
+          fi
+          echo "✅ No critical security issues detected"

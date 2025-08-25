@@ -1,0 +1,485 @@
+/**
+ * Brand Typography System
+ * Better Being brand-specific typography definitions
+ * Based on Brand Bible BB-4 specifications
+ */
+
+/* =============================================================================
+   FONT FAMILY DEFINITIONS
+   ============================================================================= */
+
+:root {
+  /* Brand Font Families */
+  --bb-font-primary: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --bb-font-secondary: 'League Spartan', 'Helvetica Neue', Arial, sans-serif;
+  --bb-font-body: 'League Spartan', 'Helvetica Neue', Arial, sans-serif;
+  --bb-font-ui: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  
+  /* Font Weight Scale */
+  --bb-font-weight-thin: 100;
+  --bb-font-weight-extralight: 200;
+  --bb-font-weight-light: 300;
+  --bb-font-weight-normal: 400;
+  --bb-font-weight-medium: 500;
+  --bb-font-weight-semibold: 600;
+  --bb-font-weight-bold: 700;
+  --bb-font-weight-extrabold: 800;
+  --bb-font-weight-black: 900;
+  
+  /* =============================================================================
+     TYPOGRAPHY SCALE - Modular Scale 1.250 (Major Third)
+     ============================================================================= */
+  
+  /* Font Sizes */
+  --bb-text-xs: 0.75rem;      /* 12px */
+  --bb-text-sm: 0.875rem;     /* 14px */
+  --bb-text-base: 1rem;       /* 16px */
+  --bb-text-lg: 1.125rem;     /* 18px */
+  --bb-text-xl: 1.25rem;      /* 20px */
+  --bb-text-2xl: 1.5rem;      /* 24px */
+  --bb-text-3xl: 1.875rem;    /* 30px */
+  --bb-text-4xl: 2.25rem;     /* 36px */
+  --bb-text-5xl: 3rem;        /* 48px */
+  --bb-text-6xl: 3.75rem;     /* 60px */
+  --bb-text-7xl: 4.5rem;      /* 72px */
+  --bb-text-8xl: 6rem;        /* 96px */
+  --bb-text-9xl: 8rem;        /* 128px */
+  
+  /* Line Heights */
+  --bb-leading-none: 1;
+  --bb-leading-tight: 1.25;
+  --bb-leading-snug: 1.375;
+  --bb-leading-normal: 1.5;
+  --bb-leading-relaxed: 1.625;
+  --bb-leading-loose: 2;
+  
+  /* Letter Spacing - Brand Bible Specifications */
+  --bb-tracking-brand: 0.088em;    /* 88pt as per Brand Bible for headings */
+  --bb-tracking-body: 0em;         /* 0pt for body text */
+  --bb-tracking-tighter: -0.05em;
+  --bb-tracking-tight: -0.025em;
+  --bb-tracking-normal: 0em;
+  --bb-tracking-wide: 0.025em;
+  --bb-tracking-wider: 0.05em;
+  --bb-tracking-widest: 0.1em;
+  
+  /* =============================================================================
+     HEADING SYSTEM - Brand Hierarchy
+     ============================================================================= */
+  
+  /* Display Headings - Playfair Display */
+  --bb-heading-display-font: var(--bb-font-primary);
+  --bb-heading-display-weight: var(--bb-font-weight-bold);
+  --bb-heading-display-tracking: var(--bb-tracking-brand);
+  --bb-heading-display-leading: var(--bb-leading-tight);
+  
+  /* Section Headings - League Spartan */
+  --bb-heading-section-font: var(--bb-font-secondary);
+  --bb-heading-section-weight: var(--bb-font-weight-semibold);
+  --bb-heading-section-tracking: var(--bb-tracking-wide);
+  --bb-heading-section-leading: var(--bb-leading-snug);
+  
+  /* Subheadings - League Spartan */
+  --bb-heading-sub-font: var(--bb-font-secondary);
+  --bb-heading-sub-weight: var(--bb-font-weight-medium);
+  --bb-heading-sub-tracking: var(--bb-tracking-normal);
+  --bb-heading-sub-leading: var(--bb-leading-normal);
+  
+  /* =============================================================================
+     BODY TEXT SYSTEM
+     ============================================================================= */
+  
+  /* Body Text - League Spartan */
+  --bb-body-font: var(--bb-font-body);
+  --bb-body-weight: var(--bb-font-weight-normal);
+  --bb-body-tracking: var(--bb-tracking-body);
+  --bb-body-leading: var(--bb-leading-relaxed);
+  
+  /* UI Text - Inter */
+  --bb-ui-font: var(--bb-font-ui);
+  --bb-ui-weight: var(--bb-font-weight-normal);
+  --bb-ui-tracking: var(--bb-tracking-normal);
+  --bb-ui-leading: var(--bb-leading-normal);
+}
+
+/* =============================================================================
+   FONT LOADING OPTIMIZATION
+   ============================================================================= */
+
+/* Preload critical fonts */
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
+}
+
+@font-face {
+  font-family: 'League Spartan';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&display=swap');
+}
+
+/* =============================================================================
+   TYPOGRAPHY UTILITY CLASSES
+   ============================================================================= */
+
+/* Font Family Utilities */
+.font-bb-primary { font-family: var(--bb-font-primary); }
+.font-bb-secondary { font-family: var(--bb-font-secondary); }
+.font-bb-body { font-family: var(--bb-font-body); }
+.font-bb-ui { font-family: var(--bb-font-ui); }
+
+/* Font Size Utilities */
+.text-bb-xs { font-size: var(--bb-text-xs); }
+.text-bb-sm { font-size: var(--bb-text-sm); }
+.text-bb-base { font-size: var(--bb-text-base); }
+.text-bb-lg { font-size: var(--bb-text-lg); }
+.text-bb-xl { font-size: var(--bb-text-xl); }
+.text-bb-2xl { font-size: var(--bb-text-2xl); }
+.text-bb-3xl { font-size: var(--bb-text-3xl); }
+.text-bb-4xl { font-size: var(--bb-text-4xl); }
+.text-bb-5xl { font-size: var(--bb-text-5xl); }
+.text-bb-6xl { font-size: var(--bb-text-6xl); }
+.text-bb-7xl { font-size: var(--bb-text-7xl); }
+.text-bb-8xl { font-size: var(--bb-text-8xl); }
+.text-bb-9xl { font-size: var(--bb-text-9xl); }
+
+/* Font Weight Utilities */
+.font-bb-thin { font-weight: var(--bb-font-weight-thin); }
+.font-bb-extralight { font-weight: var(--bb-font-weight-extralight); }
+.font-bb-light { font-weight: var(--bb-font-weight-light); }
+.font-bb-normal { font-weight: var(--bb-font-weight-normal); }
+.font-bb-medium { font-weight: var(--bb-font-weight-medium); }
+.font-bb-semibold { font-weight: var(--bb-font-weight-semibold); }
+.font-bb-bold { font-weight: var(--bb-font-weight-bold); }
+.font-bb-extrabold { font-weight: var(--bb-font-weight-extrabold); }
+.font-bb-black { font-weight: var(--bb-font-weight-black); }
+
+/* Line Height Utilities */
+.leading-bb-none { line-height: var(--bb-leading-none); }
+.leading-bb-tight { line-height: var(--bb-leading-tight); }
+.leading-bb-snug { line-height: var(--bb-leading-snug); }
+.leading-bb-normal { line-height: var(--bb-leading-normal); }
+.leading-bb-relaxed { line-height: var(--bb-leading-relaxed); }
+.leading-bb-loose { line-height: var(--bb-leading-loose); }
+
+/* Letter Spacing Utilities */
+.tracking-bb-brand { letter-spacing: var(--bb-tracking-brand); }
+.tracking-bb-body { letter-spacing: var(--bb-tracking-body); }
+.tracking-bb-tighter { letter-spacing: var(--bb-tracking-tighter); }
+.tracking-bb-tight { letter-spacing: var(--bb-tracking-tight); }
+.tracking-bb-normal { letter-spacing: var(--bb-tracking-normal); }
+.tracking-bb-wide { letter-spacing: var(--bb-tracking-wide); }
+.tracking-bb-wider { letter-spacing: var(--bb-tracking-wider); }
+.tracking-bb-widest { letter-spacing: var(--bb-tracking-widest); }
+
+/* =============================================================================
+   BRAND TYPOGRAPHY COMPONENTS
+   ============================================================================= */
+
+/* Display Headings - Hero sections */
+.bb-heading-display {
+  font-family: var(--bb-heading-display-font);
+  font-weight: var(--bb-heading-display-weight);
+  letter-spacing: var(--bb-heading-display-tracking);
+  line-height: var(--bb-heading-display-leading);
+  color: var(--bb-text-primary);
+}
+
+/* Section Headings - Major sections */
+.bb-heading-section {
+  font-family: var(--bb-heading-section-font);
+  font-weight: var(--bb-heading-section-weight);
+  letter-spacing: var(--bb-heading-section-tracking);
+  line-height: var(--bb-heading-section-leading);
+  color: var(--bb-text-primary);
+  text-transform: uppercase;
+}
+
+/* Subheadings - Subsections */
+.bb-heading-sub {
+  font-family: var(--bb-heading-sub-font);
+  font-weight: var(--bb-heading-sub-weight);
+  letter-spacing: var(--bb-heading-sub-tracking);
+  line-height: var(--bb-heading-sub-leading);
+  color: var(--bb-text-primary);
+}
+
+/* Body Text - Content */
+.bb-body {
+  font-family: var(--bb-body-font);
+  font-weight: var(--bb-body-weight);
+  letter-spacing: var(--bb-body-tracking);
+  line-height: var(--bb-body-leading);
+  color: var(--bb-text-secondary);
+}
+
+/* UI Text - Interface elements */
+.bb-ui {
+  font-family: var(--bb-ui-font);
+  font-weight: var(--bb-ui-weight);
+  letter-spacing: var(--bb-ui-tracking);
+  line-height: var(--bb-ui-leading);
+  color: var(--bb-text-secondary);
+}
+
+/* =============================================================================
+   HEADING HIERARCHY CLASSES
+   ============================================================================= */
+
+/* H1 - Hero/Display */
+.bb-h1 {
+  font-family: var(--bb-font-primary);
+  font-size: var(--bb-text-5xl);
+  font-weight: var(--bb-font-weight-bold);
+  letter-spacing: var(--bb-tracking-brand);
+  line-height: var(--bb-leading-tight);
+  color: var(--bb-text-primary);
+}
+
+/* H2 - Section Headings */
+.bb-h2 {
+  font-family: var(--bb-font-secondary);
+  font-size: var(--bb-text-3xl);
+  font-weight: var(--bb-font-weight-semibold);
+  letter-spacing: var(--bb-tracking-wide);
+  line-height: var(--bb-leading-snug);
+  color: var(--bb-text-primary);
+  text-transform: uppercase;
+}
+
+/* H3 - Subsection Headings */
+.bb-h3 {
+  font-family: var(--bb-font-secondary);
+  font-size: var(--bb-text-2xl);
+  font-weight: var(--bb-font-weight-medium);
+  letter-spacing: var(--bb-tracking-normal);
+  line-height: var(--bb-leading-normal);
+  color: var(--bb-text-primary);
+}
+
+/* H4 - Component Headings */
+.bb-h4 {
+  font-family: var(--bb-font-secondary);
+  font-size: var(--bb-text-xl);
+  font-weight: var(--bb-font-weight-medium);
+  letter-spacing: var(--bb-tracking-normal);
+  line-height: var(--bb-leading-normal);
+  color: var(--bb-text-primary);
+}
+
+/* H5 - Small Headings */
+.bb-h5 {
+  font-family: var(--bb-font-secondary);
+  font-size: var(--bb-text-lg);
+  font-weight: var(--bb-font-weight-medium);
+  letter-spacing: var(--bb-tracking-normal);
+  line-height: var(--bb-leading-normal);
+  color: var(--bb-text-secondary);
+}
+
+/* H6 - Micro Headings */
+.bb-h6 {
+  font-family: var(--bb-font-secondary);
+  font-size: var(--bb-text-base);
+  font-weight: var(--bb-font-weight-semibold);
+  letter-spacing: var(--bb-tracking-wide);
+  line-height: var(--bb-leading-normal);
+  color: var(--bb-text-secondary);
+  text-transform: uppercase;
+}
+
+/* =============================================================================
+   BODY TEXT VARIANTS
+   ============================================================================= */
+
+/* Large Body Text */
+.bb-body-xl {
+  font-family: var(--bb-font-body);
+  font-size: var(--bb-text-xl);
+  font-weight: var(--bb-font-weight-normal);
+  letter-spacing: var(--bb-tracking-body);
+  line-height: var(--bb-leading-relaxed);
+  color: var(--bb-text-secondary);
+}
+
+/* Default Body Text */
+.bb-body-lg {
+  font-family: var(--bb-font-body);
+  font-size: var(--bb-text-lg);
+  font-weight: var(--bb-font-weight-normal);
+  letter-spacing: var(--bb-tracking-body);
+  line-height: var(--bb-leading-relaxed);
+  color: var(--bb-text-secondary);
+}
+
+/* Standard Body Text */
+.bb-body-md {
+  font-family: var(--bb-font-body);
+  font-size: var(--bb-text-base);
+  font-weight: var(--bb-font-weight-normal);
+  letter-spacing: var(--bb-tracking-body);
+  line-height: var(--bb-leading-relaxed);
+  color: var(--bb-text-secondary);
+}
+
+/* Small Body Text */
+.bb-body-sm {
+  font-family: var(--bb-font-body);
+  font-size: var(--bb-text-sm);
+  font-weight: var(--bb-font-weight-normal);
+  letter-spacing: var(--bb-tracking-body);
+  line-height: var(--bb-leading-normal);
+  color: var(--bb-text-tertiary);
+}
+
+/* Caption Text */
+.bb-body-xs {
+  font-family: var(--bb-font-ui);
+  font-size: var(--bb-text-xs);
+  font-weight: var(--bb-font-weight-normal);
+  letter-spacing: var(--bb-tracking-normal);
+  line-height: var(--bb-leading-normal);
+  color: var(--bb-text-tertiary);
+}
+
+/* =============================================================================
+   RESPONSIVE TYPOGRAPHY
+   ============================================================================= */
+
+/* Mobile-first responsive headings */
+@media (max-width: 640px) {
+  .bb-h1 {
+    font-size: var(--bb-text-4xl);
+    letter-spacing: var(--bb-tracking-normal);
+  }
+  
+  .bb-h2 {
+    font-size: var(--bb-text-2xl);
+  }
+  
+  .bb-h3 {
+    font-size: var(--bb-text-xl);
+  }
+  
+  .bb-heading-display {
+    font-size: var(--bb-text-4xl);
+    letter-spacing: var(--bb-tracking-normal);
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .bb-h1 {
+    font-size: var(--bb-text-5xl);
+  }
+  
+  .bb-heading-display {
+    font-size: var(--bb-text-5xl);
+  }
+}
+
+@media (min-width: 1025px) {
+  .bb-h1 {
+    font-size: var(--bb-text-6xl);
+  }
+  
+  .bb-heading-display {
+    font-size: var(--bb-text-6xl);
+  }
+}
+
+/* =============================================================================
+   SPECIAL TYPOGRAPHY EFFECTS
+   ============================================================================= */
+
+/* Brand emphasis text */
+.bb-emphasis {
+  font-family: var(--bb-font-primary);
+  font-style: italic;
+  color: var(--bb-orange);
+}
+
+/* Quote text */
+.bb-quote {
+  font-family: var(--bb-font-primary);
+  font-size: var(--bb-text-lg);
+  font-style: italic;
+  line-height: var(--bb-leading-relaxed);
+  color: var(--bb-text-secondary);
+  border-left: 4px solid var(--bb-orange);
+  padding-left: 1rem;
+}
+
+/* Label text - for forms and UI */
+.bb-label {
+  font-family: var(--bb-font-secondary);
+  font-size: var(--bb-text-sm);
+  font-weight: var(--bb-font-weight-semibold);
+  letter-spacing: var(--bb-tracking-wide);
+  text-transform: uppercase;
+  color: var(--bb-text-secondary);
+}
+
+/* Button text */
+.bb-button-text {
+  font-family: var(--bb-font-secondary);
+  font-weight: var(--bb-font-weight-semibold);
+  letter-spacing: var(--bb-tracking-wide);
+  text-transform: uppercase;
+}
+
+/* =============================================================================
+   ACCESSIBILITY SUPPORT
+   ============================================================================= */
+
+/* High contrast mode adjustments */
+@media (prefers-contrast: high) {
+  .bb-heading-display,
+  .bb-heading-section,
+  .bb-heading-sub,
+  .bb-h1, .bb-h2, .bb-h3, .bb-h4, .bb-h5, .bb-h6 {
+    color: var(--bb-text-primary);
+    font-weight: var(--bb-font-weight-bold);
+  }
+  
+  .bb-body,
+  .bb-body-xl, .bb-body-lg, .bb-body-md, .bb-body-sm, .bb-body-xs {
+    color: var(--bb-text-primary);
+  }
+}
+
+/* Print styles */
+@media print {
+  .bb-heading-display,
+  .bb-heading-section,
+  .bb-heading-sub,
+  .bb-h1, .bb-h2, .bb-h3, .bb-h4, .bb-h5, .bb-h6 {
+    color: #000000;
+    page-break-after: avoid;
+  }
+  
+  .bb-body,
+  .bb-body-xl, .bb-body-lg, .bb-body-md, .bb-body-sm, .bb-body-xs {
+    color: #000000;
+  }
+  
+  .bb-quote {
+    border-left-color: #000000;
+  }
+}
+
+/* Reduced motion - remove any text animations */
+@media (prefers-reduced-motion: reduce) {
+  .bb-heading-display,
+  .bb-heading-section,
+  .bb-heading-sub,
+  .bb-h1, .bb-h2, .bb-h3, .bb-h4, .bb-h5, .bb-h6,
+  .bb-body, .bb-body-xl, .bb-body-lg, .bb-body-md, .bb-body-sm, .bb-body-xs {
+    transition: none;
+    animation: none;
+  }
+}

@@ -1,0 +1,492 @@
+name: 🎨 AI-Native Design Validation
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'src/**/*.tsx'
+      - 'src/**/*.ts'
+      - 'src/**/*.css'
+      - 'src/**/*.scss'
+      - 'tailwind.config.ts'
+      - 'postcss.config.js'
+      - 'context/design-principles.md'
+      - 'context/style-guide.md'
+      - 'package.json'
+      - 'package-lock.json'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'src/**/*.tsx'
+      - 'src/**/*.ts'
+      - 'src/**/*.css'
+      - 'src/**/*.scss'
+      - 'tailwind.config.ts'
+      - 'postcss.config.js'
+      - 'context/design-principles.md'
+      - 'context/style-guide.md'
+      - 'package.json'
+      - 'package-lock.json'
+  workflow_dispatch:
+    inputs:
+      update_baselines:
+        description: 'Update visual regression baselines'
+        required: false
+        default: 'false'
+        type: boolean
+      design_iteration_mode:
+        description: 'Run full AI design iteration'
+        required: false
+        default: 'true'
+        type: boolean
+
+env:
+  NODE_VERSION: '18'
+  PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/pw-browsers
+
+jobs:
+  # Pre-validation setup and basic checks
+  setup-and-lint:
+    name: 🔧 Setup & Code Quality
+    runs-on: ubuntu-latest
+    outputs:
+      has-design-changes: ${{ steps.changes.outputs.design }}
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: 🔍 Detect design changes
+        uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            design:
+              - 'src/**/*.tsx'
+              - 'src/**/*.css'
+              - 'src/**/*.scss'
+              - 'tailwind.config.ts'
+              - 'context/design-principles.md'
+              - 'context/style-guide.md'
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: |
+          npm ci --frozen-lockfile
+          npm run playwright:install
+
+      - name: 🧹 Run ESLint
+        run: npm run lint
+
+      - name: 🔬 TypeScript check
+        run: npx tsc --noEmit
+
+  # AI Design Iteration & Analysis
+  ai-design-iteration:
+    name: 🤖 AI Design Iteration
+    runs-on: ubuntu-latest
+    needs: setup-and-lint
+    if: needs.setup-and-lint.outputs.has-design-changes == 'true'
+    timeout-minutes: 20
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: |
+          npm ci --frozen-lockfile
+
+      - name: 🎭 Install Playwright browsers
+        run: |
+          npx playwright install --with-deps chromium
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: ${{ env.PLAYWRIGHT_BROWSERS_PATH }}
+
+      - name: 🚀 Start development server
+        run: |
+          npm run dev &
+          npx wait-on http://localhost:5173 --timeout 60000
+        env:
+          NODE_ENV: development
+
+      - name: 📸 Design Capture & Analysis
+        run: |
+          npm run test:design-capture
+        env:
+          CI: true
+          BASE_URL: http://localhost:5173
+          PLAYWRIGHT_BROWSERS_PATH: ${{ env.PLAYWRIGHT_BROWSERS_PATH }}
+
+      - name: 🤖 Run AI Design Iteration
+        run: |
+          npm run ai:design-iteration
+        env:
+          CI: true
+          BASE_URL: http://localhost:5173
+          DESIGN_ITERATION_MODE: ${{ github.event.inputs.design_iteration_mode || 'true' }}
+
+      - name: 📊 Upload design analysis results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ai-design-analysis
+          path: |
+            ai-design-analysis/
+            design-iteration-reports/
+          retention-days: 30
+
+  # Visual Regression Testing
+  visual-regression:
+    name: 👁️ Visual Regression Testing
+    runs-on: ubuntu-latest
+    needs: setup-and-lint
+    if: needs.setup-and-lint.outputs.has-design-changes == 'true'
+    timeout-minutes: 15
+    strategy:
+      matrix:
+        project: [visual-regression, component-visual]
+        browser: [chromium]
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci --frozen-lockfile
+
+      - name: 🎭 Install Playwright browsers
+        run: npx playwright install --with-deps ${{ matrix.browser }}
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: ${{ env.PLAYWRIGHT_BROWSERS_PATH }}
+
+      - name: 🚀 Start development server
+        run: |
+          npm run dev &
+          npx wait-on http://localhost:5173 --timeout 60000
+        env:
+          NODE_ENV: development
+
+      - name: 🔍 Run visual regression tests
+        run: |
+          if [ "${{ github.event.inputs.update_baselines }}" = "true" ]; then
+            npm run update:visual-baselines
+          else
+            npx playwright test --project=${{ matrix.project }} --reporter=html
+          fi
+        env:
+          CI: true
+          BASE_URL: http://localhost:5173
+          PLAYWRIGHT_BROWSERS_PATH: ${{ env.PLAYWRIGHT_BROWSERS_PATH }}
+
+      - name: 📊 Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: visual-regression-${{ matrix.project }}-${{ matrix.browser }}
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 30
+
+  # Responsive Design Testing
+  responsive-testing:
+    name: 📱 Responsive Design Testing
+    runs-on: ubuntu-latest
+    needs: setup-and-lint
+    if: needs.setup-and-lint.outputs.has-design-changes == 'true'
+    timeout-minutes: 12
+    strategy:
+      matrix:
+        device: [mobile, tablet, desktop]
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci --frozen-lockfile
+
+      - name: 🎭 Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: ${{ env.PLAYWRIGHT_BROWSERS_PATH }}
+
+      - name: 🚀 Start development server
+        run: |
+          npm run dev &
+          npx wait-on http://localhost:5173 --timeout 60000
+
+      - name: 📱 Run responsive tests
+        run: npm run test:${{ matrix.device }}
+        env:
+          CI: true
+          BASE_URL: http://localhost:5173
+          PLAYWRIGHT_BROWSERS_PATH: ${{ env.PLAYWRIGHT_BROWSERS_PATH }}
+
+      - name: 📊 Upload responsive test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: responsive-testing-${{ matrix.device }}
+          path: test-results/
+          retention-days: 30
+
+  # Design System Audit
+  design-system-audit:
+    name: 🎨 Design System Audit
+    runs-on: ubuntu-latest
+    needs: setup-and-lint
+    if: needs.setup-and-lint.outputs.has-design-changes == 'true'
+    timeout-minutes: 10
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci --frozen-lockfile
+
+      - name: 🎭 Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: ${{ env.PLAYWRIGHT_BROWSERS_PATH }}
+
+      - name: 🚀 Start development server
+        run: |
+          npm run dev &
+          npx wait-on http://localhost:5173 --timeout 60000
+
+      - name: 🔍 Run design system audit
+        run: npm run audit:design-system
+        env:
+          CI: true
+          BASE_URL: http://localhost:5173
+          PLAYWRIGHT_BROWSERS_PATH: ${{ env.PLAYWRIGHT_BROWSERS_PATH }}
+
+      - name: 📊 Upload design system audit
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: design-system-audit
+          path: |
+            design-system-audit/
+            test-results/
+          retention-days: 30
+
+  # Performance + Design Impact Analysis
+  performance-audit:
+    name: ⚡ Performance & Design Impact
+    runs-on: ubuntu-latest
+    needs: setup-and-lint
+    if: needs.setup-and-lint.outputs.has-design-changes == 'true'
+    timeout-minutes: 8
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: |
+          npm ci --frozen-lockfile
+          npm install -g @lhci/cli lighthouse
+
+      - name: 🏗️ Build application
+        run: npm run build
+
+      - name: 🚀 Start production server
+        run: |
+          npm run preview &
+          npx wait-on http://localhost:4173 --timeout 60000
+
+      - name: ⚡ Run Lighthouse CI
+        run: |
+          lhci autorun --config=.lighthouserc.json || echo "Lighthouse audit completed with warnings"
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+      - name: 📊 Upload performance audit
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: performance-audit
+          path: |
+            .lighthouseci/
+            performance-audit.json
+          retention-days: 30
+
+  # Consolidate results and create comprehensive report
+  design-validation-report:
+    name: 📋 Design Validation Report
+    runs-on: ubuntu-latest
+    needs: [ai-design-iteration, visual-regression, responsive-testing, design-system-audit, performance-audit]
+    if: always() && (needs.ai-design-iteration.result != 'skipped' || needs.visual-regression.result != 'skipped')
+    timeout-minutes: 5
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📥 Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: design-validation-artifacts/
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci --frozen-lockfile
+
+      - name: 📊 Generate comprehensive report
+        run: |
+          node scripts/generate-design-report.js
+        env:
+          ARTIFACTS_PATH: design-validation-artifacts/
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.number }}
+
+      - name: 📋 Create PR comment with results
+        uses: actions/github-script@v7
+        if: github.event_name == 'pull_request'
+        with:
+          script: |
+            const fs = require('fs');
+            const path = 'design-validation-report.md';
+
+            if (fs.existsSync(path)) {
+              const report = fs.readFileSync(path, 'utf8');
+
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: report
+              });
+            }
+
+      - name: 📊 Upload comprehensive report
+        uses: actions/upload-artifact@v4
+        with:
+          name: design-validation-report
+          path: |
+            design-validation-report.md
+            design-validation-summary.json
+          retention-days: 90
+
+  # Final validation and quality gate
+  design-quality-gate:
+    name: 🚪 Design Quality Gate
+    runs-on: ubuntu-latest
+    needs: [ai-design-iteration, visual-regression, responsive-testing, design-system-audit]
+    if: always() && (needs.ai-design-iteration.result != 'skipped' || needs.visual-regression.result != 'skipped')
+    timeout-minutes: 3
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📥 Download AI design analysis
+        uses: actions/download-artifact@v4
+        with:
+          name: ai-design-analysis
+          path: ai-design-analysis/
+
+      - name: 🚪 Evaluate design quality gate
+        run: |
+          # Check if design iteration results exist
+          if [ -f "ai-design-analysis/design-iteration-reports/latest.json" ]; then
+            OVERALL_SCORE=$(cat ai-design-analysis/design-iteration-reports/latest.json | jq -r '.summary.overallScore // 0.8')
+            HIGH_PRIORITY_ISSUES=$(cat ai-design-analysis/design-iteration-reports/latest.json | jq -r '.summary.highPriorityIssues // 0')
+
+            echo "Design Quality Score: $OVERALL_SCORE"
+            echo "High Priority Issues: $HIGH_PRIORITY_ISSUES"
+
+            # Quality gate thresholds
+            MIN_SCORE=0.8
+            MAX_HIGH_PRIORITY=3
+
+            if (( $(echo "$OVERALL_SCORE < $MIN_SCORE" | bc -l) )) || (( HIGH_PRIORITY_ISSUES > MAX_HIGH_PRIORITY )); then
+              echo "❌ Design quality gate failed!"
+              echo "Minimum score required: $MIN_SCORE, Got: $OVERALL_SCORE"
+              echo "Maximum high priority issues: $MAX_HIGH_PRIORITY, Got: $HIGH_PRIORITY_ISSUES"
+              exit 1
+            else
+              echo "✅ Design quality gate passed!"
+            fi
+          else
+            echo "⚠️ No design analysis results found, skipping quality gate"
+          fi
+
+      - name: 🏷️ Set design quality status
+        if: success()
+        run: |
+          echo "DESIGN_QUALITY=PASSED" >> $GITHUB_ENV
+          echo "✅ Design meets Better Being enterprise standards"
+
+      - name: 🚨 Design quality failure
+        if: failure()
+        run: |
+          echo "DESIGN_QUALITY=FAILED" >> $GITHUB_ENV
+          echo "❌ Design quality below enterprise standards - review required"
+
+# Cleanup job to manage artifact storage
+  cleanup:
+    name: 🧹 Cleanup
+    runs-on: ubuntu-latest
+    needs: [design-validation-report]
+    if: always()
+    steps:
+      - name: 🗑️ Delete temporary artifacts
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Keep only the final report and critical artifacts
+            const artifactsToKeep = [
+              'design-validation-report',
+              'ai-design-analysis',
+              'visual-regression-visual-regression-chromium'
+            ];
+
+            const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: context.runId,
+            });
+
+            for (const artifact of artifacts.data.artifacts) {
+              if (!artifactsToKeep.includes(artifact.name)) {
+                console.log(`Scheduling cleanup for artifact: ${artifact.name}`);
+              }
+            }

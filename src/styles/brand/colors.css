@@ -1,0 +1,562 @@
+/**
+ * Brand Color System
+ * Better Being brand-specific color definitions and utilities
+ * Based on Brand Bible BB-4 specifications
+ */
+
+:root {
+    /* =============================================================================
+     BRAND PRIMARY COLORS - Better Being Core Palette
+     ============================================================================= */
+
+    /* Better Being Orange - Primary Brand Color */
+    --bb-orange-50: #fff7ed;
+    --bb-orange-100: #ffedd5;
+    --bb-orange-200: #fed7aa;
+    --bb-orange-300: #fdba74;
+    --bb-orange-400: #fb923c;
+    --bb-orange-500: #bb4500; /* Primary Brand Color - Mahogany */
+    --bb-orange-600: #b34e16;
+    --bb-orange-700: #9a4412;
+    --bb-orange-800: #7c2d12;
+    --bb-orange-900: #431407;
+    --bb-orange-950: #1a0b05;
+    --bb-orange: var(--bb-orange-500);
+
+    /* Champagne - Secondary Brand Color */
+    --bb-champagne-50: #fefdfb;
+    --bb-champagne-100: #fdf9f3;
+    --bb-champagne-200: #fbf3e7;
+    --bb-champagne-300: #f8ecda;
+    --bb-champagne-400: #f6e6ce;
+    --bb-champagne-500: #f5f0e8; /* Primary Champagne */
+    --bb-champagne-600: #e8d5c1;
+    --bb-champagne-700: #dbba9a;
+    --bb-champagne-800: #ce9f73;
+    --bb-champagne-900: #a67c58;
+    --bb-champagne-950: #52392b;
+    --bb-champagne: var(--bb-champagne-500);
+
+    /* Fresh Green - Accent Color */
+    --bb-green-50: #f7fee7;
+    --bb-green-100: #ecfccb;
+    --bb-green-200: #d9f99d;
+    --bb-green-300: #bef264;
+    --bb-green-400: #a3e635;
+    --bb-green-500: #84cc16; /* Primary Green */
+    --bb-green-600: #65a30d;
+    --bb-green-700: #4d7c0f;
+    --bb-green-800: #365314;
+    --bb-green-900: #1a2e05;
+    --bb-green-950: #0d1702;
+    --bb-green: var(--bb-green-500);
+
+    /* Patsy Gray - Neutral Color */
+    --bb-gray-50: #f9fafb;
+    --bb-gray-100: #f3f4f6;
+    --bb-gray-200: #e5e7eb;
+    --bb-gray-300: #d1d5db;
+    --bb-gray-400: #9ca3af;
+    --bb-gray-500: #6b7280; /* Primary Gray */
+    --bb-gray-600: #4b5563;
+    --bb-gray-700: #374151;
+    --bb-gray-800: #1f2937;
+    --bb-gray-900: #111827;
+    --bb-gray-950: #030712;
+    --bb-gray: var(--bb-gray-500);
+
+    /* Black Bean - Deep Neutral */
+    --bb-black-bean-50: #f8fafc;
+    --bb-black-bean-100: #f1f5f9;
+    --bb-black-bean-200: #e2e8f0;
+    --bb-black-bean-300: #cbd5e1;
+    --bb-black-bean-400: #94a3b8;
+    --bb-black-bean-500: #64748b;
+    --bb-black-bean-600: #475569;
+    --bb-black-bean-700: #334155;
+    --bb-black-bean-800: #1e293b;
+    --bb-black-bean-900: #1f2937; /* Primary Black Bean */
+    --bb-black-bean-950: #0f172a;
+    --bb-black-bean: var(--bb-black-bean-900);
+
+    /* =============================================================================
+     SEMANTIC COLORS - Contextual Color Meanings
+     ============================================================================= */
+
+    /* Success Colors - Green-based */
+    --bb-success-50: #f0fdf4;
+    --bb-success-100: #dcfce7;
+    --bb-success-200: #bbf7d0;
+    --bb-success-300: #86efac;
+    --bb-success-400: #4ade80;
+    --bb-success-500: #22c55e;
+    --bb-success-600: #16a34a;
+    --bb-success-700: #15803d;
+    --bb-success-800: #166534;
+    --bb-success-900: #14532d;
+    --bb-success: var(--bb-success-500);
+
+    /* Warning Colors - Orange-based */
+    --bb-warning-50: #fffbeb;
+    --bb-warning-100: #fef3c7;
+    --bb-warning-200: #fde68a;
+    --bb-warning-300: #fcd34d;
+    --bb-warning-400: #fbbf24;
+    --bb-warning-500: #f59e0b;
+    --bb-warning-600: #d97706;
+    --bb-warning-700: #b45309;
+    --bb-warning-800: #92400e;
+    --bb-warning-900: #78350f;
+    --bb-warning: var(--bb-warning-500);
+
+    /* Error Colors - Red-based */
+    --bb-error-50: #fef2f2;
+    --bb-error-100: #fee2e2;
+    --bb-error-200: #fecaca;
+    --bb-error-300: #fca5a5;
+    --bb-error-400: #f87171;
+    --bb-error-500: #ef4444;
+    --bb-error-600: #dc2626;
+    --bb-error-700: #b91c1c;
+    --bb-error-800: #991b1b;
+    --bb-error-900: #7f1d1d;
+    --bb-error: var(--bb-error-500);
+
+    /* Info Colors - Blue-based */
+    --bb-info-50: #eff6ff;
+    --bb-info-100: #dbeafe;
+    --bb-info-200: #bfdbfe;
+    --bb-info-300: #93c5fd;
+    --bb-info-400: #60a5fa;
+    --bb-info-500: #3b82f6;
+    --bb-info-600: #2563eb;
+    --bb-info-700: #1d4ed8;
+    --bb-info-800: #1e40af;
+    --bb-info-900: #1e3a8a;
+    --bb-info: var(--bb-info-500);
+
+    /* =============================================================================
+     THEME COLORS - Light and Dark Mode Support
+     ============================================================================= */
+
+    /* Light Theme Colors */
+    --bb-light-bg-primary: var(--bb-champagne-50);
+    --bb-light-bg-secondary: #ffffff;
+    --bb-light-bg-tertiary: var(--bb-champagne-100);
+    --bb-light-text-primary: var(--bb-black-bean);
+    --bb-light-text-secondary: var(--bb-gray-700);
+    --bb-light-text-tertiary: var(--bb-gray-500);
+    --bb-light-border-primary: var(--bb-gray-200);
+    --bb-light-border-secondary: var(--bb-gray-100);
+    --bb-light-shadow: rgba(31, 41, 55, 0.1);
+
+    /* Dark Theme Colors */
+    --bb-dark-bg-primary: var(--bb-black-bean-900);
+    --bb-dark-bg-secondary: var(--bb-black-bean-800);
+    --bb-dark-bg-tertiary: var(--bb-black-bean-700);
+    --bb-dark-text-primary: var(--bb-champagne-50);
+    --bb-dark-text-secondary: var(--bb-gray-300);
+    --bb-dark-text-tertiary: var(--bb-gray-400);
+    --bb-dark-border-primary: var(--bb-gray-700);
+    --bb-dark-border-secondary: var(--bb-gray-800);
+    --bb-dark-shadow: rgba(0, 0, 0, 0.3);
+
+    /* =============================================================================
+     ACTIVE THEME COLORS - Default to Light Theme
+     ============================================================================= */
+
+    --bb-bg-primary: var(--bb-light-bg-primary);
+    --bb-bg-secondary: var(--bb-light-bg-secondary);
+    --bb-bg-tertiary: var(--bb-light-bg-tertiary);
+    --bb-text-primary: var(--bb-light-text-primary);
+    --bb-text-secondary: var(--bb-light-text-secondary);
+    --bb-text-tertiary: var(--bb-light-text-tertiary);
+    --bb-border-primary: var(--bb-light-border-primary);
+    --bb-border-secondary: var(--bb-light-border-secondary);
+    --bb-shadow: var(--bb-light-shadow);
+}
+
+/* =============================================================================
+   DARK MODE THEME SWITCHING
+   ============================================================================= */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bb-bg-primary: var(--bb-dark-bg-primary);
+        --bb-bg-secondary: var(--bb-dark-bg-secondary);
+        --bb-bg-tertiary: var(--bb-dark-bg-tertiary);
+        --bb-text-primary: var(--bb-dark-text-primary);
+        --bb-text-secondary: var(--bb-dark-text-secondary);
+        --bb-text-tertiary: var(--bb-dark-text-tertiary);
+        --bb-border-primary: var(--bb-dark-border-primary);
+        --bb-border-secondary: var(--bb-dark-border-secondary);
+        --bb-shadow: var(--bb-dark-shadow);
+    }
+}
+
+/* Manual dark mode class override */
+.dark {
+    --bb-bg-primary: var(--bb-dark-bg-primary);
+    --bb-bg-secondary: var(--bb-dark-bg-secondary);
+    --bb-bg-tertiary: var(--bb-dark-bg-tertiary);
+    --bb-text-primary: var(--bb-dark-text-primary);
+    --bb-text-secondary: var(--bb-dark-text-secondary);
+    --bb-text-tertiary: var(--bb-dark-text-tertiary);
+    --bb-border-primary: var(--bb-dark-border-primary);
+    --bb-border-secondary: var(--bb-dark-border-secondary);
+    --bb-shadow: var(--bb-dark-shadow);
+}
+
+/* =============================================================================
+   COLOR UTILITY CLASSES
+   ============================================================================= */
+
+/* Background Colors - Brand */
+.bg-bb-orange {
+    background-color: var(--bb-orange);
+}
+.bg-bb-champagne {
+    background-color: var(--bb-champagne);
+}
+.bg-bb-green {
+    background-color: var(--bb-green);
+}
+.bg-bb-gray {
+    background-color: var(--bb-gray);
+}
+.bg-bb-black-bean {
+    background-color: var(--bb-black-bean);
+}
+
+/* Background Colors - Semantic */
+.bg-bb-success {
+    background-color: var(--bb-success);
+}
+.bg-bb-warning {
+    background-color: var(--bb-warning);
+}
+.bg-bb-error {
+    background-color: var(--bb-error);
+}
+.bg-bb-info {
+    background-color: var(--bb-info);
+}
+
+/* Background Colors - Theme */
+.bg-bb-primary {
+    background-color: var(--bb-bg-primary);
+}
+.bg-bb-secondary {
+    background-color: var(--bb-bg-secondary);
+}
+.bg-bb-tertiary {
+    background-color: var(--bb-bg-tertiary);
+}
+
+/* Text Colors - Brand */
+.text-bb-orange {
+    color: var(--bb-orange);
+}
+.text-bb-champagne {
+    color: var(--bb-champagne);
+}
+.text-bb-green {
+    color: var(--bb-green);
+}
+.text-bb-gray {
+    color: var(--bb-gray);
+}
+.text-bb-black-bean {
+    color: var(--bb-black-bean);
+}
+
+/* Text Colors - Semantic */
+.text-bb-success {
+    color: var(--bb-success);
+}
+.text-bb-warning {
+    color: var(--bb-warning);
+}
+.text-bb-error {
+    color: var(--bb-error);
+}
+.text-bb-info {
+    color: var(--bb-info);
+}
+
+/* Text Colors - Theme */
+.text-bb-primary {
+    color: var(--bb-text-primary);
+}
+.text-bb-secondary {
+    color: var(--bb-text-secondary);
+}
+.text-bb-tertiary {
+    color: var(--bb-text-tertiary);
+}
+
+/* Border Colors - Brand */
+.border-bb-orange {
+    border-color: var(--bb-orange);
+}
+.border-bb-champagne {
+    border-color: var(--bb-champagne);
+}
+.border-bb-green {
+    border-color: var(--bb-green);
+}
+.border-bb-gray {
+    border-color: var(--bb-gray);
+}
+.border-bb-black-bean {
+    border-color: var(--bb-black-bean);
+}
+
+/* Border Colors - Semantic */
+.border-bb-success {
+    border-color: var(--bb-success);
+}
+.border-bb-warning {
+    border-color: var(--bb-warning);
+}
+.border-bb-error {
+    border-color: var(--bb-error);
+}
+.border-bb-info {
+    border-color: var(--bb-info);
+}
+
+/* Border Colors - Theme */
+.border-bb-primary {
+    border-color: var(--bb-border-primary);
+}
+.border-bb-secondary {
+    border-color: var(--bb-border-secondary);
+}
+
+/* =============================================================================
+   BRAND COLOR PALETTE UTILITIES - Full Scale Access
+   ============================================================================= */
+
+/* Orange Scale */
+.bg-bb-orange-50 {
+    background-color: var(--bb-orange-50);
+}
+.bg-bb-orange-100 {
+    background-color: var(--bb-orange-100);
+}
+.bg-bb-orange-200 {
+    background-color: var(--bb-orange-200);
+}
+.bg-bb-orange-300 {
+    background-color: var(--bb-orange-300);
+}
+.bg-bb-orange-400 {
+    background-color: var(--bb-orange-400);
+}
+.bg-bb-orange-500 {
+    background-color: var(--bb-orange-500);
+}
+.bg-bb-orange-600 {
+    background-color: var(--bb-orange-600);
+}
+.bg-bb-orange-700 {
+    background-color: var(--bb-orange-700);
+}
+.bg-bb-orange-800 {
+    background-color: var(--bb-orange-800);
+}
+.bg-bb-orange-900 {
+    background-color: var(--bb-orange-900);
+}
+
+.text-bb-orange-50 {
+    color: var(--bb-orange-50);
+}
+.text-bb-orange-100 {
+    color: var(--bb-orange-100);
+}
+.text-bb-orange-200 {
+    color: var(--bb-orange-200);
+}
+.text-bb-orange-300 {
+    color: var(--bb-orange-300);
+}
+.text-bb-orange-400 {
+    color: var(--bb-orange-400);
+}
+.text-bb-orange-500 {
+    color: var(--bb-orange-500);
+}
+.text-bb-orange-600 {
+    color: var(--bb-orange-600);
+}
+.text-bb-orange-700 {
+    color: var(--bb-orange-700);
+}
+.text-bb-orange-800 {
+    color: var(--bb-orange-800);
+}
+.text-bb-orange-900 {
+    color: var(--bb-orange-900);
+}
+
+/* Champagne Scale */
+.bg-bb-champagne-50 {
+    background-color: var(--bb-champagne-50);
+}
+.bg-bb-champagne-100 {
+    background-color: var(--bb-champagne-100);
+}
+.bg-bb-champagne-200 {
+    background-color: var(--bb-champagne-200);
+}
+.bg-bb-champagne-300 {
+    background-color: var(--bb-champagne-300);
+}
+.bg-bb-champagne-400 {
+    background-color: var(--bb-champagne-400);
+}
+.bg-bb-champagne-500 {
+    background-color: var(--bb-champagne-500);
+}
+.bg-bb-champagne-600 {
+    background-color: var(--bb-champagne-600);
+}
+.bg-bb-champagne-700 {
+    background-color: var(--bb-champagne-700);
+}
+.bg-bb-champagne-800 {
+    background-color: var(--bb-champagne-800);
+}
+.bg-bb-champagne-900 {
+    background-color: var(--bb-champagne-900);
+}
+
+.text-bb-champagne-50 {
+    color: var(--bb-champagne-50);
+}
+.text-bb-champagne-100 {
+    color: var(--bb-champagne-100);
+}
+.text-bb-champagne-200 {
+    color: var(--bb-champagne-200);
+}
+.text-bb-champagne-300 {
+    color: var(--bb-champagne-300);
+}
+.text-bb-champagne-400 {
+    color: var(--bb-champagne-400);
+}
+.text-bb-champagne-500 {
+    color: var(--bb-champagne-500);
+}
+.text-bb-champagne-600 {
+    color: var(--bb-champagne-600);
+}
+.text-bb-champagne-700 {
+    color: var(--bb-champagne-700);
+}
+.text-bb-champagne-800 {
+    color: var(--bb-champagne-800);
+}
+.text-bb-champagne-900 {
+    color: var(--bb-champagne-900);
+}
+
+/* Green Scale */
+.bg-bb-green-50 {
+    background-color: var(--bb-green-50);
+}
+.bg-bb-green-100 {
+    background-color: var(--bb-green-100);
+}
+.bg-bb-green-200 {
+    background-color: var(--bb-green-200);
+}
+.bg-bb-green-300 {
+    color: var(--bb-green-300);
+}
+.bg-bb-green-400 {
+    background-color: var(--bb-green-400);
+}
+.bg-bb-green-500 {
+    background-color: var(--bb-green-500);
+}
+.bg-bb-green-600 {
+    background-color: var(--bb-green-600);
+}
+.bg-bb-green-700 {
+    background-color: var(--bb-green-700);
+}
+.bg-bb-green-800 {
+    background-color: var(--bb-green-800);
+}
+.bg-bb-green-900 {
+    background-color: var(--bb-green-900);
+}
+
+.text-bb-green-50 {
+    color: var(--bb-green-50);
+}
+.text-bb-green-100 {
+    color: var(--bb-green-100);
+}
+.text-bb-green-200 {
+    color: var(--bb-green-200);
+}
+.text-bb-green-300 {
+    color: var(--bb-green-300);
+}
+.text-bb-green-400 {
+    color: var(--bb-green-400);
+}
+.text-bb-green-500 {
+    color: var(--bb-green-500);
+}
+.text-bb-green-600 {
+    color: var(--bb-green-600);
+}
+.text-bb-green-700 {
+    color: var(--bb-green-700);
+}
+.text-bb-green-800 {
+    color: var(--bb-green-800);
+}
+.text-bb-green-900 {
+    color: var(--bb-green-900);
+}
+
+/* =============================================================================
+   ACCESSIBILITY AND CONTRAST UTILITIES
+   ============================================================================= */
+
+/* High contrast mode adjustments */
+@media (prefers-contrast: high) {
+    :root {
+        --bb-text-primary: var(--bb-black-bean-900);
+        --bb-text-secondary: var(--bb-black-bean-800);
+        --bb-border-primary: var(--bb-black-bean-600);
+        --bb-shadow: rgba(0, 0, 0, 0.5);
+    }
+
+    .dark {
+        --bb-text-primary: var(--bb-champagne-50);
+        --bb-text-secondary: var(--bb-champagne-100);
+        --bb-border-primary: var(--bb-champagne-300);
+    }
+}
+
+/* Print styles - ensure proper contrast */
+@media print {
+    :root {
+        --bb-bg-primary: #ffffff;
+        --bb-bg-secondary: #ffffff;
+        --bb-bg-tertiary: #f9fafb;
+        --bb-text-primary: #000000;
+        --bb-text-secondary: #374151;
+        --bb-text-tertiary: #6b7280;
+        --bb-border-primary: #d1d5db;
+        --bb-border-secondary: #e5e7eb;
+    }
+}

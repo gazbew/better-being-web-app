@@ -1,0 +1,342 @@
+name: Quality Gates
+
+on:
+  pull_request:
+    branches: [ master, develop ]
+  push:
+    branches: [ master, develop ]
+
+env:
+  NODE_VERSION: '18'
+  COVERAGE_THRESHOLD: 70
+  PERFORMANCE_BUDGET_MB: 5
+
+jobs:
+  # Code Quality Gate
+  code-quality:
+    name: Code Quality Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript compilation check
+        run: |
+          echo "🔍 Checking TypeScript compilation..."
+          npx tsc --noEmit --project tsconfig.json
+          echo "✅ TypeScript compilation successful"
+
+      - name: ESLint check with error reporting
+        run: |
+          echo "🔍 Running ESLint with quality gates..."
+          npx eslint . --format=github --max-warnings=0
+          echo "✅ ESLint passed with zero warnings"
+
+      - name: Prettier format check
+        run: |
+          echo "🔍 Checking code formatting..."
+          npx prettier --check "src/**/*.{ts,tsx,js,jsx,css,md,json}"
+          echo "✅ Code formatting is consistent"
+
+      - name: Code complexity analysis
+        run: |
+          echo "🔍 Analyzing code complexity..."
+          # Install and run complexity checker
+          npm install -g complexity-report
+          
+          # Check complexity for key files
+          find src -name "*.ts" -o -name "*.tsx" | head -10 | while read file; do
+            echo "Checking complexity for: $file"
+            cr "$file" --format json || echo "Could not analyze $file"
+          done
+          echo "✅ Complexity analysis completed"
+
+  # Test Coverage Gate
+  coverage-gate:
+    name: Test Coverage Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests with coverage
+        run: npm run test:coverage
+
+      - name: Coverage threshold check
+        run: |
+          echo "🔍 Checking coverage thresholds..."
+          
+          # Extract coverage percentages
+          if [ -f "coverage/coverage-summary.json" ]; then
+            lines=$(node -e "
+              const fs = require('fs');
+              const summary = JSON.parse(fs.readFileSync('./coverage/coverage-summary.json', 'utf8'));
+              console.log(summary.total.lines.pct);
+            ")
+            branches=$(node -e "
+              const fs = require('fs');
+              const summary = JSON.parse(fs.readFileSync('./coverage/coverage-summary.json', 'utf8'));
+              console.log(summary.total.branches.pct);
+            ")
+            functions=$(node -e "
+              const fs = require('fs');
+              const summary = JSON.parse(fs.readFileSync('./coverage/coverage-summary.json', 'utf8'));
+              console.log(summary.total.functions.pct);
+            ")
+            statements=$(node -e "
+              const fs = require('fs');
+              const summary = JSON.parse(fs.readFileSync('./coverage/coverage-summary.json', 'utf8'));
+              console.log(summary.total.statements.pct);
+            ")
+            
+            echo "📊 Coverage Report:"
+            echo "  Lines: ${lines}%"
+            echo "  Branches: ${branches}%"
+            echo "  Functions: ${functions}%"
+            echo "  Statements: ${statements}%"
+            echo ""
+            
+            # Check thresholds
+            threshold=${{ env.COVERAGE_THRESHOLD }}
+            
+            if (( $(echo "$lines >= $threshold" | bc -l) )); then
+              echo "✅ Line coverage ($lines%) meets threshold ($threshold%)"
+            else
+              echo "❌ Line coverage ($lines%) below threshold ($threshold%)"
+              exit 1
+            fi
+            
+            if (( $(echo "$branches >= $threshold" | bc -l) )); then
+              echo "✅ Branch coverage ($branches%) meets threshold ($threshold%)"
+            else
+              echo "❌ Branch coverage ($branches%) below threshold ($threshold%)"
+              exit 1
+            fi
+            
+            if (( $(echo "$functions >= $threshold" | bc -l) )); then
+              echo "✅ Function coverage ($functions%) meets threshold ($threshold%)"
+            else
+              echo "❌ Function coverage ($functions%) below threshold ($threshold%)"
+              exit 1
+            fi
+            
+          else
+            echo "❌ Coverage report not found"
+            exit 1
+          fi
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+
+  # Performance Gate
+  performance-gate:
+    name: Performance Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build for performance analysis
+        run: npm run build:frontend
+
+      - name: Bundle size analysis
+        run: |
+          echo "🔍 Analyzing bundle size..."
+          
+          # Check total build size
+          total_size_mb=$(du -sm dist | cut -f1)
+          echo "📦 Total build size: ${total_size_mb}MB"
+          
+          if [ "$total_size_mb" -gt ${{ env.PERFORMANCE_BUDGET_MB }} ]; then
+            echo "❌ Build size (${total_size_mb}MB) exceeds budget (${{ env.PERFORMANCE_BUDGET_MB }}MB)"
+            exit 1
+          else
+            echo "✅ Build size within budget"
+          fi
+          
+          # Analyze individual chunks
+          echo "📊 Largest assets:"
+          find dist -type f -name "*.js" -o -name "*.css" | xargs ls -lh | sort -k5 -hr | head -10
+
+      - name: Asset optimization check
+        run: |
+          echo "🔍 Checking asset optimization..."
+          
+          # Check for uncompressed images
+          large_images=$(find dist -name "*.jpg" -o -name "*.png" -o -name "*.jpeg" | xargs ls -l | awk '$5 > 500000 {print $9, $5}' || true)
+          if [ ! -z "$large_images" ]; then
+            echo "⚠️ Large images found (>500KB):"
+            echo "$large_images"
+            echo "Consider optimizing these images"
+          else
+            echo "✅ No large unoptimized images found"
+          fi
+
+  # Security Gate
+  security-gate:
+    name: Security Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: High-severity vulnerability check
+        run: |
+          echo "🔍 Checking for high-severity vulnerabilities..."
+          npm audit --audit-level high
+          echo "✅ No high-severity vulnerabilities found"
+
+      - name: Check for hardcoded secrets
+        run: |
+          echo "🔍 Scanning for potential secrets..."
+          
+          # Simple regex patterns for common secrets
+          if grep -r "password.*=" src/ --include="*.ts" --include="*.tsx" --include="*.js" --include="*.jsx" | grep -v "placeholder\|example\|password.*:\s*string"; then
+            echo "❌ Potential hardcoded passwords found"
+            exit 1
+          fi
+          
+          if grep -r "api.*key.*=" src/ --include="*.ts" --include="*.tsx" --include="*.js" --include="*.jsx" | grep -v "placeholder\|example"; then
+            echo "❌ Potential hardcoded API keys found"
+            exit 1
+          fi
+          
+          echo "✅ No obvious hardcoded secrets found"
+
+  # Documentation Gate
+  documentation-gate:
+    name: Documentation Gate
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for documentation updates
+        run: |
+          echo "🔍 Checking documentation requirements..."
+          
+          # Get changed files
+          changed_files=$(git diff --name-only origin/master...HEAD)
+          
+          # Check if significant changes require docs update
+          significant_changes=$(echo "$changed_files" | grep -E "(src/.*\.(ts|tsx)|package\.json|README)" | wc -l)
+          
+          if [ "$significant_changes" -gt 5 ]; then
+            echo "📝 Significant changes detected ($significant_changes files)"
+            
+            # Check if docs were updated
+            docs_updated=$(echo "$changed_files" | grep -E "(README|\.md|docs/)" | wc -l)
+            
+            if [ "$docs_updated" -eq 0 ]; then
+              echo "⚠️ Consider updating documentation for significant changes"
+              echo "Changed files: $significant_changes"
+              echo "Documentation updates: $docs_updated"
+            else
+              echo "✅ Documentation appears to be updated"
+            fi
+          else
+            echo "✅ Changes appear minor, documentation update not required"
+          fi
+
+  # Quality Gate Summary
+  quality-summary:
+    name: Quality Gate Summary
+    runs-on: ubuntu-latest
+    needs: [code-quality, coverage-gate, performance-gate, security-gate, documentation-gate]
+    if: always()
+    steps:
+      - name: Generate quality report
+        run: |
+          echo "🎯 Quality Gates Summary"
+          echo "======================="
+          echo ""
+          
+          # Check each gate result
+          if [ "${{ needs.code-quality.result }}" = "success" ]; then
+            echo "✅ Code Quality: PASSED"
+          else
+            echo "❌ Code Quality: FAILED"
+          fi
+          
+          if [ "${{ needs.coverage-gate.result }}" = "success" ]; then
+            echo "✅ Test Coverage: PASSED"
+          else
+            echo "❌ Test Coverage: FAILED"
+          fi
+          
+          if [ "${{ needs.performance-gate.result }}" = "success" ]; then
+            echo "✅ Performance: PASSED"
+          else
+            echo "❌ Performance: FAILED"
+          fi
+          
+          if [ "${{ needs.security-gate.result }}" = "success" ]; then
+            echo "✅ Security: PASSED"
+          else
+            echo "❌ Security: FAILED"
+          fi
+          
+          if [ "${{ needs.documentation-gate.result }}" = "success" ] || [ "${{ needs.documentation-gate.result }}" = "skipped" ]; then
+            echo "✅ Documentation: PASSED"
+          else
+            echo "❌ Documentation: FAILED"
+          fi
+          
+          echo ""
+          echo "📊 All quality gates must pass before merging"
+
+      - name: Fail on quality gate violations
+        run: |
+          if [ "${{ needs.code-quality.result }}" = "failure" ] || 
+             [ "${{ needs.coverage-gate.result }}" = "failure" ] || 
+             [ "${{ needs.performance-gate.result }}" = "failure" ] || 
+             [ "${{ needs.security-gate.result }}" = "failure" ]; then
+            echo "❌ One or more quality gates failed!"
+            echo "Please address the issues before proceeding."
+            exit 1
+          fi
+          echo "✅ All critical quality gates passed"

@@ -1,0 +1,268 @@
+{
+  "ui_font_size": 16,
+  "buffer_font_size": 14,
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "One Dark"
+  },
+  "vim_mode": false,
+  "relative_line_numbers": false,
+  "cursor_blink": false,
+  "show_whitespaces": "selection",
+  "show_wrap_guides": true,
+  "wrap_guides": [80, 120],
+  "preferred_line_length": 100,
+  "soft_wrap": "editor_width",
+  "tab_size": 2,
+  "hard_tabs": false,
+  "show_inline_completions": true,
+  "use_autoclose": true,
+  "always_treat_brackets_as_autoclosed": false,
+  "use_auto_surround": true,
+  "auto_install_extensions": {
+    "html": true,
+    "css": true,
+    "typescript": true,
+    "tailwindcss": true,
+    "json": true,
+    "toml": true,
+    "yaml": true,
+    "markdown": true
+  },
+  "languages": {
+    "TypeScript": {
+      "formatter": "prettier",
+      "code_actions_on_format": {
+        "source.organizeImports": true,
+        "source.removeUnusedImports": true
+      },
+      "tab_size": 2,
+      "hard_tabs": false
+    },
+    "TSX": {
+      "formatter": "prettier",
+      "code_actions_on_format": {
+        "source.organizeImports": true,
+        "source.removeUnusedImports": true
+      },
+      "tab_size": 2,
+      "hard_tabs": false
+    },
+    "JavaScript": {
+      "formatter": "prettier",
+      "tab_size": 2,
+      "hard_tabs": false
+    },
+    "JSX": {
+      "formatter": "prettier",
+      "tab_size": 2,
+      "hard_tabs": false
+    },
+    "CSS": {
+      "formatter": "prettier",
+      "tab_size": 2,
+      "hard_tabs": false
+    },
+    "HTML": {
+      "formatter": "prettier",
+      "tab_size": 2,
+      "hard_tabs": false
+    },
+    "JSON": {
+      "formatter": "prettier",
+      "tab_size": 2,
+      "hard_tabs": false
+    },
+    "Markdown": {
+      "formatter": "prettier",
+      "soft_wrap": "editor_width",
+      "tab_size": 2,
+      "hard_tabs": false
+    }
+  },
+  "lsp": {
+    "typescript-language-server": {
+      "settings": {
+        "typescript": {
+          "suggest": {
+            "autoImports": true,
+            "completeFunctionCalls": true
+          },
+          "preferences": {
+            "importModuleSpecifier": "relative"
+          }
+        }
+      }
+    },
+    "tailwindcss-language-server": {
+      "settings": {
+        "tailwindCSS": {
+          "experimental": {
+            "classRegex": [
+              "cva\\(([^)]*)\\)",
+              "[\"'`]([^\"'`]*).*?[\"'`]",
+              "(?:twMerge|twJoin)\\(([^;]*)[;)]"
+            ]
+          },
+          "classAttributes": ["class", "className", "ngClass", "class:list"]
+        }
+      }
+    }
+  },
+  "formatter": "prettier",
+  "format_on_save": "on",
+  "code_actions_on_format": {
+    "source.organizeImports": true,
+    "source.removeUnusedImports": true,
+    "source.fixAll.eslint": true
+  },
+  "prettier": {
+    "semi": true,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "es5",
+    "printWidth": 100,
+    "bracketSpacing": true,
+    "arrowParens": "avoid",
+    "endOfLine": "lf"
+  },
+  "terminal": {
+    "shell": {
+      "program": "/bin/bash"
+    },
+    "working_directory": "current_project_directory",
+    "blinking": "off",
+    "alternate_scroll": "off",
+    "copy_on_select": false,
+    "font_size": 14,
+    "option_as_meta": false
+  },
+  "tasks": [
+    {
+      "label": "🎨 Design Dev Server",
+      "command": "npm",
+      "args": ["run", "dev"],
+      "tags": ["design-workflow"]
+    },
+    {
+      "label": "📸 Capture Design Screenshots",
+      "command": "npx",
+      "args": ["playwright", "test", "--headed", "--project=design-capture"],
+      "tags": ["design-workflow", "visual-testing"]
+    },
+    {
+      "label": "🔍 Visual Regression Test",
+      "command": "npx",
+      "args": ["playwright", "test", "--project=visual-regression"],
+      "tags": ["design-workflow", "testing"]
+    },
+    {
+      "label": "🚀 Full Design Validation",
+      "command": "npm",
+      "args": ["run", "test:design-validation"],
+      "tags": ["design-workflow", "validation"]
+    },
+    {
+      "label": "📊 Design System Audit",
+      "command": "npm",
+      "args": ["run", "audit:design-system"],
+      "tags": ["design-workflow", "audit"]
+    },
+    {
+      "label": "🎯 Component Visual Test",
+      "command": "npx",
+      "args": ["playwright", "test", "--grep", "component-visual"],
+      "tags": ["design-workflow", "component-testing"]
+    }
+  ],
+  "project_panel": {
+    "dock": "left",
+    "default_width": 300
+  },
+  "outline_panel": {
+    "dock": "right",
+    "default_width": 300
+  },
+  "collaboration_panel": {
+    "dock": "left",
+    "default_width": 300
+  },
+  "chat_panel": {
+    "dock": "right",
+    "default_width": 400
+  },
+  "terminal_panel": {
+    "dock": "bottom",
+    "default_height": 400
+  },
+  "assistant_panel": {
+    "dock": "right",
+    "default_width": 500
+  },
+  "git": {
+    "inline_blame": false,
+    "git_gutter": "tracked_files"
+  },
+  "file_types": {
+    "Dockerfile": ["Dockerfile", "*.dockerfile"],
+    "JSON": ["*.json", "*.jsonc", ".babelrc", ".eslintrc"],
+    "TypeScript": ["*.ts", "*.mts"],
+    "TSX": ["*.tsx"],
+    "JavaScript": ["*.js", "*.mjs", "*.cjs"],
+    "JSX": ["*.jsx"]
+  },
+  "preview_tabs": {
+    "enabled": true,
+    "enable_preview_from_file_finder": true,
+    "enable_preview_from_code_navigation": true
+  },
+  "scrollbar": {
+    "show": "auto",
+    "cursors": false,
+    "git_diff": true,
+    "search_results": true,
+    "selected_symbol": true,
+    "diagnostics": true
+  },
+  "inlay_hints": {
+    "enabled": true,
+    "show_type_hints": true,
+    "show_parameter_hints": true,
+    "show_other_hints": true
+  },
+  "hover_popover_enabled": true,
+  "show_completions_on_input": true,
+  "use_on_type_format": false,
+  "ensure_final_newline_on_save": true,
+  "remove_trailing_whitespace_on_save": true,
+  "tabs": {
+    "close_position": "right",
+    "file_icons": true,
+    "git_status": true
+  },
+  "calls": {
+    "mute_on_join": false,
+    "share_on_join": false
+  },
+  "auto_update": true,
+  "features": {
+    "inline_completion_provider": "supermaven"
+  },
+  "centered_layout": {
+    "left_padding": 0.15,
+    "right_padding": 0.15
+  },
+  "gutter": {
+    "line_numbers": true,
+    "code_actions": true,
+    "folds": true,
+    "diagnostics": true,
+    "runnables": true
+  },
+  "toolbar": {
+    "breadcrumbs": true,
+    "quick_actions": false,
+    "selections_menu": true
+  }
+}

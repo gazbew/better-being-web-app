@@ -1,0 +1,270 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "🚀 Start Design Workflow",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "dev"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": [],
+      "runOptions": {
+        "runOn": "default"
+      },
+      "detail": "Start Vite dev server for design iteration"
+    },
+    {
+      "label": "📸 Capture Current Design",
+      "type": "shell",
+      "command": "npx",
+      "args": [
+        "playwright",
+        "test",
+        "--headed",
+        "--project=design-capture",
+        "--reporter=html"
+      ],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "problemMatcher": [],
+      "dependsOn": "🚀 Start Design Workflow",
+      "detail": "Capture screenshots of current design state"
+    },
+    {
+      "label": "🔍 Visual Regression Test",
+      "type": "shell",
+      "command": "npx",
+      "args": [
+        "playwright",
+        "test",
+        "--project=visual-regression",
+        "--reporter=html"
+      ],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "problemMatcher": [
+        {
+          "owner": "playwright",
+          "fileLocation": ["relative", "${workspaceFolder}"],
+          "pattern": {
+            "regexp": "^\\s*(.*):(\\d+):(\\d+)\\s+(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "message": 4
+          }
+        }
+      ],
+      "detail": "Run visual regression tests against baseline"
+    },
+    {
+      "label": "🎨 Component Visual Validation",
+      "type": "shell",
+      "command": "npx",
+      "args": [
+        "playwright",
+        "test",
+        "--grep",
+        "component-visual",
+        "--reporter=html"
+      ],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "problemMatcher": [],
+      "detail": "Test individual components for visual consistency"
+    },
+    {
+      "label": "📊 Design System Audit",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "audit:design-system"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "problemMatcher": [],
+      "detail": "Audit design system compliance and consistency"
+    },
+    {
+      "label": "🚀 Full Design Validation Pipeline",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "test:design-validation"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "📸 Capture Current Design",
+        "🔍 Visual Regression Test",
+        "🎨 Component Visual Validation",
+        "📊 Design System Audit"
+      ],
+      "problemMatcher": [],
+      "detail": "Run complete design validation pipeline"
+    },
+    {
+      "label": "🔧 Setup Playwright Browsers",
+      "type": "shell",
+      "command": "npx",
+      "args": ["playwright", "install", "--with-deps"],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "problemMatcher": [],
+      "runOptions": {
+        "runOn": "folderOpen"
+      },
+      "detail": "Install Playwright browsers for testing"
+    },
+    {
+      "label": "🎯 Update Visual Baselines",
+      "type": "shell",
+      "command": "npx",
+      "args": [
+        "playwright",
+        "test",
+        "--project=visual-regression",
+        "--update-snapshots"
+      ],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "problemMatcher": [],
+      "detail": "Update visual regression test baselines"
+    },
+    {
+      "label": "📱 Mobile Design Test",
+      "type": "shell",
+      "command": "npx",
+      "args": [
+        "playwright",
+        "test",
+        "--project=mobile",
+        "--headed"
+      ],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "problemMatcher": [],
+      "detail": "Test mobile responsive design"
+    },
+    {
+      "label": "🖥️ Desktop Design Test",
+      "type": "shell",
+      "command": "npx",
+      "args": [
+        "playwright",
+        "test",
+        "--project=desktop",
+        "--headed"
+      ],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "problemMatcher": [],
+      "detail": "Test desktop design layouts"
+    },
+    {
+      "label": "🔄 AI Design Iteration Loop",
+      "type": "shell",
+      "command": "node",
+      "args": ["scripts/ai-design-iteration.js"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "problemMatcher": [],
+      "detail": "Run AI-driven design iteration and feedback loop"
+    },
+    {
+      "label": "📈 Performance + Design Audit",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "performance:audit"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "problemMatcher": [],
+      "detail": "Run Lighthouse audit for performance and design"
+    }
+  ]
+}

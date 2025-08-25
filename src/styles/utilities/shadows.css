@@ -1,0 +1,395 @@
+/**
+ * Brand Shadow Utilities
+ * Better Being brand-specific shadow system with proper opacity
+ */
+
+:root {
+  /* Brand Color Variables for Shadows */
+  --bb-orange: #C1581B;
+  --bb-champagne: #F5F0E8;
+  --bb-green: #84CC16;
+  --bb-gray: #6B7280;
+  --bb-black-bean: #1F2937;
+  
+  /* Wellness Shadow System - Natural, soft shadows */
+  --shadow-wellness-xs: 0 1px 3px rgba(132, 204, 22, 0.12), 0 1px 2px rgba(132, 204, 22, 0.08);
+  --shadow-wellness-sm: 0 2px 6px rgba(132, 204, 22, 0.15), 0 1px 3px rgba(132, 204, 22, 0.1);
+  --shadow-wellness-md: 0 4px 12px rgba(132, 204, 22, 0.18), 0 2px 6px rgba(132, 204, 22, 0.12);
+  --shadow-wellness-lg: 0 8px 24px rgba(132, 204, 22, 0.2), 0 4px 12px rgba(132, 204, 22, 0.15);
+  --shadow-wellness-xl: 0 16px 48px rgba(132, 204, 22, 0.25), 0 8px 24px rgba(132, 204, 22, 0.18);
+  
+  /* Premium Shadow System - Elegant, sophisticated shadows */
+  --shadow-premium-xs: 0 2px 4px rgba(193, 88, 27, 0.15), 0 1px 2px rgba(212, 175, 55, 0.1);
+  --shadow-premium-sm: 0 4px 8px rgba(193, 88, 27, 0.18), 0 2px 4px rgba(212, 175, 55, 0.12);
+  --shadow-premium-md: 0 8px 16px rgba(193, 88, 27, 0.2), 0 4px 8px rgba(212, 175, 55, 0.15);
+  --shadow-premium-lg: 0 16px 32px rgba(193, 88, 27, 0.25), 0 8px 16px rgba(212, 175, 55, 0.18);
+  --shadow-premium-xl: 0 24px 48px rgba(193, 88, 27, 0.3), 0 12px 24px rgba(212, 175, 55, 0.2);
+  
+  /* Floating Shadow System - Dynamic, elevated shadows */
+  --shadow-floating-xs: 0 4px 8px rgba(31, 41, 55, 0.08), 0 2px 4px rgba(31, 41, 55, 0.06);
+  --shadow-floating-sm: 0 6px 12px rgba(31, 41, 55, 0.1), 0 3px 6px rgba(31, 41, 55, 0.08);
+  --shadow-floating-md: 0 10px 20px rgba(31, 41, 55, 0.12), 0 5px 10px rgba(31, 41, 55, 0.1);
+  --shadow-floating-lg: 0 16px 32px rgba(31, 41, 55, 0.15), 0 8px 16px rgba(31, 41, 55, 0.12);
+  --shadow-floating-xl: 0 24px 48px rgba(31, 41, 55, 0.18), 0 12px 24px rgba(31, 41, 55, 0.15);
+  
+  /* Inner Shadows - For inset effects */
+  --shadow-wellness-inner: inset 0 2px 4px rgba(132, 204, 22, 0.1);
+  --shadow-premium-inner: inset 0 2px 4px rgba(193, 88, 27, 0.12);
+  --shadow-floating-inner: inset 0 2px 4px rgba(31, 41, 55, 0.08);
+  
+  /* Glow Effects - For interactive states */
+  --shadow-wellness-glow: 0 0 20px rgba(132, 204, 22, 0.3);
+  --shadow-premium-glow: 0 0 20px rgba(193, 88, 27, 0.3);
+  --shadow-brand-glow: 0 0 24px rgba(193, 88, 27, 0.2), 0 0 12px rgba(132, 204, 22, 0.15);
+  
+  /* Focus Shadows - For accessibility */
+  --shadow-focus-wellness: 0 0 0 3px rgba(132, 204, 22, 0.3);
+  --shadow-focus-premium: 0 0 0 3px rgba(193, 88, 27, 0.3);
+  --shadow-focus-brand: 0 0 0 2px rgba(255, 255, 255, 1), 0 0 0 4px rgba(193, 88, 27, 0.3);
+}
+
+/* =============================================================================
+   WELLNESS SHADOWS - Natural, organic feeling shadows
+   ============================================================================= */
+
+.shadow-wellness-xs { box-shadow: var(--shadow-wellness-xs); }
+.shadow-wellness-sm { box-shadow: var(--shadow-wellness-sm); }
+.shadow-wellness-md { box-shadow: var(--shadow-wellness-md); }
+.shadow-wellness-lg { box-shadow: var(--shadow-wellness-lg); }
+.shadow-wellness-xl { box-shadow: var(--shadow-wellness-xl); }
+
+/* Wellness shadow with hover effect */
+.shadow-wellness-hover {
+  box-shadow: var(--shadow-wellness-sm);
+  transition: box-shadow 0.3s ease;
+}
+
+.shadow-wellness-hover:hover {
+  box-shadow: var(--shadow-wellness-lg);
+  transform: translateY(-2px);
+}
+
+/* Wellness inner shadow */
+.shadow-wellness-inner {
+  box-shadow: var(--shadow-wellness-inner);
+}
+
+/* Wellness glow effect */
+.shadow-wellness-glow {
+  box-shadow: var(--shadow-wellness-glow);
+}
+
+/* =============================================================================
+   PREMIUM SHADOWS - Sophisticated, luxury feeling shadows
+   ============================================================================= */
+
+.shadow-premium-xs { box-shadow: var(--shadow-premium-xs); }
+.shadow-premium-sm { box-shadow: var(--shadow-premium-sm); }
+.shadow-premium-md { box-shadow: var(--shadow-premium-md); }
+.shadow-premium-lg { box-shadow: var(--shadow-premium-lg); }
+.shadow-premium-xl { box-shadow: var(--shadow-premium-xl); }
+
+/* Premium shadow with hover effect */
+.shadow-premium-hover {
+  box-shadow: var(--shadow-premium-sm);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.shadow-premium-hover:hover {
+  box-shadow: var(--shadow-premium-xl);
+  transform: translateY(-4px);
+}
+
+/* Premium inner shadow */
+.shadow-premium-inner {
+  box-shadow: var(--shadow-premium-inner);
+}
+
+/* Premium glow effect */
+.shadow-premium-glow {
+  box-shadow: var(--shadow-premium-glow);
+}
+
+/* Premium shimmer shadow - animated */
+.shadow-premium-shimmer {
+  box-shadow: var(--shadow-premium-md);
+  animation: premium-shimmer 2s ease-in-out infinite alternate;
+}
+
+@keyframes premium-shimmer {
+  0% { box-shadow: var(--shadow-premium-md); }
+  100% { box-shadow: var(--shadow-premium-lg), var(--shadow-premium-glow); }
+}
+
+/* =============================================================================
+   FLOATING SHADOWS - Dynamic, elevated shadows
+   ============================================================================= */
+
+.shadow-floating-xs { box-shadow: var(--shadow-floating-xs); }
+.shadow-floating-sm { box-shadow: var(--shadow-floating-sm); }
+.shadow-floating-md { box-shadow: var(--shadow-floating-md); }
+.shadow-floating-lg { box-shadow: var(--shadow-floating-lg); }
+.shadow-floating-xl { box-shadow: var(--shadow-floating-xl); }
+
+/* Floating shadow with animation */
+.shadow-floating-animated {
+  box-shadow: var(--shadow-floating-md);
+  animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+  0%, 100% { 
+    box-shadow: var(--shadow-floating-md);
+    transform: translateY(0px);
+  }
+  50% { 
+    box-shadow: var(--shadow-floating-lg);
+    transform: translateY(-6px);
+  }
+}
+
+/* Floating inner shadow */
+.shadow-floating-inner {
+  box-shadow: var(--shadow-floating-inner);
+}
+
+/* =============================================================================
+   COMBINED SHADOWS - Multi-layered shadow effects
+   ============================================================================= */
+
+/* Brand signature shadow - combines wellness and premium */
+.shadow-brand-signature {
+  box-shadow: 
+    var(--shadow-wellness-md),
+    var(--shadow-premium-sm);
+}
+
+/* Hero shadow - for main CTAs and hero elements */
+.shadow-hero {
+  box-shadow: 
+    0 10px 30px rgba(193, 88, 27, 0.2),
+    0 5px 15px rgba(132, 204, 22, 0.15),
+    0 2px 8px rgba(31, 41, 55, 0.1);
+}
+
+/* Card shadow - for product cards and content cards */
+.shadow-card {
+  box-shadow: 
+    0 4px 12px rgba(31, 41, 55, 0.08),
+    0 2px 6px rgba(31, 41, 55, 0.06);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.shadow-card:hover {
+  box-shadow: 
+    0 12px 24px rgba(31, 41, 55, 0.12),
+    0 6px 12px rgba(31, 41, 55, 0.08),
+    var(--shadow-wellness-glow);
+  transform: translateY(-4px);
+}
+
+/* Modal shadow - for overlays and modals */
+.shadow-modal {
+  box-shadow: 
+    0 25px 50px rgba(31, 41, 55, 0.25),
+    0 12px 25px rgba(31, 41, 55, 0.15),
+    0 6px 12px rgba(31, 41, 55, 0.1);
+}
+
+/* =============================================================================
+   FOCUS SHADOWS - For accessibility and interactive states
+   ============================================================================= */
+
+.shadow-focus-wellness {
+  box-shadow: var(--shadow-focus-wellness);
+}
+
+.shadow-focus-premium {
+  box-shadow: var(--shadow-focus-premium);
+}
+
+.shadow-focus-brand {
+  box-shadow: var(--shadow-focus-brand);
+}
+
+/* Combined focus and elevation */
+.shadow-focus-elevated {
+  box-shadow: 
+    var(--shadow-focus-brand),
+    var(--shadow-floating-md);
+}
+
+/* =============================================================================
+   INTERACTIVE SHADOW UTILITIES
+   ============================================================================= */
+
+/* Button shadows */
+.shadow-btn-primary {
+  box-shadow: var(--shadow-wellness-sm);
+  transition: all 0.2s ease;
+}
+
+.shadow-btn-primary:hover {
+  box-shadow: var(--shadow-wellness-md);
+  transform: translateY(-1px);
+}
+
+.shadow-btn-primary:active {
+  box-shadow: var(--shadow-wellness-xs);
+  transform: translateY(0);
+}
+
+.shadow-btn-premium {
+  box-shadow: var(--shadow-premium-sm);
+  transition: all 0.2s ease;
+}
+
+.shadow-btn-premium:hover {
+  box-shadow: var(--shadow-premium-lg);
+  transform: translateY(-2px);
+}
+
+.shadow-btn-premium:active {
+  box-shadow: var(--shadow-premium-xs);
+  transform: translateY(0);
+}
+
+/* Input shadows */
+.shadow-input {
+  box-shadow: var(--shadow-floating-xs);
+  transition: box-shadow 0.2s ease;
+}
+
+.shadow-input:focus {
+  box-shadow: 
+    var(--shadow-focus-wellness),
+    var(--shadow-floating-sm);
+}
+
+/* =============================================================================
+   DIRECTIONAL SHADOWS - For specific lighting effects
+   ============================================================================= */
+
+/* Top-lit shadows */
+.shadow-top-lit {
+  box-shadow: 
+    0 -4px 8px rgba(132, 204, 22, 0.1),
+    0 2px 4px rgba(31, 41, 55, 0.05);
+}
+
+/* Side-lit shadows */
+.shadow-side-lit {
+  box-shadow: 
+    4px 0 8px rgba(193, 88, 27, 0.1),
+    -2px 0 4px rgba(132, 204, 22, 0.05);
+}
+
+/* Bottom-heavy shadows */
+.shadow-bottom-heavy {
+  box-shadow: 
+    0 8px 16px rgba(31, 41, 55, 0.12),
+    0 4px 8px rgba(31, 41, 55, 0.08);
+}
+
+/* =============================================================================
+   RESPONSIVE SHADOWS - Adaptive shadows for different screen sizes
+   ============================================================================= */
+
+@media (max-width: 768px) {
+  .shadow-responsive {
+    box-shadow: var(--shadow-floating-sm);
+  }
+  
+  .shadow-card-responsive {
+    box-shadow: var(--shadow-floating-xs);
+  }
+  
+  .shadow-hero-responsive {
+    box-shadow: var(--shadow-wellness-md);
+  }
+}
+
+@media (min-width: 769px) {
+  .shadow-responsive {
+    box-shadow: var(--shadow-floating-md);
+  }
+  
+  .shadow-card-responsive {
+    box-shadow: var(--shadow-card);
+  }
+  
+  .shadow-hero-responsive {
+    box-shadow: var(--shadow-hero);
+  }
+}
+
+/* =============================================================================
+   ACCESSIBILITY SUPPORT
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .shadow-wellness-hover,
+  .shadow-premium-hover,
+  .shadow-floating-animated,
+  .shadow-premium-shimmer,
+  .shadow-card,
+  .shadow-btn-primary,
+  .shadow-btn-premium {
+    transition: none;
+    animation: none;
+  }
+  
+  .shadow-floating-animated {
+    box-shadow: var(--shadow-floating-md);
+    transform: none;
+  }
+  
+  .shadow-premium-shimmer {
+    box-shadow: var(--shadow-premium-md);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .shadow-wellness-xs,
+  .shadow-wellness-sm,
+  .shadow-wellness-md,
+  .shadow-wellness-lg,
+  .shadow-wellness-xl,
+  .shadow-premium-xs,
+  .shadow-premium-sm,
+  .shadow-premium-md,
+  .shadow-premium-lg,
+  .shadow-premium-xl,
+  .shadow-floating-xs,
+  .shadow-floating-sm,
+  .shadow-floating-md,
+  .shadow-floating-lg,
+  .shadow-floating-xl {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Print styles - remove shadows for print */
+@media print {
+  .shadow-wellness-xs,
+  .shadow-wellness-sm,
+  .shadow-wellness-md,
+  .shadow-wellness-lg,
+  .shadow-wellness-xl,
+  .shadow-premium-xs,
+  .shadow-premium-sm,
+  .shadow-premium-md,
+  .shadow-premium-lg,
+  .shadow-premium-xl,
+  .shadow-floating-xs,
+  .shadow-floating-sm,
+  .shadow-floating-md,
+  .shadow-floating-lg,
+  .shadow-floating-xl,
+  .shadow-card,
+  .shadow-hero,
+  .shadow-modal {
+    box-shadow: none;
+  }
+}

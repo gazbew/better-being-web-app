@@ -1,0 +1,173 @@
+name: Deploy to Staging
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ master ]
+    types: [ opened, synchronize, reopened ]
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '18'
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+jobs:
+  # Deploy to Preview Environment
+  deploy-staging:
+    name: Deploy to Staging/Preview
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+      url: ${{ steps.deploy.outputs.preview-url }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run quick tests
+        run: npm run test:run
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy Project Artifacts to Vercel
+        id: deploy
+        run: |
+          url=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
+          echo "preview-url=$url" >> $GITHUB_OUTPUT
+          echo "Deployed to: $url"
+
+      - name: Comment PR with preview URL
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const url = '${{ steps.deploy.outputs.preview-url }}';
+            const comment = `
+            ## 🚀 Deployment Preview Ready!
+            
+            **Preview URL:** ${url}
+            
+            **Environment:** Staging
+            **Commit:** \`${context.sha.substring(0, 8)}\`
+            **Branch:** \`${context.ref.replace('refs/heads/', '')}\`
+            
+            ### What to test:
+            - [ ] General functionality
+            - [ ] New features
+            - [ ] Mobile responsiveness
+            - [ ] API endpoints
+            - [ ] User flows
+            
+            *This preview will be automatically updated when new commits are pushed to this PR.*
+            `;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+  # Staging Validation
+  staging-validation:
+    name: Staging Environment Validation
+    runs-on: ubuntu-latest
+    needs: [deploy-staging]
+    if: success()
+    steps:
+      - name: Wait for deployment
+        run: sleep 20
+
+      - name: Validate staging deployment
+        run: |
+          URL="${{ needs.deploy-staging.outputs.preview-url }}"
+          echo "Validating staging deployment: $URL"
+          
+          # Basic connectivity check
+          if curl -sf "$URL" > /dev/null; then
+            echo "✅ Staging site is accessible"
+          else
+            echo "❌ Staging site is not accessible"
+            exit 1
+          fi
+          
+          # Check for basic content
+          if curl -s "$URL" | grep -q "Better Being"; then
+            echo "✅ Site content loaded correctly"
+          else
+            echo "⚠️ Site content may not be loading correctly"
+          fi
+
+      - name: API validation
+        run: |
+          URL="${{ needs.deploy-staging.outputs.preview-url }}"
+          
+          # Check API health if available
+          if curl -sf "$URL/api/health" > /dev/null; then
+            echo "✅ API is responding"
+          else
+            echo "ℹ️ API health endpoint not available or not responding"
+          fi
+
+  # E2E Testing on Staging
+  e2e-tests:
+    name: End-to-End Tests
+    runs-on: ubuntu-latest
+    needs: [deploy-staging, staging-validation]
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Placeholder for E2E tests
+        env:
+          BASE_URL: ${{ needs.deploy-staging.outputs.preview-url }}
+        run: |
+          echo "🧪 Running E2E tests against: $BASE_URL"
+          echo "📝 E2E test suite will be implemented here"
+          echo "✅ E2E tests placeholder completed"
+          
+          # Future implementation:
+          # - Install Playwright or Cypress
+          # - Run comprehensive user journey tests
+          # - Test critical business flows
+          # - Generate test reports
+
+  # Cleanup old deployments
+  cleanup:
+    name: Cleanup Old Previews
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    steps:
+      - name: Cleanup preview deployments
+        run: |
+          echo "🧹 Cleaning up preview deployments for closed PR"
+          echo "This would remove associated preview deployments"
+          # Implementation would remove Vercel preview deployments
+          # for closed PRs to save resources

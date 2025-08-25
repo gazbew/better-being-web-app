@@ -1,0 +1,38 @@
+{
+  "company_info": {
+    "name": "Our Grounds",
+    "description": "Explore Conscious Wellness and Sustainable Products – Shop Online and Join Us in Building a Better Future!"
+  },
+  "contact_info": {
+    "emails": [
+      "info@our-grounds.com"
+    ],
+    "addresses": [
+      "Satellite Office: 171 Blaauwberg rd, Table View, Cape Town 7441"
+    ]
+  },
+  "products_summary": {
+    "total_products": 20,
+    "categories": {
+      "Wellness": 17,
+      "Home": 3
+    },
+    "price_range": {
+      "min": 3000.0,
+      "max": 1000000.0
+    },
+    "in_stock_count": 19,
+    "out_of_stock_count": 1
+  },
+  "content_summary": {
+    "total_pages": 12,
+    "blog_posts": 22,
+    "navigation_items": 23,
+    "social_media_links": 0
+  },
+  "scrape_metadata": {
+    "timestamp": "2025-08-19T02:25:51.078183",
+    "base_url": "https://our-grounds.com",
+    "total_urls_scraped": 32
+  }
+}

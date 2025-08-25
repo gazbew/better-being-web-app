@@ -1,0 +1,457 @@
+/**
+ * Better Being Responsive Design System
+ * Mobile-first responsive design with brand compliance
+ */
+
+/* Import Hero Animations */
+@import './hero-animations.css';
+
+:root {
+  /* =============================================================================
+     RESPONSIVE BREAKPOINTS
+     ============================================================================= */
+  
+  --bb-breakpoint-xs: 320px;   /* Extra small devices */
+  --bb-breakpoint-sm: 640px;   /* Small devices (phones) */
+  --bb-breakpoint-md: 768px;   /* Medium devices (tablets) */
+  --bb-breakpoint-lg: 1024px;  /* Large devices (laptops) */
+  --bb-breakpoint-xl: 1280px;  /* Extra large devices (desktops) */
+  --bb-breakpoint-2xl: 1536px; /* 2X large devices (large desktops) */
+  
+  /* =============================================================================
+     RESPONSIVE TYPOGRAPHY SCALES
+     ============================================================================= */
+  
+  /* Mobile Typography Scale */
+  --bb-text-xs-mobile: 0.75rem;    /* 12px */
+  --bb-text-sm-mobile: 0.875rem;   /* 14px */
+  --bb-text-base-mobile: 1rem;     /* 16px */
+  --bb-text-lg-mobile: 1.125rem;   /* 18px */
+  --bb-text-xl-mobile: 1.25rem;    /* 20px */
+  --bb-text-2xl-mobile: 1.5rem;    /* 24px */
+  --bb-text-3xl-mobile: 1.875rem;  /* 30px */
+  --bb-text-4xl-mobile: 2.25rem;   /* 36px */
+  --bb-text-5xl-mobile: 3rem;      /* 48px */
+  --bb-text-6xl-mobile: 3.75rem;   /* 60px */
+  
+  /* Desktop Typography Scale */
+  --bb-text-xs-desktop: 0.75rem;   /* 12px */
+  --bb-text-sm-desktop: 0.875rem;  /* 14px */
+  --bb-text-base-desktop: 1rem;    /* 16px */
+  --bb-text-lg-desktop: 1.125rem;  /* 18px */
+  --bb-text-xl-desktop: 1.25rem;   /* 20px */
+  --bb-text-2xl-desktop: 1.5rem;   /* 24px */
+  --bb-text-3xl-desktop: 2rem;     /* 32px */
+  --bb-text-4xl-desktop: 2.5rem;   /* 40px */
+  --bb-text-5xl-desktop: 3.5rem;   /* 56px */
+  --bb-text-6xl-desktop: 4.5rem;   /* 72px */
+  
+  /* =============================================================================
+     RESPONSIVE SPACING SCALES
+     ============================================================================= */
+  
+  /* Mobile Spacing */
+  --bb-space-section-mobile: var(--bb-space-12);  /* 48px */
+  --bb-space-container-mobile: var(--bb-space-4); /* 16px */
+  --bb-space-grid-mobile: var(--bb-space-4);      /* 16px */
+  
+  /* Tablet Spacing */
+  --bb-space-section-tablet: var(--bb-space-16);  /* 64px */
+  --bb-space-container-tablet: var(--bb-space-6); /* 24px */
+  --bb-space-grid-tablet: var(--bb-space-6);      /* 24px */
+  
+  /* Desktop Spacing */
+  --bb-space-section-desktop: var(--bb-space-24); /* 96px */
+  --bb-space-container-desktop: var(--bb-space-8); /* 32px */
+  --bb-space-grid-desktop: var(--bb-space-8);     /* 32px */
+}
+
+/* =============================================================================
+   RESPONSIVE TYPOGRAPHY UTILITIES
+   ============================================================================= */
+
+/* Base responsive text sizes */
+.text-responsive-xs { font-size: var(--bb-text-xs-mobile); }
+.text-responsive-sm { font-size: var(--bb-text-sm-mobile); }
+.text-responsive-base { font-size: var(--bb-text-base-mobile); }
+.text-responsive-lg { font-size: var(--bb-text-lg-mobile); }
+.text-responsive-xl { font-size: var(--bb-text-xl-mobile); }
+.text-responsive-2xl { font-size: var(--bb-text-2xl-mobile); }
+.text-responsive-3xl { font-size: var(--bb-text-3xl-mobile); }
+.text-responsive-4xl { font-size: var(--bb-text-4xl-mobile); }
+.text-responsive-5xl { font-size: var(--bb-text-5xl-mobile); }
+.text-responsive-6xl { font-size: var(--bb-text-6xl-mobile); }
+
+/* Desktop typography scaling */
+@media (min-width: 768px) {
+  .text-responsive-xs { font-size: var(--bb-text-xs-desktop); }
+  .text-responsive-sm { font-size: var(--bb-text-sm-desktop); }
+  .text-responsive-base { font-size: var(--bb-text-base-desktop); }
+  .text-responsive-lg { font-size: var(--bb-text-lg-desktop); }
+  .text-responsive-xl { font-size: var(--bb-text-xl-desktop); }
+  .text-responsive-2xl { font-size: var(--bb-text-2xl-desktop); }
+  .text-responsive-3xl { font-size: var(--bb-text-3xl-desktop); }
+  .text-responsive-4xl { font-size: var(--bb-text-4xl-desktop); }
+  .text-responsive-5xl { font-size: var(--bb-text-5xl-desktop); }
+  .text-responsive-6xl { font-size: var(--bb-text-6xl-desktop); }
+}
+
+/* =============================================================================
+   RESPONSIVE SPACING UTILITIES
+   ============================================================================= */
+
+/* Responsive section spacing */
+.py-section-responsive {
+  padding-top: var(--bb-space-section-mobile);
+  padding-bottom: var(--bb-space-section-mobile);
+}
+
+@media (min-width: 768px) {
+  .py-section-responsive {
+    padding-top: var(--bb-space-section-tablet);
+    padding-bottom: var(--bb-space-section-tablet);
+  }
+}
+
+@media (min-width: 1024px) {
+  .py-section-responsive {
+    padding-top: var(--bb-space-section-desktop);
+    padding-bottom: var(--bb-space-section-desktop);
+  }
+}
+
+/* Responsive container spacing */
+.px-container-responsive {
+  padding-left: var(--bb-space-container-mobile);
+  padding-right: var(--bb-space-container-mobile);
+}
+
+@media (min-width: 768px) {
+  .px-container-responsive {
+    padding-left: var(--bb-space-container-tablet);
+    padding-right: var(--bb-space-container-tablet);
+  }
+}
+
+@media (min-width: 1024px) {
+  .px-container-responsive {
+    padding-left: var(--bb-space-container-desktop);
+    padding-right: var(--bb-space-container-desktop);
+  }
+}
+
+/* Responsive grid gaps */
+.gap-responsive {
+  gap: var(--bb-space-grid-mobile);
+}
+
+@media (min-width: 768px) {
+  .gap-responsive {
+    gap: var(--bb-space-grid-tablet);
+  }
+}
+
+@media (min-width: 1024px) {
+  .gap-responsive {
+    gap: var(--bb-space-grid-desktop);
+  }
+}
+
+/* =============================================================================
+   RESPONSIVE GRID SYSTEMS
+   ============================================================================= */
+
+/* Mobile-first grid */
+.grid-responsive-1 { 
+  display: grid; 
+  grid-template-columns: 1fr; 
+  gap: var(--bb-space-grid-mobile);
+}
+
+.grid-responsive-2 { 
+  display: grid; 
+  grid-template-columns: 1fr; 
+  gap: var(--bb-space-grid-mobile);
+}
+
+.grid-responsive-3 { 
+  display: grid; 
+  grid-template-columns: 1fr; 
+  gap: var(--bb-space-grid-mobile);
+}
+
+.grid-responsive-4 { 
+  display: grid; 
+  grid-template-columns: 1fr; 
+  gap: var(--bb-space-grid-mobile);
+}
+
+/* Tablet breakpoint */
+@media (min-width: 768px) {
+  .grid-responsive-2 { 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: var(--bb-space-grid-tablet);
+  }
+  
+  .grid-responsive-3 { 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: var(--bb-space-grid-tablet);
+  }
+  
+  .grid-responsive-4 { 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: var(--bb-space-grid-tablet);
+  }
+}
+
+/* Desktop breakpoint */
+@media (min-width: 1024px) {
+  .grid-responsive-3 { 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: var(--bb-space-grid-desktop);
+  }
+  
+  .grid-responsive-4 { 
+    grid-template-columns: repeat(4, 1fr); 
+    gap: var(--bb-space-grid-desktop);
+  }
+}
+
+/* =============================================================================
+   RESPONSIVE CONTAINERS
+   ============================================================================= */
+
+.bb-container-responsive {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--bb-space-container-mobile);
+  padding-right: var(--bb-space-container-mobile);
+}
+
+@media (min-width: 640px) {
+  .bb-container-responsive {
+    max-width: 640px;
+    padding-left: var(--bb-space-container-tablet);
+    padding-right: var(--bb-space-container-tablet);
+  }
+}
+
+@media (min-width: 768px) {
+  .bb-container-responsive {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .bb-container-responsive {
+    max-width: 1024px;
+    padding-left: var(--bb-space-container-desktop);
+    padding-right: var(--bb-space-container-desktop);
+  }
+}
+
+@media (min-width: 1280px) {
+  .bb-container-responsive {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .bb-container-responsive {
+    max-width: 1536px;
+  }
+}
+
+/* =============================================================================
+   RESPONSIVE COMPONENT UTILITIES
+   ============================================================================= */
+
+/* Responsive button sizing */
+.btn-responsive {
+  height: 2.5rem; /* 40px */
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+}
+
+@media (min-width: 768px) {
+  .btn-responsive {
+    height: 3rem; /* 48px */
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+/* Responsive card padding */
+.card-responsive {
+  padding: var(--bb-space-4);
+}
+
+@media (min-width: 768px) {
+  .card-responsive {
+    padding: var(--bb-space-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .card-responsive {
+    padding: var(--bb-space-8);
+  }
+}
+
+/* =============================================================================
+   RESPONSIVE NAVIGATION
+   ============================================================================= */
+
+/* Mobile navigation */
+.nav-mobile {
+  display: block;
+}
+
+.nav-desktop {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .nav-mobile {
+    display: none;
+  }
+  
+  .nav-desktop {
+    display: block;
+  }
+}
+
+/* =============================================================================
+   RESPONSIVE HERO SECTIONS
+   ============================================================================= */
+
+.hero-responsive {
+  padding-top: var(--bb-space-16);
+  padding-bottom: var(--bb-space-12);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .hero-responsive {
+    padding-top: var(--bb-space-20);
+    padding-bottom: var(--bb-space-16);
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-responsive {
+    padding-top: var(--bb-space-24);
+    padding-bottom: var(--bb-space-20);
+  }
+}
+
+/* =============================================================================
+   RESPONSIVE IMAGES
+   ============================================================================= */
+
+.img-responsive {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.img-responsive-square {
+  aspect-ratio: 1 / 1;
+}
+
+.img-responsive-landscape {
+  aspect-ratio: 4 / 3;
+}
+
+@media (min-width: 768px) {
+  .img-responsive-landscape {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+/* =============================================================================
+   RESPONSIVE VISIBILITY
+   ============================================================================= */
+
+/* Hide on mobile */
+.hidden-mobile {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .hidden-mobile {
+    display: block;
+  }
+}
+
+/* Hide on desktop */
+.hidden-desktop {
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .hidden-desktop {
+    display: none;
+  }
+}
+
+/* Show only on tablet */
+.tablet-only {
+  display: none;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .tablet-only {
+    display: block;
+  }
+}
+
+/* =============================================================================
+   RESPONSIVE ACCESSIBILITY
+   ============================================================================= */
+
+/* Ensure touch targets are at least 44px on mobile */
+@media (max-width: 767px) {
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  button, 
+  a, 
+  input[type="button"], 
+  input[type="submit"] {
+    min-height: 44px;
+  }
+}
+
+/* Reduce motion on mobile for better performance */
+@media (max-width: 767px) {
+  .reduce-motion-mobile {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* =============================================================================
+   RESPONSIVE PRINT STYLES
+   ============================================================================= */
+
+@media print {
+  .bb-container-responsive {
+    max-width: none;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  
+  .py-section-responsive {
+    padding-top: var(--bb-space-8);
+    padding-bottom: var(--bb-space-8);
+  }
+  
+  .hidden-print {
+    display: none !important;
+  }
+}

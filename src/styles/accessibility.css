@@ -1,0 +1,175 @@
+/**
+ * Accessibility & Color System - Phase 3
+ * WCAG 2.1 AAA compliant color palette with comprehensive accessibility features
+ */
+
+:root {
+  /* WCAG 2.1 AAA compliant colors */
+  --color-primary-aaa: hsl(210 100% 40%);
+  --color-secondary-aaa: hsl(142 70% 35%);
+  --color-success-aaa: hsl(142 70% 25%);
+  --color-warning-aaa: hsl(38 90% 30%);
+  --color-error-aaa: hsl(0 70% 35%);
+  --color-info-aaa: hsl(200 90% 30%);
+  
+  /* Text colors with AAA contrast */
+  --text-primary: hsl(220 15% 10%);
+  --text-secondary: hsl(220 10% 30%);
+  --text-tertiary: hsl(220 8% 45%);
+  --text-disabled: hsl(220 5% 60%);
+  
+  /* Background colors */
+  --bg-primary: hsl(0 0% 100%);
+  --bg-secondary: hsl(220 20% 98%);
+  --bg-tertiary: hsl(220 15% 95%);
+  
+  /* Border colors */
+  --border-primary: hsl(220 15% 85%);
+  --border-secondary: hsl(220 10% 90%);
+  --border-focus: var(--color-primary-aaa);
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  --color-primary-aaa: hsl(210 100% 60%);
+  --color-secondary-aaa: hsl(142 70% 55%);
+  --text-primary: hsl(0 0% 100%);
+  --text-secondary: hsl(220 20% 85%);
+  --bg-primary: hsl(220 15% 8%);
+  --bg-secondary: hsl(220 15% 12%);
+  --border-primary: hsl(220 15% 25%);
+}
+
+/* Enhanced focus indicators */
+.focus-visible:focus-visible {
+  outline: 3px solid var(--border-focus);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(var(--border-focus), 0.2);
+}
+
+/* ARIA states */
+[aria-disabled="true"] {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+[aria-busy="true"] {
+  position: relative;
+}
+
+[aria-busy="true"]::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 3px solid var(--color-primary-aaa);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Skip links */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--color-primary-aaa);
+  color: var(--bg-primary);
+  padding: 8px;
+  text-decoration: none;
+  border-radius: 0 0 4px 0;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  :root {
+    --text-primary: hsl(0 0% 0%);
+    --bg-primary: hsl(0 0% 100%);
+    --border-primary: hsl(0 0% 0%);
+  }
+}
+
+/* Color blind friendly alternatives */
+[data-colorblind="protanopia"] {
+  --color-error-aaa: hsl(240 100% 40%);
+}
+
+[data-colorblind="deuteranopia"] {
+  --color-success-aaa: hsl(240 100% 40%);
+}
+
+/* Form accessibility */
+.form-input:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px hsl(210 100% 40% / 0.1);
+}
+
+.form-input:disabled {
+  background: var(--bg-tertiary);
+  color: var(--text-disabled);
+  cursor: not-allowed;
+}
+
+/* Enhanced keyboard navigation */
+.keyboard-navigation :focus {
+  outline: 3px solid var(--border-focus);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(var(--border-focus), 0.2);
+}
+
+.keyboard-navigation a:focus,
+.keyboard-navigation button:focus {
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
+}
+
+/* Contrast improvements */
+.high-contrast {
+  --text-primary: hsl(0 0% 0%);
+  --bg-primary: hsl(0 0% 100%);
+  --border-primary: hsl(0 0% 0%);
+  --color-primary-aaa: hsl(0 0% 0%);
+  --color-secondary-aaa: hsl(0 0% 0%);
+}
+
+.high-contrast [data-theme="dark"] {
+  --text-primary: hsl(0 0% 100%);
+  --bg-primary: hsl(0 0% 0%);
+  --border-primary: hsl(0 0% 100%);
+  --color-primary-aaa: hsl(0 0% 100%);
+  --color-secondary-aaa: hsl(0 0% 100%);
+}

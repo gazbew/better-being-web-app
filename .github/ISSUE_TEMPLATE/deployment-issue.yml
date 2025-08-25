@@ -1,0 +1,155 @@
+name: 🚀 Deployment Issue
+description: Report a problem with deployment or CI/CD pipeline
+title: "[DEPLOY] "
+labels: ["deployment", "ci/cd"]
+assignees:
+  - gareth-bew
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🚀 Deployment Issue Report
+        
+        Thank you for reporting a deployment issue! Please provide as much detail as possible to help us resolve the problem quickly.
+
+  - type: dropdown
+    id: deployment-type
+    attributes:
+      label: Deployment Type
+      description: What type of deployment is affected?
+      options:
+        - Production Deployment
+        - Staging Deployment
+        - Preview Deployment (PR)
+        - CI/CD Pipeline
+        - Build Process
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity Level
+      description: How severe is this issue?
+      options:
+        - 🔴 Critical - Production is down
+        - 🟠 High - Production is degraded
+        - 🟡 Medium - Staging/Preview issues
+        - 🟢 Low - Minor CI/CD improvements
+    validations:
+      required: true
+
+  - type: input
+    id: deployment-url
+    attributes:
+      label: Deployment URL
+      description: URL of the affected deployment (if applicable)
+      placeholder: "https://better-being-web.vercel.app"
+
+  - type: input
+    id: commit-sha
+    attributes:
+      label: Commit SHA
+      description: The commit hash where the issue occurred
+      placeholder: "abc123def456"
+
+  - type: input
+    id: workflow-run
+    attributes:
+      label: GitHub Actions Run
+      description: Link to the failed workflow run
+      placeholder: "https://github.com/user/repo/actions/runs/123456"
+
+  - type: textarea
+    id: problem-description
+    attributes:
+      label: Problem Description
+      description: Detailed description of the deployment issue
+      placeholder: |
+        - What happened?
+        - What were you expecting to happen?
+        - When did this issue start occurring?
+    validations:
+      required: true
+
+  - type: textarea
+    id: error-logs
+    attributes:
+      label: Error Logs
+      description: Copy and paste any relevant error logs or console output
+      render: shell
+      placeholder: |
+        Paste error logs here...
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce the deployment issue
+      placeholder: |
+        1. Push code to branch...
+        2. Workflow triggers...
+        3. Error occurs at step...
+
+  - type: textarea
+    id: environment-info
+    attributes:
+      label: Environment Information
+      description: Information about the deployment environment
+      placeholder: |
+        - Branch: master/develop/feature-branch
+        - Node Version: 18.x
+        - Package Manager: npm/pnpm
+        - Vercel Project: project-name
+        - Last Successful Deployment: timestamp
+
+  - type: checkboxes
+    id: troubleshooting-checklist
+    attributes:
+      label: Troubleshooting Checklist
+      description: Have you tried these basic troubleshooting steps?
+      options:
+        - label: Checked GitHub Actions logs
+        - label: Verified Vercel deployment status
+        - label: Checked for recent configuration changes
+        - label: Confirmed dependencies are installed correctly
+        - label: Verified environment variables are set
+        - label: Checked for network/service outages
+
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Business Impact
+      description: What is the business impact of this issue?
+      options:
+        - Users cannot access the application
+        - Some features are not working
+        - New deployments are blocked
+        - Development workflow is impacted
+        - Minor inconvenience
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any additional information that might be helpful
+      placeholder: |
+        - Recent changes that might be related
+        - Suspected root cause
+        - Workarounds attempted
+        - Related issues or PRs
+
+  - type: checkboxes
+    id: immediate-actions
+    attributes:
+      label: Immediate Actions Required
+      description: Check all that apply for immediate response
+      options:
+        - label: 🚨 Requires immediate attention (production down)
+        - label: 🔄 Rollback to previous version needed
+        - label: 📞 Need to contact external service providers
+        - label: 🛠️ Manual intervention required
+        - label: 📊 Monitoring alerts triggered

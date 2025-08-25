@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand Utilities Test</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            padding: 2rem;
+            background: #f9fafb;
+        }
+        .test-section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .test-item {
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            color: white;
+            font-weight: 500;
+        }
+        .test-item.light-text {
+            color: #1F2937;
+        }
+        h2 {
+            color: #1F2937;
+            margin-bottom: 1rem;
+        }
+        h3 {
+            color: #6B7280;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="text-gradient-brand" style="font-size: 2.5rem; font-weight: bold; margin-bottom: 2rem;">
+        Brand Utilities Test
+    </h1>
+
+    <!-- Gradient Tests -->
+    <div class="test-section">
+        <h2>Gradient Utilities</h2>
+        
+        <h3>Hero Gradients</h3>
+        <div class="test-grid">
+            <div class="test-item bg-gradient-hero">Hero Gradient</div>
+            <div class="test-item bg-gradient-hero-soft">Hero Soft</div>
+            <div class="test-item bg-gradient-hero-radial">Hero Radial</div>
+            <div class="test-item bg-gradient-hero-animated">Hero Animated</div>
+        </div>
+
+        <h3>Wellness Gradients</h3>
+        <div class="test-grid">
+            <div class="test-item bg-gradient-wellness light-text">Wellness</div>
+            <div class="test-item bg-gradient-wellness-soft light-text">Wellness Soft</div>
+            <div class="test-item bg-gradient-wellness-vertical light-text">Wellness Vertical</div>
+            <div class="test-item bg-gradient-wellness-breathing light-text">Wellness Breathing</div>
+        </div>
+
+        <h3>Premium Gradients</h3>
+        <div class="test-grid">
+            <div class="test-item bg-gradient-premium">Premium</div>
+            <div class="test-item bg-gradient-premium-gold">Premium Gold</div>
+            <div class="test-item bg-gradient-premium-subtle light-text">Premium Subtle</div>
+            <div class="test-item bg-gradient-premium-shimmer">Premium Shimmer</div>
+        </div>
+
+        <h3>Text Gradients</h3>
+        <div style="display: flex; gap: 2rem; margin-top: 1rem;">
+            <h2 class="text-gradient-brand">Brand Text</h2>
+            <h2 class="text-gradient-premium">Premium Text</h2>
+            <h2 class="text-gradient-wellness">Wellness Text</h2>
+        </div>
+    </div>
+
+    <!-- Shadow Tests -->
+    <div class="test-section">
+        <h2>Shadow Utilities</h2>
+        
+        <h3>Wellness Shadows</h3>
+        <div class="test-grid">
+            <div class="test-item shadow-wellness-xs" style="background: white; color: #1F2937;">Wellness XS</div>
+            <div class="test-item shadow-wellness-sm" style="background: white; color: #1F2937;">Wellness SM</div>
+            <div class="test-item shadow-wellness-md" style="background: white; color: #1F2937;">Wellness MD</div>
+            <div class="test-item shadow-wellness-lg" style="background: white; color: #1F2937;">Wellness LG</div>
+        </div>
+
+        <h3>Premium Shadows</h3>
+        <div class="test-grid">
+            <div class="test-item shadow-premium-xs" style="background: white; color: #1F2937;">Premium XS</div>
+            <div class="test-item shadow-premium-sm" style="background: white; color: #1F2937;">Premium SM</div>
+            <div class="test-item shadow-premium-md" style="background: white; color: #1F2937;">Premium MD</div>
+            <div class="test-item shadow-premium-lg" style="background: white; color: #1F2937;">Premium LG</div>
+        </div>
+
+        <h3>Floating Shadows</h3>
+        <div class="test-grid">
+            <div class="test-item shadow-floating-xs" style="background: white; color: #1F2937;">Floating XS</div>
+            <div class="test-item shadow-floating-sm" style="background: white; color: #1F2937;">Floating SM</div>
+            <div class="test-item shadow-floating-md" style="background: white; color: #1F2937;">Floating MD</div>
+            <div class="test-item shadow-floating-animated" style="background: white; color: #1F2937;">Floating Animated</div>
+        </div>
+
+        <h3>Interactive Shadows</h3>
+        <div class="test-grid">
+            <div class="test-item shadow-wellness-hover" style="background: white; color: #1F2937;">Wellness Hover</div>
+            <div class="test-item shadow-premium-hover" style="background: white; color: #1F2937;">Premium Hover</div>
+            <div class="test-item shadow-card" style="background: white; color: #1F2937;">Card Shadow</div>
+            <div class="test-item shadow-hero" style="background: white; color: #1F2937;">Hero Shadow</div>
+        </div>
+    </div>
+
+    <!-- Combined Effects -->
+    <div class="test-section">
+        <h2>Combined Effects</h2>
+        
+        <div class="test-grid">
+            <div class="test-item bg-gradient-hero shadow-hero">Hero + Shadow</div>
+            <div class="test-item bg-gradient-wellness shadow-wellness-lg light-text">Wellness + Shadow</div>
+            <div class="test-item bg-gradient-premium shadow-premium-shimmer">Premium + Shimmer</div>
+            <div class="test-item bg-gradient-wellness-breathing shadow-floating-animated light-text">Animated Combo</div>
+        </div>
+    </div>
+
+    <!-- Button Examples -->
+    <div class="test-section">
+        <h2>Button Examples</h2>
+        
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
+            <button class="btn-gradient-hero" style="padding: 0.75rem 1.5rem; border: none; border-radius: 8px; cursor: pointer;">
+                Hero Button
+            </button>
+            <button class="btn-gradient-wellness" style="padding: 0.75rem 1.5rem; border: none; border-radius: 8px; cursor: pointer;">
+                Wellness Button
+            </button>
+            <button class="btn-gradient-premium" style="padding: 0.75rem 1.5rem; border: none; border-radius: 8px; cursor: pointer;">
+                Premium Button
+            </button>
+            <button class="shadow-btn-primary" style="padding: 0.75rem 1.5rem; border: none; border-radius: 8px; cursor: pointer; background: #C1581B; color: white;">
+                Primary Shadow
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactivity to test hover effects
+        document.querySelectorAll('.test-item').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                console.log('Hovering:', item.className);
+            });
+        });
+    </script>
+</body>
+</html>

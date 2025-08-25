@@ -1,0 +1,60 @@
+<testsuites id="" name="" tests="1" failures="1" skipped="0" errors="0" time="14.701823000000001">
+<testsuite name="design-capture/brand-bible-home.spec.ts" timestamp="2025-08-24T02:21:12.529Z" hostname="design-capture" tests="1" failures="1" skipped="0" time="9.461" errors="0">
+<testcase name="Brand Bible Home Page Validation › Validate Mahogany Color Implementation" classname="design-capture/brand-bible-home.spec.ts" time="9.461">
+<failure message="brand-bible-home.spec.ts:53:3 Validate Mahogany Color Implementation" type="FAILURE">
+<![CDATA[  [design-capture] › design-capture/brand-bible-home.spec.ts:53:3 › Brand Bible Home Page Validation › Validate Mahogany Color Implementation 
+
+    Error: A snapshot doesn't exist at /home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/tests/design-capture/brand-bible-home.spec.ts-snapshots/primary-button-mahogany-design-capture-linux.png, writing actual.
+
+      76 |     const primaryButton = page.locator('button').first();
+      77 |     if (await primaryButton.isVisible()) {
+    > 78 |       await expect(primaryButton).toHaveScreenshot('primary-button-mahogany.png', {
+         |       ^
+      79 |         animations: 'disabled'
+      80 |       });
+      81 |       console.log('🔘 Primary button captured');
+        at /home/gareth-bew/Public/projects/NEWOG/BetterBeingWEB/tests/design-capture/brand-bible-home.spec.ts:78:7
+
+    attachment #1: primary-button-mahogany (image/png) ─────────────────────────────────────────────
+    Expected: design-capture/brand-bible-home.spec.ts-snapshots/primary-button-mahogany-design-capture-linux.png
+    Received: ../test-results/design-capture-brand-bible-a1d61-hogany-Color-Implementation-design-capture/primary-button-mahogany-actual.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/design-capture-brand-bible-a1d61-hogany-Color-Implementation-design-capture/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/design-capture-brand-bible-a1d61-hogany-Color-Implementation-design-capture/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/design-capture-brand-bible-a1d61-hogany-Color-Implementation-design-capture/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/design-capture-brand-bible-a1d61-hogany-Color-Implementation-design-capture/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[🎯 Testing Mahogany color fix (#BB4500)...
+🎨 Primary colors detected: { primary: [32m'16 100% 36%'[39m, bbOrange: [32m''[39m }
+🔍 Found 28 elements with brand colors
+🔘 Primary button captured
+✅ Mahogany color validation complete
+🎯 Test "Validate Mahogany Color Implementation" completed with status: failed
+❌ Test failed - capturing debug screenshot
+
+[[ATTACHMENT|../tests/design-capture/brand-bible-home.spec.ts-snapshots/primary-button-mahogany-design-capture-linux.png]]
+
+[[ATTACHMENT|design-capture-brand-bible-a1d61-hogany-Color-Implementation-design-capture/primary-button-mahogany-actual.png]]
+
+[[ATTACHMENT|design-capture-brand-bible-a1d61-hogany-Color-Implementation-design-capture/video.webm]]
+
+[[ATTACHMENT|design-capture-brand-bible-a1d61-hogany-Color-Implementation-design-capture/error-context.md]]
+
+[[ATTACHMENT|design-capture-brand-bible-a1d61-hogany-Color-Implementation-design-capture/trace.zip]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+</testsuites>
