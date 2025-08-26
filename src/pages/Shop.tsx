@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart, useGuestCart } from "@/contexts/CartContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -26,8 +27,7 @@ import {
   Filter,
   SlidersHorizontal,
 } from "lucide-react";
-import { NavigationPrimary } from "@/components/NavigationPrimary";
-import { FooterPrimary } from "@/components/FooterPrimary";
+// Header/Footer provided by DefaultLayout
 import {
   products,
   categories,
@@ -121,12 +121,13 @@ const Shop = () => {
 
   const { addToCart } = useCart();
   const { addToGuestCart } = useGuestCart();
+  const { user } = useAuth();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-stone-50 to-amber-50/30">
       {/* Desktop Navigation - Hidden on Mobile */}
       <div className="hidden md:block">
-        <NavigationPrimary />
+        {/* Header provided by DefaultLayout */}
       </div>
 
       {/* Mobile Header - Visible only on Mobile */}
@@ -439,7 +440,7 @@ const Shop = () => {
                     {/* Desktop Add to Cart Button */}
                     <div className="hidden md:block">
                       <Button className="w-full bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:via-orange-600 hover:to-amber-700 text-white shadow-2xl shadow-amber-600/40 hover:shadow-3xl hover:shadow-amber-600/60 rounded-2xl transition-all duration-300 font-bold border-2 border-amber-400/50 hover:border-amber-300/70"
-                        onClick={(e)=>{ e.preventDefault(); const hasToken=!!localStorage.getItem('auth_token'); if(hasToken){ addToCart({ productId: product.id, quantity: 1 }); } else { addToGuestCart({ productId: product.id, quantity: 1 }); } }}
+                        onClick={(e)=>{ e.preventDefault(); if(user){ addToCart({ productId: product.id, quantity: 1 }); } else { addToGuestCart({ productId: product.id, quantity: 1 }); } }}
                       >
                         <ShoppingCart className="w-4 h-4 mr-2 drop-shadow-sm" />
                         Add to Cart
@@ -513,9 +514,7 @@ const Shop = () => {
       </div>
 
       {/* Desktop Footer - Hidden on Mobile */}
-      <div className="hidden md:block">
-        <FooterPrimary />
-      </div>
+      {/* Footer provided by DefaultLayout */}
 
       {/* Mobile Bottom Navigation - Visible only on Mobile */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 bg-gradient-to-r from-amber-600 via-orange-500 to-amber-600 text-white shadow-2xl shadow-orange-500/25 border-t border-orange-400/30 backdrop-blur-sm">

@@ -1,5 +1,4 @@
-import { NavigationPrimary } from "@/components/NavigationPrimary";
-import { FooterPrimary } from "@/components/FooterPrimary";
+// Header/Footer provided by DefaultLayout
 import HeroSectionEnhanced from "@/components/HeroSectionEnhanced";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -23,6 +22,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCart, useGuestCart } from "@/contexts/CartContext";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   categories,
   getFeaturedProducts,
@@ -32,6 +32,7 @@ import {
 const BetterBeingHome = () => {
   const { addToCart } = useCart();
   const { addToGuestCart } = useGuestCart();
+  const { user } = useAuth();
   // Product categories from real data
   const categoryData = categories.map((category) => {
     const iconMapping = {
@@ -252,8 +253,7 @@ const BetterBeingHome = () => {
                         className="bg-[#BB4500] hover:bg-[#BB4500]/90 text-white"
                         onClick={(e) => {
                           e.preventDefault();
-                          const hasToken = !!localStorage.getItem('auth_token');
-                          if (hasToken) {
+                          if (user) {
                             addToCart({ productId: product.id, quantity: 1 });
                           } else {
                             addToGuestCart({ productId: product.id, quantity: 1 });
@@ -463,7 +463,7 @@ const BetterBeingHome = () => {
         </div>
       </section>
 
-      <FooterPrimary />
+      {/* Footer provided by DefaultLayout */}
     </div>
   );
 };

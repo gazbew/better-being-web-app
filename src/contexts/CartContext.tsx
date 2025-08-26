@@ -45,108 +45,74 @@ const API_BASE = '/api';
 
 const cartApi = {
   getCart: async (): Promise<CartItem[]> => {
-    const token = localStorage.getItem('auth_token');
-    if (!token) throw new Error('No authentication token');
-    
     const response = await fetch(`${API_BASE}/cart`, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
     });
-    
+    if (response.status === 401) return [];
     if (!response.ok) throw new Error('Failed to fetch cart');
     return response.json();
   },
 
   getCartSummary: async (): Promise<CartSummary> => {
-    const token = localStorage.getItem('auth_token');
-    if (!token) throw new Error('No authentication token');
-    
     const response = await fetch(`${API_BASE}/cart/summary`, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
     });
-    
+    if (response.status === 401) return { totalItems: 0, totalQuantity: 0, totalPrice: 0 };
     if (!response.ok) throw new Error('Failed to fetch cart summary');
     return response.json();
   },
 
   addToCart: async (data: AddToCartData): Promise<any> => {
-    const token = localStorage.getItem('auth_token');
-    if (!token) throw new Error('No authentication token');
-    
     const response = await fetch(`${API_BASE}/cart/add`, {
       method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
-    
     if (!response.ok) {
-      const error = await response.json();
+      const error = await response.json().catch(() => ({}));
       throw new Error(error.message || 'Failed to add item to cart');
     }
     return response.json();
   },
 
   updateCartItem: async (cartItemId: number, quantity: number): Promise<any> => {
-    const token = localStorage.getItem('auth_token');
-    if (!token) throw new Error('No authentication token');
-    
     const response = await fetch(`${API_BASE}/cart/update/${cartItemId}`, {
       method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ quantity }),
     });
-    
     if (!response.ok) {
-      const error = await response.json();
+      const error = await response.json().catch(() => ({}));
       throw new Error(error.message || 'Failed to update cart item');
     }
     return response.json();
   },
 
   removeFromCart: async (cartItemId: number): Promise<any> => {
-    const token = localStorage.getItem('auth_token');
-    if (!token) throw new Error('No authentication token');
-    
     const response = await fetch(`${API_BASE}/cart/remove/${cartItemId}`, {
       method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
     });
-    
     if (!response.ok) {
-      const error = await response.json();
+      const error = await response.json().catch(() => ({}));
       throw new Error(error.message || 'Failed to remove item from cart');
     }
     return response.json();
   },
 
   clearCart: async (): Promise<any> => {
-    const token = localStorage.getItem('auth_token');
-    if (!token) throw new Error('No authentication token');
-    
     const response = await fetch(`${API_BASE}/cart/clear`, {
       method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
     });
-    
     if (!response.ok) {
-      const error = await response.json();
+      const error = await response.json().catch(() => ({}));
       throw new Error(error.message || 'Failed to clear cart');
     }
     return response.json();
@@ -174,7 +140,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const { data: cartItems = [], isLoading } = useQuery({
     queryKey: ['cart'],
     queryFn: cartApi.getCart,
-    enabled: !!localStorage.getItem('auth_token'),
+    enabled: true,
     retry: false,
   });
 
@@ -182,7 +148,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const { data: cartSummary = { totalItems: 0, totalQuantity: 0, totalPrice: 0 } } = useQuery({
     queryKey: ['cart-summary'],
     queryFn: cartApi.getCartSummary,
-    enabled: !!localStorage.getItem('auth_token'),
+    enabled: true,
     retry: false,
   });
 

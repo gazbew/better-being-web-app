@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "./components/ui/sonner";
 import { TooltipProvider } from "./components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Routes, Route } from "react-router-dom";
+import DefaultLayout from "./layouts/DefaultLayout";
 import { CartProvider } from "./contexts/CartContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import { Suspense, lazy } from "react";
@@ -82,62 +83,48 @@ const App = () => {
             <Sonner />
             <Suspense fallback={<PageLoader />}>
               <Routes>
-                <Route path="/" element={<BetterBeingHome />} />
-                <Route path="/better-being" element={<BetterBeingHome />} />
-                <Route path="/hero-demo" element={<HeroDemo />} />
-                <Route path="/hero-revolutionary" element={<HeroRevolutionaryDemo />} />
-                <Route
-                  path="/design-validation"
-                  element={<DesignValidation />}
-                />
-                <Route path="/products" element={<Products />} />
-                <Route path="/shop" element={<Shop />} />
-                <Route path="/product/:id" element={<ProductDetail />} />
-                <Route path="/account" element={<Account />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/reset-password" element={<ResetPassword />} />
-                <Route path="/profile" element={<Profile />} />
-
-                {/* Additional routes to match Navigation */}
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/wellness" element={<Wellness />} />
-                <Route path="/blog" element={<Blog />} />
-                <Route path="/nutrition" element={<Nutrition />} />
-                <Route path="/mindfulness" element={<Mindfulness />} />
-                <Route path="/sleep" element={<Sleep />} />
-
-                {/* Enterprise routes */}
-                <Route path="/checkout" element={<Checkout />} />
-                <Route
-                  path="/order-confirmation/:orderId"
-                  element={<OrderConfirmation />}
-                />
-
-                {/* Utility routes */}
-                <Route path="/terms" element={<Terms />} />
-                <Route path="/privacy" element={<Privacy />} />
-                <Route path="/cart" element={<Cart />} />
-                <Route path="/wishlist" element={<Wishlist />} />
-                <Route path="/shipping" element={<Shipping />} />
-                <Route path="/brands" element={<Brands />} />
-                <Route path="/deals" element={<Deals />} />
-
-                {/* New routes from Our Grounds scraping */}
-                <Route path="/become-stockist" element={<BecomeStockist />} />
-                <Route path="/marketing" element={<Marketing />} />
-                <Route path="/tech" element={<Tech />} />
-                <Route path="/investors-pool" element={<InvestorsPool />} />
-                <Route path="/testimonials" element={<Testimonials />} />
-                <Route path="/store-locator" element={<StoreLocator />} />
-                <Route path="/refund-policy" element={<RefundPolicy />} />
-                <Route path="/farming" element={<Farming />} />
-                <Route path="/community" element={<Community />} />
-
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
+                <Route element={<DefaultLayout />}>
+                  <Route path="/" element={<BetterBeingHome />} />
+                  <Route path="/better-being" element={<BetterBeingHome />} />
+                  <Route path="/hero-demo" element={<HeroDemo />} />
+                  <Route path="/hero-revolutionary" element={<HeroRevolutionaryDemo />} />
+                  <Route path="/design-validation" element={<DesignValidation />} />
+                  <Route path="/products" element={<Products />} />
+                  <Route path="/shop" element={<Shop />} />
+                  <Route path="/product/:id" element={<ProductDetail />} />
+                  <Route path="/account" element={<Account />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                  <Route path="/forgot-password" element={<ForgotPassword />} />
+                  <Route path="/reset-password" element={<ResetPassword />} />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/wellness" element={<Wellness />} />
+                  <Route path="/blog" element={<Blog />} />
+                  <Route path="/nutrition" element={<Nutrition />} />
+                  <Route path="/mindfulness" element={<Mindfulness />} />
+                  <Route path="/sleep" element={<Sleep />} />
+                  <Route path="/checkout" element={<Checkout />} />
+                  <Route path="/order-confirmation/:orderId" element={<OrderConfirmation />} />
+                  <Route path="/terms" element={<Terms />} />
+                  <Route path="/privacy" element={<Privacy />} />
+                  <Route path="/cart" element={<Cart />} />
+                  <Route path="/wishlist" element={<Wishlist />} />
+                  <Route path="/shipping" element={<Shipping />} />
+                  <Route path="/brands" element={<Brands />} />
+                  <Route path="/deals" element={<Deals />} />
+                  <Route path="/become-stockist" element={<BecomeStockist />} />
+                  <Route path="/marketing" element={<Marketing />} />
+                  <Route path="/tech" element={<Tech />} />
+                  <Route path="/investors-pool" element={<InvestorsPool />} />
+                  <Route path="/testimonials" element={<Testimonials />} />
+                  <Route path="/store-locator" element={<StoreLocator />} />
+                  <Route path="/refund-policy" element={<RefundPolicy />} />
+                  <Route path="/farming" element={<Farming />} />
+                  <Route path="/community" element={<Community />} />
+                  <Route path="*" element={<NotFound />} />
+                </Route>
               </Routes>
             </Suspense>
           </TooltipProvider>
