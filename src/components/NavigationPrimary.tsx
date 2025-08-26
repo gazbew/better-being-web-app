@@ -378,3 +378,4 @@ const NavigationPrimary = () => {
 };
 
 export { NavigationPrimary };
+export default NavigationPrimary;
