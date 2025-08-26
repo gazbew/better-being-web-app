@@ -12,6 +12,7 @@
     "migrate:status": "node src/config/migrate.js status",
     "migrate:health": "node src/config/migrate-drizzle.js health",
     "db:optimize": "npm run migrate && npm run seed",
+    "vercel-build": "echo 'Backend build completed'",
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage"

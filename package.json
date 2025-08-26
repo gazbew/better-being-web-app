@@ -13,6 +13,7 @@
     "build:dev": "NODE_ENV=development vite build",
     "build:analyze": "NODE_ENV=production ANALYZE=true vite build",
     "vercel-build": "npm run build:server && npm run build:frontend",
+    "build:vercel": "npm run vercel-build",
     "start": "cd server && npm start",
     "lint": "eslint .",
     "preview": "vite preview",

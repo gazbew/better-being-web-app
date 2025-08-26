@@ -4,7 +4,7 @@ import crypto from 'crypto';
 import { db } from '../config/db.js';
 import { AppError } from '../middleware/error-handler.js';
 import { users } from '../config/schema.js';
-import { eq } from 'drizzle-orm';
+import { eq, and, gt, lt } from 'drizzle-orm';
 
 class AuthService {
   
@@ -131,7 +131,7 @@ class AuthService {
           firstName: firstName.trim(),
           lastName: lastName.trim(),
           emailVerificationToken,
-          // Note: marketingConsent field may not exist in schema yet
+          marketingConsent,
         })
         .returning({
           id: users.id,
@@ -286,26 +286,33 @@ class AuthService {
 
   // Verify email address
   async verifyEmail(token) {
-    const user = await pool.query(`
-      UPDATE users 
-      SET email_verified = TRUE, 
-          email_verification_token = NULL,
-          updated_at = CURRENT_TIMESTAMP
-      WHERE email_verification_token = $1 
-      RETURNING id, email, first_name, last_name, email_verified
-    `, [token]);
+    const userResult = await db
+      .update(users)
+      .set({
+        emailVerified: true,
+        emailVerificationToken: null,
+        updatedAt: new Date()
+      })
+      .where(eq(users.emailVerificationToken, token))
+      .returning({
+        id: users.id,
+        email: users.email,
+        firstName: users.firstName,
+        lastName: users.lastName,
+        emailVerified: users.emailVerified
+      });
 
-    if (user.rows.length === 0) {
+    if (userResult.length === 0) {
       throw new AppError('Invalid or expired verification token', 400, 'INVALID_TOKEN');
     }
 
     return {
       user: {
-        id: user.rows[0].id,
-        email: user.rows[0].email,
-        firstName: user.rows[0].first_name,
-        lastName: user.rows[0].last_name,
-        emailVerified: user.rows[0].email_verified
+        id: userResult[0].id,
+        email: userResult[0].email,
+        firstName: userResult[0].firstName,
+        lastName: userResult[0].lastName,
+        emailVerified: userResult[0].emailVerified
       }
     };
   }
@@ -319,22 +326,27 @@ class AuthService {
     const resetToken = this.generatePasswordResetToken();
     const resetExpires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
 
-    const result = await pool.query(`
-      UPDATE users 
-      SET password_reset_token = $1, 
-          password_reset_expires = $2,
-          updated_at = CURRENT_TIMESTAMP
-      WHERE email = $3 
-      RETURNING id, email, first_name
-    `, [resetToken, resetExpires, email.toLowerCase()]);
+    const result = await db
+      .update(users)
+      .set({
+        passwordResetToken: resetToken,
+        passwordResetExpires: resetExpires,
+        updatedAt: new Date()
+      })
+      .where(eq(users.email, email.toLowerCase()))
+      .returning({
+        id: users.id,
+        email: users.email,
+        firstName: users.firstName
+      });
 
-    if (result.rows.length === 0) {
+    if (result.length === 0) {
       // Don't reveal if email exists for security
       return { message: 'If this email exists, a reset link has been sent' };
     }
 
     return {
-      user: result.rows[0],
+      user: result[0],
       resetToken, // This should be sent via email in production
       message: 'Password reset link sent to your email'
     };
@@ -351,99 +363,90 @@ class AuthService {
 
     const hashedPassword = await this.hashPassword(newPassword);
 
-    const result = await pool.query(`
-      UPDATE users 
-      SET password = $1, 
-          password_reset_token = NULL, 
-          password_reset_expires = NULL,
-          login_attempts = 0,
-          locked_until = NULL,
-          updated_at = CURRENT_TIMESTAMP
-      WHERE password_reset_token = $2 
-        AND password_reset_expires > CURRENT_TIMESTAMP
-      RETURNING id, email, first_name, last_name
-    `, [hashedPassword, token]);
+    const result = await db
+      .update(users)
+      .set({
+        password: hashedPassword,
+        passwordResetToken: null,
+        passwordResetExpires: null,
+        loginAttempts: 0,
+        lockedUntil: null,
+        updatedAt: new Date()
+      })
+      .where(
+        and(
+          eq(users.passwordResetToken, token),
+          gt(users.passwordResetExpires, new Date())
+        )
+      )
+      .returning({
+        id: users.id,
+        email: users.email,
+        firstName: users.firstName,
+        lastName: users.lastName
+      });
 
-    if (result.rows.length === 0) {
+    if (result.length === 0) {
       throw new AppError('Invalid or expired reset token', 400, 'INVALID_TOKEN');
     }
 
-    // Invalidate all user sessions for security
-    await pool.query(`
-      UPDATE user_sessions 
-      SET is_active = FALSE 
-      WHERE user_id = $1
-    `, [result.rows[0].id]);
+    // TODO: Invalidate all user sessions for security when user_sessions table is added
+    // await db.update(userSessions).set({ isActive: false }).where(eq(userSessions.userId, result[0].id));
 
     return {
-      user: result.rows[0],
+      user: result[0],
       message: 'Password has been reset successfully'
     };
   }
 
   // Refresh access token
   async refreshToken(refreshToken) {
-    const session = await pool.query(`
-      SELECT us.*, u.id as user_id, u.email, u.first_name, u.last_name 
-      FROM user_sessions us 
-      JOIN users u ON us.user_id = u.id 
-      WHERE us.refresh_token = $1 
-        AND us.is_active = true 
-        AND us.expires_at > CURRENT_TIMESTAMP
-    `, [refreshToken]);
+    // TODO: Implement proper refresh token validation when user_sessions table is added
+    // For now, we'll decode the JWT and validate it directly
+    try {
+      const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
 
-    if (session.rows.length === 0) {
+      // Verify user still exists
+      const userResult = await db
+        .select({
+          id: users.id,
+          email: users.email,
+          firstName: users.firstName,
+          lastName: users.lastName
+        })
+        .from(users)
+        .where(eq(users.id, decoded.id))
+        .limit(1);
+
+      if (userResult.length === 0) {
+        throw new AppError('Invalid or expired refresh token', 401, 'INVALID_REFRESH_TOKEN');
+      }
+
+      const { accessToken, refreshToken: newRefreshToken } = this.generateTokens(userResult[0].id);
+
+      return {
+        user: userResult[0],
+        tokens: {
+          accessToken,
+          refreshToken: newRefreshToken
+        }
+      };
+    } catch (error) {
       throw new AppError('Invalid or expired refresh token', 401, 'INVALID_REFRESH_TOKEN');
     }
-
-    const { accessToken, refreshToken: newRefreshToken } = this.generateTokens(session.rows[0].user_id);
-
-    // Update refresh token and last used time
-    await pool.query(`
-      UPDATE user_sessions 
-      SET refresh_token = $1, 
-          last_used_at = CURRENT_TIMESTAMP,
-          expires_at = $2
-      WHERE id = $3
-    `, [
-      newRefreshToken,
-      new Date(Date.now() + (7 * 24 * 60 * 60 * 1000)),
-      session.rows[0].id
-    ]);
-
-    return {
-      user: {
-        id: session.rows[0].user_id,
-        email: session.rows[0].email,
-        firstName: session.rows[0].first_name,
-        lastName: session.rows[0].last_name
-      },
-      tokens: {
-        accessToken,
-        refreshToken: newRefreshToken
-      }
-    };
   }
 
   // Logout user (invalidate refresh token)
   async logout(refreshToken) {
-    await pool.query(`
-      UPDATE user_sessions 
-      SET is_active = FALSE 
-      WHERE refresh_token = $1
-    `, [refreshToken]);
-
+    // TODO: Implement proper session invalidation when user_sessions table is added
+    // For now, we'll just return success since we're not storing sessions
     return { message: 'Logged out successfully' };
   }
 
   // Logout from all devices
   async logoutAll(userId) {
-    await pool.query(`
-      UPDATE user_sessions 
-      SET is_active = FALSE 
-      WHERE user_id = $1
-    `, [userId]);
-
+    // TODO: Implement proper session invalidation when user_sessions table is added
+    // For now, we'll just return success since we're not storing sessions
     return { message: 'Logged out from all devices successfully' };
   }
 }

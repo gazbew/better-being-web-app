@@ -1,0 +1,50 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Development files
+.env.local
+.env.development.local
+.env.test.local
+
+# Logs
+*.log
+logs/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Testing
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+
+# Documentation
+README.md
+docs/
+
+# Scripts and tools
+scripts/
+playwright-report/
+
+# Build artifacts (keep dist for frontend)
+server/dist/
+*.tsbuildinfo
+
+# Keep these for local development but exclude from deploy
+.claude/
+.kiro/
+.roo/
+.zed/
