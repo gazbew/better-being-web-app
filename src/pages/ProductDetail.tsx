@@ -12,9 +12,12 @@ import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
+import { useCart, useGuestCart } from "@/contexts/CartContext";
 
 export default function ProductDetail() {
   const { id } = useParams();
+  const { addToCart } = useCart();
+  const { addToGuestCart } = useGuestCart();
   // Attempt to fetch product details from API; fall back to local data if API not available
   const [apiProduct, setApiProduct] = useState<any | null>(null);
   const productId = parseInt(id || "0");
@@ -238,6 +241,17 @@ export default function ProductDetail() {
                 size="lg"
                 className="flex-1 bg-[#C1581B] hover:bg-[#B34E16] text-white"
                 disabled={!product.inStock}
+                onClick={() => {
+                  const hasToken = !!localStorage.getItem('auth_token');
+                  const sizeVal = currentSize?.size;
+                  const payload: any = { productId: product.id, quantity };
+                  if (sizeVal) payload.size = sizeVal;
+                  if (hasToken) {
+                    addToCart(payload);
+                  } else {
+                    addToGuestCart(payload);
+                  }
+                }}
               >
                 <ShoppingCart className="w-5 h-5 mr-2" />
                 Add to Cart

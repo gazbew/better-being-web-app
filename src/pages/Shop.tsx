@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useCart, useGuestCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -117,6 +118,9 @@ const Shop = () => {
       count: getProductsByCategory(cat.id).length,
     })),
   ];
+
+  const { addToCart } = useCart();
+  const { addToGuestCart } = useGuestCart();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-stone-50 to-amber-50/30">
@@ -434,7 +438,9 @@ const Shop = () => {
 
                     {/* Desktop Add to Cart Button */}
                     <div className="hidden md:block">
-                      <Button className="w-full bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:via-orange-600 hover:to-amber-700 text-white shadow-2xl shadow-amber-600/40 hover:shadow-3xl hover:shadow-amber-600/60 rounded-2xl transition-all duration-300 font-bold border-2 border-amber-400/50 hover:border-amber-300/70">
+                      <Button className="w-full bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:via-orange-600 hover:to-amber-700 text-white shadow-2xl shadow-amber-600/40 hover:shadow-3xl hover:shadow-amber-600/60 rounded-2xl transition-all duration-300 font-bold border-2 border-amber-400/50 hover:border-amber-300/70"
+                        onClick={(e)=>{ e.preventDefault(); const hasToken=!!localStorage.getItem('auth_token'); if(hasToken){ addToCart({ productId: product.id, quantity: 1 }); } else { addToGuestCart({ productId: product.id, quantity: 1 }); } }}
+                      >
                         <ShoppingCart className="w-4 h-4 mr-2 drop-shadow-sm" />
                         Add to Cart
                       </Button>

@@ -22,6 +22,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useCart, useGuestCart } from "@/contexts/CartContext";
 import {
   categories,
   getFeaturedProducts,
@@ -29,6 +30,8 @@ import {
 } from "@/data/products";
 
 const BetterBeingHome = () => {
+  const { addToCart } = useCart();
+  const { addToGuestCart } = useGuestCart();
   // Product categories from real data
   const categoryData = categories.map((category) => {
     const iconMapping = {
@@ -205,52 +208,63 @@ const BetterBeingHome = () => {
                 key={product.id}
                 className="group hover:shadow-xl transition-all duration-300 border-gray-100 overflow-hidden"
               >
-                <div className="relative overflow-hidden">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  {product.badge && (
-                    <Badge className="absolute top-4 left-4 bg-[#BB4500] text-white">
-                      {product.badge}
-                    </Badge>
-                  )}
-                  <div className="absolute top-4 right-4 bg-white/90 rounded-full p-2">
-                    <div className="flex items-center gap-1">
-                      <Star className="w-4 h-4 fill-[#C4C240] text-[#C4C240]" />
-                      <span className="text-sm font-medium">
-                        {product.rating}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <CardContent className="p-6">
-                  <h3 className="text-lg font-bold text-[#280B0B] mb-3 group-hover:text-[#BB4500] transition-colors">
-                    {product.name}
-                  </h3>
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xl font-bold text-[#280B0B]">
-                          R{product.price}
+                <Link to={`/product/${product.id}`} className="block">
+                  <div className="relative overflow-hidden">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    {product.badge && (
+                      <Badge className="absolute top-4 left-4 bg-[#BB4500] text-white">
+                        {product.badge}
+                      </Badge>
+                    )}
+                    <div className="absolute top-4 right-4 bg-white/90 rounded-full p-2">
+                      <div className="flex items-center gap-1">
+                        <Star className="w-4 h-4 fill-[#C4C240] text-[#C4C240]" />
+                        <span className="text-sm font-medium">
+                          {product.rating}
                         </span>
-                        {product.originalPrice && (
-                          <span className="text-sm text-[#626675] line-through">
-                            R{product.originalPrice}
-                          </span>
-                        )}
                       </div>
                     </div>
-                    <Button
-                      size="sm"
-                      className="bg-[#BB4500] hover:bg-[#BB4500]/90 text-white"
-                    >
-                      Add to Cart
-                    </Button>
                   </div>
-                </CardContent>
+
+                  <CardContent className="p-6">
+                    <h3 className="text-lg font-bold text-[#280B0B] mb-3 group-hover:text-[#BB4500] transition-colors">
+                      {product.name}
+                    </h3>
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xl font-bold text-[#280B0B]">
+                            R{product.price}
+                          </span>
+                          {product.originalPrice && (
+                            <span className="text-sm text-[#626675] line-through">
+                              R{product.originalPrice}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <Button
+                        size="sm"
+                        className="bg-[#BB4500] hover:bg-[#BB4500]/90 text-white"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          const hasToken = !!localStorage.getItem('auth_token');
+                          if (hasToken) {
+                            addToCart({ productId: product.id, quantity: 1 });
+                          } else {
+                            addToGuestCart({ productId: product.id, quantity: 1 });
+                          }
+                        }}
+                      >
+                        Add to Cart
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Link>
               </Card>
             ))}
           </div>
