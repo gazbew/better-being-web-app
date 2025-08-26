@@ -1,5 +1,5 @@
 // Header/Footer provided by DefaultLayout
-import HeroSectionEnhanced from "@/components/HeroSectionEnhanced";
+import HeroSectionPrime from "@/components/HeroSectionPrime";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -139,10 +139,9 @@ const BetterBeingHome = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <NavigationPrimary />
 
-      {/* Enhanced Hero Section with Dynamic Effects */}
-      <HeroSectionEnhanced />
+      {/* Prime Hero Section */}
+      <HeroSectionPrime />
 
       {/* Service Guarantees */}
       <section className="py-12 bg-white border-b border-gray-100">

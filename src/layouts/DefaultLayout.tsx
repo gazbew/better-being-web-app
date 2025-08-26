@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import { NavigationPrimary } from '@/components/NavigationPrimary';
+import NavigationPrimary from '@/components/NavigationPrimary';
 import FooterPrimary from '@/components/FooterPrimary';
 
 export default function DefaultLayout() {
@@ -13,4 +13,3 @@ export default function DefaultLayout() {
     </div>
   );
 }
-
