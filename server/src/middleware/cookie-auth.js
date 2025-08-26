@@ -147,24 +147,25 @@ export const optionalCookieAuth = async (req, res, next) => {
 
 // Helper function to set secure authentication cookie
 export const setAuthCookie = (res, token) => {
+  const isProd = process.env.NODE_ENV === 'production';
   const cookieOptions = {
-    httpOnly: true, // Prevent XSS attacks
-    secure: process.env.NODE_ENV === 'production', // HTTPS only in production
-    sameSite: 'strict', // CSRF protection
-    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days in milliseconds
-    path: '/' // Available on all paths
+    httpOnly: true,
+    secure: isProd, // must be true for SameSite=None
+    sameSite: isProd ? 'none' : 'lax',
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    path: '/',
   };
-
   res.cookie('auth_token', token, cookieOptions);
 };
 
 // Helper function to clear authentication cookie
 export const clearAuthCookie = (res) => {
+  const isProd = process.env.NODE_ENV === 'production';
   res.clearCookie('auth_token', {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
-    path: '/'
+    secure: isProd,
+    sameSite: isProd ? 'none' : 'lax',
+    path: '/',
   });
 };
 

@@ -41,7 +41,7 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 // API functions
-const API_BASE = '/api';
+const API_BASE: string = (import.meta.env.VITE_API_URL as string) || '/api';
 
 const cartApi = {
   getCart: async (): Promise<CartItem[]> => {

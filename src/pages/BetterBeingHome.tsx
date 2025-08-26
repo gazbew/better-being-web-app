@@ -97,19 +97,19 @@ const BetterBeingHome = () => {
       name: "Sarah Mitchell",
       text: "Better Being transformed my wellness journey. The natural products are incredible and I feel amazing every day.",
       rating: 5,
-      avatar: "/api/placeholder/60/60",
+      avatar: "https://placehold.co/60x60",
     },
     {
       name: "Michael Chen",
       text: "The quality is outstanding and customer service is fantastic. I trust Better Being with my family's health.",
       rating: 5,
-      avatar: "/api/placeholder/60/60",
+      avatar: "https://placehold.co/60x60",
     },
     {
       name: "Emma Thompson",
       text: "Natural, effective, and reliable. Better Being products have become an essential part of my daily routine.",
       rating: 5,
-      avatar: "/api/placeholder/60/60",
+      avatar: "https://placehold.co/60x60",
     },
   ];
 
