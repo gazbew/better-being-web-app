@@ -48,3 +48,7 @@ server/dist/
 .kiro/
 .roo/
 .zed/
+
+# Lockfiles (use package-lock.json instead)
+pnpm-lock.yaml
+yarn.lock
