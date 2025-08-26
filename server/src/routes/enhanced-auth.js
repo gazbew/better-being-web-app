@@ -1,5 +1,7 @@
 import express from 'express';
-import pool from '../config/database.js';
+import { db } from '../config/db.js';
+import { users } from '../config/schema.js';
+import { eq } from 'drizzle-orm';
 import AuthService from '../services/auth.service.js';
 import { authenticateToken, optionalAuth, rateLimitByUser } from '../middleware/enhanced-auth.js';
 import { authLimiter } from '../middleware/security.js';
@@ -220,43 +222,51 @@ router.get('/me',
   authenticateToken,
   asyncHandler(async (req, res) => {
     // User info is already attached by authenticateToken middleware
-    const userQuery = `
-      SELECT 
-        id, email, first_name, last_name, phone, 
-        date_of_birth, gender, marketing_consent,
-        email_verified, two_factor_enabled, created_at,
-        last_login, profile_image_url
-      FROM users 
-      WHERE id = $1
-    `;
-    
-    const result = await pool.query(userQuery, [req.user.id]);
-    
-    if (result.rows.length === 0) {
+    const userResult = await db
+      .select({
+        id: users.id,
+        email: users.email,
+        firstName: users.firstName,
+        lastName: users.lastName,
+        phone: users.phone,
+        dateOfBirth: users.dateOfBirth,
+        gender: users.gender,
+        marketingConsent: users.marketingConsent,
+        emailVerified: users.emailVerified,
+        twoFactorEnabled: users.twoFactorEnabled,
+        profileImageUrl: users.profileImageUrl,
+        createdAt: users.createdAt,
+        lastLogin: users.lastLogin
+      })
+      .from(users)
+      .where(eq(users.id, req.user.id))
+      .limit(1);
+
+    if (userResult.length === 0) {
       return res.status(404).json({
         success: false,
         message: 'User not found'
       });
     }
 
-    const user = result.rows[0];
-    
+    const user = userResult[0];
+
     res.json({
       success: true,
       user: {
         id: user.id,
         email: user.email,
-        firstName: user.first_name,
-        lastName: user.last_name,
+        firstName: user.firstName,
+        lastName: user.lastName,
         phone: user.phone,
-        dateOfBirth: user.date_of_birth,
+        dateOfBirth: user.dateOfBirth,
         gender: user.gender,
-        marketingConsent: user.marketing_consent,
-        emailVerified: user.email_verified,
-        twoFactorEnabled: user.two_factor_enabled,
-        profileImageUrl: user.profile_image_url,
-        createdAt: user.created_at,
-        lastLogin: user.last_login
+        marketingConsent: user.marketingConsent,
+        emailVerified: user.emailVerified,
+        twoFactorEnabled: user.twoFactorEnabled,
+        profileImageUrl: user.profileImageUrl,
+        createdAt: user.createdAt,
+        lastLogin: user.lastLogin
       }
     });
   })
@@ -273,80 +283,62 @@ router.put('/profile',
   asyncHandler(async (req, res) => {
     const userId = req.user.id;
     const { firstName, lastName, phone, dateOfBirth, gender, marketingConsent } = req.body;
-    
-    const updateFields = [];
-    const values = [userId];
-    let paramCount = 2;
 
-    if (firstName !== undefined) {
-      updateFields.push(`first_name = $${paramCount}`);
-      values.push(firstName);
-      paramCount++;
-    }
-    
-    if (lastName !== undefined) {
-      updateFields.push(`last_name = $${paramCount}`);
-      values.push(lastName);
-      paramCount++;
-    }
-    
-    if (phone !== undefined) {
-      updateFields.push(`phone = $${paramCount}`);
-      values.push(phone);
-      paramCount++;
-    }
-    
-    if (dateOfBirth !== undefined) {
-      updateFields.push(`date_of_birth = $${paramCount}`);
-      values.push(dateOfBirth);
-      paramCount++;
-    }
-    
-    if (gender !== undefined) {
-      updateFields.push(`gender = $${paramCount}`);
-      values.push(gender);
-      paramCount++;
-    }
-    
-    if (marketingConsent !== undefined) {
-      updateFields.push(`marketing_consent = $${paramCount}`);
-      values.push(marketingConsent);
-      paramCount++;
-    }
+    // Build update data dynamically
+    const updateData = {
+      updatedAt: new Date()
+    };
 
-    if (updateFields.length === 0) {
+    if (firstName !== undefined) updateData.firstName = firstName;
+    if (lastName !== undefined) updateData.lastName = lastName;
+    if (phone !== undefined) updateData.phone = phone;
+    if (dateOfBirth !== undefined) updateData.dateOfBirth = dateOfBirth;
+    if (gender !== undefined) updateData.gender = gender;
+    if (marketingConsent !== undefined) updateData.marketingConsent = marketingConsent;
+
+    if (Object.keys(updateData).length === 1) { // Only updatedAt
       return res.status(400).json({
         success: false,
         message: 'No fields to update'
       });
     }
 
-    updateFields.push('updated_at = CURRENT_TIMESTAMP');
+    const result = await db
+      .update(users)
+      .set(updateData)
+      .where(eq(users.id, userId))
+      .returning({
+        id: users.id,
+        email: users.email,
+        firstName: users.firstName,
+        lastName: users.lastName,
+        phone: users.phone,
+        dateOfBirth: users.dateOfBirth,
+        gender: users.gender,
+        marketingConsent: users.marketingConsent,
+        updatedAt: users.updatedAt
+      });
 
-    const updateQuery = `
-      UPDATE users 
-      SET ${updateFields.join(', ')}
-      WHERE id = $1 
-      RETURNING id, email, first_name, last_name, phone, 
-                date_of_birth, gender, marketing_consent, 
-                updated_at
-    `;
-
-    const result = await pool.query(updateQuery, values);
+    if (result.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
 
     res.json({
       success: true,
       message: 'Profile updated successfully',
       user: {
-        id: result.rows[0].id,
-        email: result.rows[0].email,
-        firstName: result.rows[0].first_name,
-        lastName: result.rows[0].last_name,
-        phone: result.rows[0].phone,
-        dateOfBirth: result.rows[0].date_of_birth,
-        gender: result.rows[0].gender,
-        marketingConsent: result.rows[0].marketing_consent,
-        updatedAt: result.rows[0].updated_at
+        id: result[0].id,
+        email: result[0].email,
+        firstName: result[0].firstName,
+        lastName: result[0].lastName,
+        phone: result[0].phone,
+        dateOfBirth: result[0].dateOfBirth,
+        gender: result[0].gender,
+        marketingConsent: result[0].marketingConsent,
+        updatedAt: result[0].updatedAt
       }
     });
   })
@@ -366,12 +358,13 @@ router.post('/change-password',
     const { currentPassword, newPassword } = req.body;
 
     // Get current password hash
-    const userResult = await pool.query(
-      'SELECT password FROM users WHERE id = $1',
-      [userId]
-    );
+    const userResult = await db
+      .select({ password: users.password })
+      .from(users)
+      .where(eq(users.id, userId))
+      .limit(1);
 
-    if (userResult.rows.length === 0) {
+    if (userResult.length === 0) {
       return res.status(404).json({
         success: false,
         message: 'User not found'
@@ -380,8 +373,8 @@ router.post('/change-password',
 
     // Verify current password
     const isValidPassword = await AuthService.comparePassword(
-      currentPassword, 
-      userResult.rows[0].password
+      currentPassword,
+      userResult[0].password
     );
 
     if (!isValidPassword) {
@@ -394,19 +387,17 @@ router.post('/change-password',
     // Hash new password
     const hashedPassword = await AuthService.hashPassword(newPassword);
 
-    // Update password and invalidate all sessions except current
-    await pool.query(`
-      UPDATE users 
-      SET password = $1, updated_at = CURRENT_TIMESTAMP
-      WHERE id = $2
-    `, [hashedPassword, userId]);
+    // Update password
+    await db
+      .update(users)
+      .set({
+        password: hashedPassword,
+        updatedAt: new Date()
+      })
+      .where(eq(users.id, userId));
 
-    // Invalidate all other sessions for security
-    await pool.query(`
-      UPDATE user_sessions 
-      SET is_active = FALSE 
-      WHERE user_id = $1
-    `, [userId]);
+    // TODO: Invalidate all other sessions for security when user_sessions table is added
+    // await db.update(userSessions).set({ isActive: false }).where(eq(userSessions.userId, userId));
 
     res.json({
       success: true,
