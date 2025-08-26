@@ -3,11 +3,49 @@ import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import { db } from '../config/db.js';
 import { AppError } from '../middleware/error-handler.js';
-import { users } from '../config/schema.js';
-import { eq, and, gt, lt } from 'drizzle-orm';
+import { users, userSessions } from '../config/schema.js';
+import { eq, and, gt, lt, desc } from 'drizzle-orm';
 
 class AuthService {
-  
+
+  // Create user session
+  async createSession(userId, deviceInfo = {}) {
+    const sessionToken = this.generateSessionToken();
+    const refreshToken = this.generateRefreshToken();
+    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
+
+    const session = await db
+      .insert(userSessions)
+      .values({
+        userId,
+        sessionToken,
+        refreshToken,
+        deviceInfo,
+        ipAddress: deviceInfo.ip,
+        userAgent: deviceInfo.userAgent,
+        expiresAt,
+        lastActivity: new Date()
+      })
+      .returning({
+        id: userSessions.id,
+        sessionToken: userSessions.sessionToken,
+        refreshToken: userSessions.refreshToken,
+        expiresAt: userSessions.expiresAt
+      });
+
+    return session[0];
+  }
+
+  // Generate secure session token
+  generateSessionToken() {
+    return crypto.randomBytes(64).toString('hex');
+  }
+
+  // Generate secure refresh token
+  generateRefreshToken() {
+    return crypto.randomBytes(64).toString('hex');
+  }
+
   // Generate secure JWT tokens
   generateTokens(userId) {
     const accessToken = jwt.sign(
@@ -85,7 +123,7 @@ class AuthService {
   }
 
   // Register new user
-  async registerUser(userData) {
+  async registerUser(userData, deviceInfo = {}) {
     const { email, password, firstName, lastName, marketingConsent = false } = userData;
 
     // Input validation
@@ -147,8 +185,8 @@ class AuthService {
       // Generate tokens
       const { accessToken, refreshToken } = this.generateTokens(user.id);
 
-      // TODO: Handle user sessions table when schema is updated
-      // For now, we'll skip the session storage and return tokens
+      // Create user session
+      const session = await this.createSession(user.id, deviceInfo);
 
       // Return user data (excluding sensitive information)
       return {
@@ -162,7 +200,8 @@ class AuthService {
         },
         tokens: {
           accessToken,
-          refreshToken
+          refreshToken,
+          sessionToken: session.sessionToken
         },
         emailVerificationToken // This should be sent via email in production
       };
@@ -259,8 +298,8 @@ class AuthService {
       // Generate tokens
       const { accessToken, refreshToken } = this.generateTokens(user.id);
 
-      // TODO: Handle user sessions table when schema is updated
-      // For now, we'll skip the session storage and return tokens
+      // Create user session
+      const session = await this.createSession(user.id, deviceInfo);
 
       return {
         user: {
@@ -273,7 +312,8 @@ class AuthService {
         },
         tokens: {
           accessToken,
-          refreshToken
+          refreshToken,
+          sessionToken: session.sessionToken
         },
         requiresEmailVerification: !user.emailVerified
       };
@@ -390,21 +430,57 @@ class AuthService {
       throw new AppError('Invalid or expired reset token', 400, 'INVALID_TOKEN');
     }
 
-    // TODO: Invalidate all user sessions for security when user_sessions table is added
-    // await db.update(userSessions).set({ isActive: false }).where(eq(userSessions.userId, result[0].id));
+    // Invalidate all user sessions for security
+    await db
+      .update(userSessions)
+      .set({ isActive: false })
+      .where(eq(userSessions.userId, result[0].id));
 
     return {
       user: result[0],
-      message: 'Password has been reset successfully'
+      message: 'Password has been reset successfully. Please login again on all devices.'
     };
   }
 
   // Refresh access token
   async refreshToken(refreshToken) {
-    // TODO: Implement proper refresh token validation when user_sessions table is added
-    // For now, we'll decode the JWT and validate it directly
     try {
+      // Verify JWT refresh token
       const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+
+      // Find active session with this refresh token
+      const sessionResult = await db
+        .select({
+          id: userSessions.id,
+          userId: userSessions.userId,
+          isActive: userSessions.isActive,
+          expiresAt: userSessions.expiresAt
+        })
+        .from(userSessions)
+        .where(
+          and(
+            eq(userSessions.refreshToken, refreshToken),
+            eq(userSessions.isActive, true)
+          )
+        )
+        .limit(1);
+
+      if (sessionResult.length === 0) {
+        throw new AppError('Invalid or expired refresh token', 401, 'INVALID_REFRESH_TOKEN');
+      }
+
+      const session = sessionResult[0];
+
+      // Check if session is expired
+      if (new Date(session.expiresAt) < new Date()) {
+        // Deactivate expired session
+        await db
+          .update(userSessions)
+          .set({ isActive: false })
+          .where(eq(userSessions.id, session.id));
+
+        throw new AppError('Session expired', 401, 'SESSION_EXPIRED');
+      }
 
       // Verify user still exists
       const userResult = await db
@@ -415,14 +491,25 @@ class AuthService {
           lastName: users.lastName
         })
         .from(users)
-        .where(eq(users.id, decoded.id))
+        .where(eq(users.id, session.userId))
         .limit(1);
 
       if (userResult.length === 0) {
-        throw new AppError('Invalid or expired refresh token', 401, 'INVALID_REFRESH_TOKEN');
+        throw new AppError('User not found', 401, 'USER_NOT_FOUND');
       }
 
+      // Generate new tokens
       const { accessToken, refreshToken: newRefreshToken } = this.generateTokens(userResult[0].id);
+
+      // Update session with new refresh token and activity
+      await db
+        .update(userSessions)
+        .set({
+          refreshToken: newRefreshToken,
+          lastActivity: new Date(),
+          expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // Extend by 7 days
+        })
+        .where(eq(userSessions.id, session.id));
 
       return {
         user: userResult[0],
@@ -432,22 +519,177 @@ class AuthService {
         }
       };
     } catch (error) {
+      if (error instanceof AppError) {
+        throw error;
+      }
       throw new AppError('Invalid or expired refresh token', 401, 'INVALID_REFRESH_TOKEN');
     }
   }
 
   // Logout user (invalidate refresh token)
   async logout(refreshToken) {
-    // TODO: Implement proper session invalidation when user_sessions table is added
-    // For now, we'll just return success since we're not storing sessions
-    return { message: 'Logged out successfully' };
+    try {
+      // Find and deactivate the session
+      const result = await db
+        .update(userSessions)
+        .set({
+          isActive: false,
+          lastActivity: new Date()
+        })
+        .where(eq(userSessions.refreshToken, refreshToken))
+        .returning({ id: userSessions.id });
+
+      if (result.length === 0) {
+        // Token might already be invalid, but we'll still return success
+        console.log('Refresh token not found or already invalidated');
+      }
+
+      return { message: 'Logged out successfully' };
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Still return success to avoid revealing information
+      return { message: 'Logged out successfully' };
+    }
   }
 
   // Logout from all devices
   async logoutAll(userId) {
-    // TODO: Implement proper session invalidation when user_sessions table is added
-    // For now, we'll just return success since we're not storing sessions
-    return { message: 'Logged out from all devices successfully' };
+    try {
+      // Deactivate all active sessions for this user
+      await db
+        .update(userSessions)
+        .set({
+          isActive: false,
+          lastActivity: new Date()
+        })
+        .where(
+          and(
+            eq(userSessions.userId, userId),
+            eq(userSessions.isActive, true)
+          )
+        );
+
+      return { message: 'Logged out from all devices successfully' };
+    } catch (error) {
+      console.error('Logout all error:', error);
+      throw new AppError('Failed to logout from all devices', 500, 'LOGOUT_ALL_FAILED');
+    }
+  }
+
+  // Validate user session
+  async validateSession(sessionToken) {
+    try {
+      const sessionResult = await db
+        .select({
+          id: userSessions.id,
+          userId: userSessions.userId,
+          isActive: userSessions.isActive,
+          expiresAt: userSessions.expiresAt,
+          user: {
+            id: users.id,
+            email: users.email,
+            firstName: users.firstName,
+            lastName: users.lastName,
+            emailVerified: users.emailVerified,
+            twoFactorEnabled: users.twoFactorEnabled
+          }
+        })
+        .from(userSessions)
+        .innerJoin(users, eq(userSessions.userId, users.id))
+        .where(
+          and(
+            eq(userSessions.sessionToken, sessionToken),
+            eq(userSessions.isActive, true)
+          )
+        )
+        .limit(1);
+
+      if (sessionResult.length === 0) {
+        return null;
+      }
+
+      const session = sessionResult[0];
+
+      // Check if session is expired
+      if (new Date(session.expiresAt) < new Date()) {
+        // Deactivate expired session
+        await db
+          .update(userSessions)
+          .set({ isActive: false })
+          .where(eq(userSessions.id, session.id));
+
+        return null;
+      }
+
+      // Update last activity
+      await db
+        .update(userSessions)
+        .set({ lastActivity: new Date() })
+        .where(eq(userSessions.id, session.id));
+
+      return {
+        session: {
+          id: session.id,
+          userId: session.userId,
+          expiresAt: session.expiresAt
+        },
+        user: session.user
+      };
+
+    } catch (error) {
+      console.error('Session validation error:', error);
+      return null;
+    }
+  }
+
+  // Get active sessions for user
+  async getActiveSessions(userId) {
+    try {
+      const sessions = await db
+        .select({
+          id: userSessions.id,
+          deviceInfo: userSessions.deviceInfo,
+          ipAddress: userSessions.ipAddress,
+          userAgent: userSessions.userAgent,
+          createdAt: userSessions.createdAt,
+          lastActivity: userSessions.lastActivity,
+          expiresAt: userSessions.expiresAt
+        })
+        .from(userSessions)
+        .where(
+          and(
+            eq(userSessions.userId, userId),
+            eq(userSessions.isActive, true)
+          )
+        )
+        .orderBy(desc(userSessions.lastActivity));
+
+      return sessions;
+    } catch (error) {
+      console.error('Get active sessions error:', error);
+      throw new AppError('Failed to get active sessions', 500, 'GET_SESSIONS_FAILED');
+    }
+  }
+
+  // Clean up expired sessions
+  async cleanupExpiredSessions() {
+    try {
+      const result = await db
+        .update(userSessions)
+        .set({ isActive: false })
+        .where(
+          and(
+            eq(userSessions.isActive, true),
+            lt(userSessions.expiresAt, new Date())
+          )
+        )
+        .returning({ id: userSessions.id });
+
+      return result.length;
+    } catch (error) {
+      console.error('Cleanup expired sessions error:', error);
+      return 0;
+    }
   }
 }
 

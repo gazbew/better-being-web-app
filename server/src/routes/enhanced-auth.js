@@ -34,19 +34,20 @@ const getDeviceInfo = (req) => ({
  * @desc Register a new user
  * @access Public
  */
-router.post('/register', 
+router.post('/register',
   authLimiter,
   validateUserRegistration,
   asyncHandler(async (req, res) => {
     const { email, password, firstName, lastName, marketingConsent } = req.body;
-    
+    const deviceInfo = getDeviceInfo(req);
+
     const result = await AuthService.registerUser({
       email,
       password,
       firstName,
       lastName,
       marketingConsent
-    });
+    }, deviceInfo);
 
     // In production, send verification email instead of returning token
     res.status(201).json({
@@ -71,7 +72,7 @@ router.post('/login',
   asyncHandler(async (req, res) => {
     const { email, password } = req.body;
     const deviceInfo = getDeviceInfo(req);
-    
+
     const result = await AuthService.loginUser(email, password, deviceInfo);
 
     res.json({

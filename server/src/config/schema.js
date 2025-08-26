@@ -150,6 +150,21 @@ export const wishlist = pgTable('wishlist', {
   uniqueUserProduct: unique().on(table.userId, table.productId),
 }));
 
+// User sessions table
+export const userSessions = pgTable('user_sessions', {
+  id: serial('id').primaryKey(),
+  userId: integer('user_id').references(() => users.id, { onDelete: 'cascade' }),
+  sessionToken: varchar('session_token', { length: 255 }).unique().notNull(),
+  refreshToken: varchar('refresh_token', { length: 255 }).unique().notNull(),
+  deviceInfo: jsonb('device_info'),
+  ipAddress: varchar('ip_address', { length: 45 }),
+  userAgent: text('user_agent'),
+  isActive: boolean('is_active').default(true),
+  expiresAt: timestamp('expires_at').notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
+  lastActivity: timestamp('last_activity').defaultNow(),
+});
+
 // Reviews table
 export const reviews = pgTable('reviews', {
   id: serial('id').primaryKey(),
