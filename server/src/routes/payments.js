@@ -1,10 +1,20 @@
 import express from 'express';
-import PaystackService from '../services/paystack.service.js';
 import { authenticateToken, optionalAuth } from '../middleware/enhanced-auth.js';
 import { generalLimiter, authLimiter } from '../middleware/security.js';
 import { asyncHandler } from '../middleware/error-handler.js';
 import { body, param, query, validationResult } from 'express-validator';
 import crypto from 'crypto';
+
+// Initialize Paystack service conditionally
+let PaystackService = null;
+try {
+  if (process.env.PAYSTACK_SECRET_KEY && process.env.PAYSTACK_WEBHOOK_SECRET) {
+    const paystackModule = await import('../services/paystack.service.js');
+    PaystackService = paystackModule.default;
+  }
+} catch (error) {
+  console.warn('Paystack service not available:', error.message);
+}
 
 const router = express.Router();
 
@@ -46,11 +56,18 @@ const validateReference = [
  * @desc Initialize payment for an order
  * @access Private
  */
-router.post('/initialize/:orderId', 
+router.post('/initialize/:orderId',
   authenticateToken,
   authLimiter,
   validateOrderId,
   asyncHandler(async (req, res) => {
+    if (!PaystackService) {
+      return res.status(503).json({
+        success: false,
+        message: 'Payment service is not configured'
+      });
+    }
+
     const userId = req.user.id;
     const orderId = req.orderId;
 
@@ -73,10 +90,17 @@ router.post('/initialize/:orderId',
  * @desc Verify payment transaction
  * @access Private
  */
-router.get('/verify/:reference', 
+router.get('/verify/:reference',
   authenticateToken,
   validateReference,
   asyncHandler(async (req, res) => {
+    if (!PaystackService) {
+      return res.status(503).json({
+        success: false,
+        message: 'Payment service is not configured'
+      });
+    }
+
     const reference = req.params.reference;
 
     const transaction = await PaystackService.verifyPayment(reference);
@@ -258,8 +282,21 @@ router.post('/refund/:reference',
  * @desc Get payment configuration for frontend
  * @access Public
  */
-router.get('/config', 
+router.get('/config',
   asyncHandler(async (req, res) => {
+    if (!PaystackService) {
+      return res.status(503).json({
+        success: false,
+        message: 'Payment service is not configured',
+        config: {
+          publicKey: null,
+          supportedCurrencies: [],
+          supportedChannels: [],
+          testMode: false
+        }
+      });
+    }
+
     const options = PaystackService.getSupportedOptions();
 
     res.json({

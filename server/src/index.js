@@ -3,11 +3,15 @@ import cors from 'cors';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 import pool from './config/database.js';
+import { corsOptions } from './middleware/security.js';
 import { cache } from './config/redis.js';
 import { runMigrations } from './config/migrate.js';
 
 // Route imports
+import healthRouter from './routes/health.js';
 import productsRouter from './routes/products.js';
 import optimizedProductsRouter from './routes/optimized-products.js';
 import ordersRouter from './routes/orders.js';
@@ -15,6 +19,7 @@ import usersRouter from './routes/users.js';
 import authRouter from './routes/enhanced-auth.js';
 import cartRouter from './routes/cart.js';
 import checkoutRouter from './routes/checkout.js';
+import paymentsRouter from './routes/payments.js';
 import reviewsRouter from './routes/reviews.js';
 import recommendationsRouter from './routes/recommendations.js';
 import loyaltyRouter from './routes/loyalty.js';
@@ -29,7 +34,10 @@ import {
 // Security middleware is imported dynamically in initializeServer to avoid dev-time crashes
 let enhancedHelmet, xssProtection, securityHeaders, apiRateLimit, requestSizeLimits;
 
-dotenv.config({ path: '../.env' });
+// Load env relative to this file to avoid cwd issues
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+dotenv.config({ path: join(__dirname, '../.env') });
 
 const app = express();
 const PORT = process.env.PORT || 3003;
@@ -37,13 +45,8 @@ const PORT = process.env.PORT || 3003;
 // Basic security defaults (apply safe defaults; enhanced middleware will be applied dynamically)
 app.use(helmet());
 
-// CORS configuration - Use single origin for development
-app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:5174', 'http://127.0.0.1:5173'],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Request-ID']
-}));
+// CORS configuration - use env-driven allowlist via security middleware
+app.use(cors(corsOptions));
 
 // Basic middleware with safe defaults (requestSizeLimits may be applied later if available)
 app.use(express.json());
@@ -67,6 +70,7 @@ app.use(performanceMiddleware);
 createPerformanceRoutes(app);
 
 // API Routes - Use optimized products route by default
+app.use('/api/health', healthRouter);
 app.use('/api/products', optimizedProductsRouter);
 app.use('/api/products-legacy', productsRouter); // Keep legacy route for comparison
 app.use('/api/orders', ordersRouter);
@@ -74,6 +78,7 @@ app.use('/api/users', usersRouter);
 app.use('/api/auth', authRouter); // Auth routes using enhanced auth router
 app.use('/api/cart', cartRouter);
 app.use('/api/checkout', checkoutRouter);
+app.use('/api/payments', paymentsRouter);
 app.use('/api/reviews', reviewsRouter);
 app.use('/api/recommendations', recommendationsRouter);
 app.use('/api/loyalty', loyaltyRouter);

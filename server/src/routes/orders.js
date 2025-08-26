@@ -1,16 +1,100 @@
 import express from 'express';
 import pool from '../config/database.js';
+import { authenticateToken } from '../middleware/auth.js';
 
 const router = express.Router();
 
 // Get user orders
-router.get('/', async (req, res) => {
+router.get('/', authenticateToken, async (req, res) => {
   try {
-    // TODO: Add authentication middleware
-    res.json({ orders: [] });
+    const userId = req.user.id;
+    const { limit = 10, offset = 0, status } = req.query;
+
+    let query = `
+      SELECT
+        o.*,
+        json_agg(
+          json_build_object(
+            'id', oi.id,
+            'product_id', oi.product_id,
+            'quantity', oi.quantity,
+            'price', oi.price,
+            'product_name', p.name,
+            'product_image', p.image_url
+          )
+        ) as items
+      FROM orders o
+      LEFT JOIN order_items oi ON o.id = oi.order_id
+      LEFT JOIN products p ON oi.product_id = p.id
+      WHERE o.user_id = $1
+    `;
+
+    const params = [userId];
+    let paramCount = 1;
+
+    if (status) {
+      paramCount++;
+      query += ` AND o.status = $${paramCount}`;
+      params.push(status);
+    }
+
+    query += `
+      GROUP BY o.id
+      ORDER BY o.created_at DESC
+      LIMIT $${paramCount + 1} OFFSET $${paramCount + 2}
+    `;
+
+    params.push(parseInt(limit), parseInt(offset));
+
+    const result = await pool.query(query, params);
+
+    res.json({
+      orders: result.rows,
+      total: result.rows.length,
+      limit: parseInt(limit),
+      offset: parseInt(offset)
+    });
   } catch (error) {
     console.error('Error fetching orders:', error);
     res.status(500).json({ error: 'Failed to fetch orders' });
+  }
+});
+
+// Get order statistics
+router.get('/stats', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const query = `
+      SELECT
+        COUNT(*) as totalOrders,
+        COUNT(CASE WHEN status = 'completed' THEN 1 END) as completedOrders,
+        COUNT(CASE WHEN status = 'pending' THEN 1 END) as pendingOrders,
+        COUNT(CASE WHEN status = 'cancelled' THEN 1 END) as cancelledOrders,
+        COALESCE(SUM(total), 0) as totalRevenue,
+        COALESCE(AVG(total), 0) as averageOrderValue,
+        MAX(created_at) as lastOrderDate
+      FROM orders
+      WHERE user_id = $1
+    `;
+
+    const result = await pool.query(query, [userId]);
+    const stats = result.rows[0];
+
+    res.json({
+      stats: {
+        totalOrders: parseInt(stats.totalorders),
+        completedOrders: parseInt(stats.completedorders),
+        pendingOrders: parseInt(stats.pendingorders),
+        cancelledOrders: parseInt(stats.cancelledorders),
+        totalRevenue: parseFloat(stats.totalrevenue),
+        averageOrderValue: parseFloat(stats.averageordervalue),
+        lastOrderDate: stats.lastorderdate
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching order stats:', error);
+    res.status(500).json({ error: 'Failed to fetch order statistics' });
   }
 });
 

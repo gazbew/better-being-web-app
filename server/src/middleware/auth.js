@@ -1,9 +1,15 @@
 import jwt from 'jsonwebtoken';
 import pool from '../config/database.js';
+import { authenticateHybrid, optionalHybrid } from './stack-auth.js';
 
 export const authenticateToken = async (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+  if (authenticateHybrid) return authenticateHybrid(req, res, next);
+  // Prefer secure HTTP-only cookie; fall back to Authorization header
+  let token = req.cookies?.auth_token;
+  if (!token) {
+    const authHeader = req.headers['authorization'];
+    token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+  }
 
   if (!token) {
     return res.status(401).json({ error: 'Access token required' });
@@ -41,8 +47,12 @@ export const authenticateToken = async (req, res, next) => {
 };
 
 export const optionalAuth = async (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+  if (optionalHybrid) return optionalHybrid(req, res, next);
+  let token = req.cookies?.auth_token;
+  if (!token) {
+    const authHeader = req.headers['authorization'];
+    token = authHeader && authHeader.split(' ')[1];
+  }
 
   if (!token) {
     req.user = null;

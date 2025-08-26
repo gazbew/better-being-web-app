@@ -259,10 +259,66 @@ router.get('/', async (req, res) => {
     
     setCache(cacheKey, response);
     res.json(response);
-    
+
   } catch (error) {
     console.error('Error fetching products:', error);
     res.status(500).json({ error: 'Failed to fetch products' });
+  }
+});
+
+// Get categories with product counts (optimized)
+router.get('/categories', async (req, res) => {
+  try {
+    const cacheKey = getCacheKey('categories_all', {});
+    const cached = getCache(cacheKey);
+
+    if (cached) {
+      return res.json({ categories: cached });
+    }
+
+    const query = `
+      WITH category_counts AS (
+        SELECT
+          c.id,
+          COUNT(p.id) as product_count
+        FROM categories c
+        LEFT JOIN products p ON c.id = p.category_id AND p.in_stock = true
+        GROUP BY c.id
+      ),
+      subcategory_counts AS (
+        SELECT
+          sc.category_id,
+          json_agg(
+            json_build_object(
+              'id', sc.id,
+              'name', sc.name,
+              'slug', sc.slug,
+              'description', sc.description,
+              'product_count', COUNT(p.id)
+            )
+            ORDER BY sc.name
+          ) as subcategories
+        FROM subcategories sc
+        LEFT JOIN products p ON sc.id = p.subcategory_id AND p.in_stock = true
+        GROUP BY sc.category_id
+      )
+      SELECT
+        c.*,
+        cc.product_count,
+        COALESCE(scc.subcategories, '[]'::json) as subcategories
+      FROM categories c
+      LEFT JOIN category_counts cc ON c.id = cc.id
+      LEFT JOIN subcategory_counts scc ON c.id = scc.category_id
+      ORDER BY c.name
+    `;
+
+    const result = await pool.query(query);
+    setCache(cacheKey, result.rows);
+    res.json({ categories: result.rows });
+
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+    res.status(500).json({ error: 'Failed to fetch categories' });
   }
 });
 
@@ -270,17 +326,23 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
+
+    // Validate that id is a number, not a string like "categories"
+    if (isNaN(parseInt(id))) {
+      return res.status(400).json({ error: 'Invalid product ID' });
+    }
+
     const cacheKey = getCacheKey('product_detail', { id });
     const cached = getCache(cacheKey);
-    
+
     if (cached) {
       return res.json(cached);
     }
-    
+
     // Single optimized query for product details
     const query = `
       WITH product_data AS (
-        SELECT 
+        SELECT
           p.*,
           c.name as category_name,
           c.slug as category_slug,
@@ -308,15 +370,15 @@ router.get('/:id', async (req, res) => {
       ),
       product_sizes AS (
         SELECT json_agg(jsonb_build_object(
-          'size', size, 
-          'price', price, 
+          'size', size,
+          'price', price,
           'original_price', original_price
         )) as sizes
         FROM product_sizes
         WHERE product_id = $1
       ),
       recent_reviews AS (
-        SELECT 
+        SELECT
           json_agg(
             jsonb_build_object(
               'id', r.id,
@@ -334,7 +396,7 @@ router.get('/:id', async (req, res) => {
         WHERE r.product_id = $1
         LIMIT 5
       )
-      SELECT 
+      SELECT
         pd.*,
         COALESCE(pb.benefits, ARRAY[]::text[]) as benefits,
         COALESCE(pi.ingredients, ARRAY[]::text[]) as ingredients,
@@ -348,17 +410,17 @@ router.get('/:id', async (req, res) => {
       CROSS JOIN product_sizes ps
       CROSS JOIN recent_reviews rr
     `;
-    
+
     const result = await pool.query(query, [id]);
-    
+
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Product not found' });
     }
-    
+
     const product = result.rows[0];
     setCache(cacheKey, product);
     res.json(product);
-    
+
   } catch (error) {
     console.error('Error fetching product:', error);
     res.status(500).json({ error: 'Failed to fetch product' });
@@ -366,50 +428,82 @@ router.get('/:id', async (req, res) => {
 });
 
 // Get search suggestions
-router.get('/search/suggestions', async (req, res) => {
+router.get('/suggestions', async (req, res) => {
   try {
-    const { q } = req.query;
-    
+    const { q, limit = 10 } = req.query;
+
     if (!q || q.length < 2) {
       return res.json({ suggestions: [] });
     }
-    
-    const cacheKey = getCacheKey('search_suggestions', { q });
+
+    const cacheKey = getCacheKey('search_suggestions', { q, limit });
     const cached = getCache(cacheKey);
-    
+
     if (cached) {
       return res.json(cached);
     }
-    
-    const query = 'SELECT suggestion FROM get_search_suggestions($1, 10)';
-    const result = await pool.query(query, [q]);
-    
+
+    const query = 'SELECT suggestion FROM get_search_suggestions($1, $2)';
+    const result = await pool.query(query, [q, parseInt(limit)]);
+
     const response = {
       suggestions: result.rows.map(row => row.suggestion)
     };
-    
+
     setCache(cacheKey, response);
     res.json(response);
-    
+
   } catch (error) {
     console.error('Error fetching search suggestions:', error);
     res.json({ suggestions: [] });
   }
 });
 
-// Get categories with product counts (optimized)
+// Get search suggestions - legacy endpoint
+router.get('/search/suggestions', async (req, res) => {
+  try {
+    const { q } = req.query;
+
+    if (!q || q.length < 2) {
+      return res.json({ suggestions: [] });
+    }
+
+    const cacheKey = getCacheKey('search_suggestions', { q });
+    const cached = getCache(cacheKey);
+
+    if (cached) {
+      return res.json(cached);
+    }
+
+    const query = 'SELECT suggestion FROM get_search_suggestions($1, 10)';
+    const result = await pool.query(query, [q]);
+
+    const response = {
+      suggestions: result.rows.map(row => row.suggestion)
+    };
+
+    setCache(cacheKey, response);
+    res.json(response);
+
+  } catch (error) {
+    console.error('Error fetching search suggestions:', error);
+    res.json({ suggestions: [] });
+  }
+});
+
+// Get categories with product counts (optimized) - legacy endpoint
 router.get('/categories/all', async (req, res) => {
   try {
     const cacheKey = getCacheKey('categories_all', {});
     const cached = getCache(cacheKey);
-    
+
     if (cached) {
       return res.json(cached);
     }
-    
+
     const query = `
       WITH category_counts AS (
-        SELECT 
+        SELECT
           c.id,
           COUNT(p.id) as product_count
         FROM categories c
@@ -417,7 +511,7 @@ router.get('/categories/all', async (req, res) => {
         GROUP BY c.id
       ),
       subcategory_counts AS (
-        SELECT 
+        SELECT
           sc.category_id,
           json_agg(
             json_build_object(
@@ -433,7 +527,7 @@ router.get('/categories/all', async (req, res) => {
         LEFT JOIN products p ON sc.id = p.subcategory_id AND p.in_stock = true
         GROUP BY sc.category_id
       )
-      SELECT 
+      SELECT
         c.*,
         cc.product_count,
         COALESCE(scc.subcategories, '[]'::json) as subcategories
@@ -442,14 +536,121 @@ router.get('/categories/all', async (req, res) => {
       LEFT JOIN subcategory_counts scc ON c.id = scc.category_id
       ORDER BY c.name
     `;
-    
+
     const result = await pool.query(query);
     setCache(cacheKey, result.rows);
     res.json(result.rows);
-    
+
   } catch (error) {
     console.error('Error fetching categories:', error);
     res.status(500).json({ error: 'Failed to fetch categories' });
+  }
+});
+
+// Get related products
+router.get('/:id/related', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { limit = 4 } = req.query;
+
+    const cacheKey = getCacheKey('related_products', { id, limit });
+    const cached = getCache(cacheKey);
+
+    if (cached) {
+      return res.json({ products: cached, count: cached.length });
+    }
+
+    // Get the current product's category and tags
+    const productQuery = `
+      SELECT
+        p.category_id,
+        p.subcategory_id,
+        array_agg(DISTINCT pt.tag) as tags,
+        array_agg(DISTINCT pb.benefit) as benefits,
+        array_agg(DISTINCT pi.ingredient) as ingredients
+      FROM products p
+      LEFT JOIN product_tags pt ON p.id = pt.product_id
+      LEFT JOIN product_benefits pb ON p.id = pb.product_id
+      LEFT JOIN product_ingredients pi ON p.id = pi.product_id
+      WHERE p.id = $1
+      GROUP BY p.id, p.category_id, p.subcategory_id
+    `;
+
+    const productResult = await pool.query(productQuery, [id]);
+
+    if (productResult.rows.length === 0) {
+      return res.json({ products: [], count: 0 });
+    }
+
+    const product = productResult.rows[0];
+
+    // Find related products based on category, subcategory, and shared tags/benefits/ingredients
+    const relatedQuery = `
+      WITH product_similarity AS (
+        SELECT
+          p.*,
+          c.name as category_name,
+          c.slug as category_slug,
+          sc.name as subcategory_name,
+          sc.slug as subcategory_slug,
+          CASE
+            WHEN p.category_id = $2 THEN 3
+            WHEN p.subcategory_id = $3 THEN 2
+            ELSE 1
+          END as relevance_score,
+          array_agg(DISTINCT pt.tag) as tags,
+          array_agg(DISTINCT pb.benefit) as benefits,
+          array_agg(DISTINCT pi.ingredient) as ingredients
+        FROM products p
+        LEFT JOIN categories c ON p.category_id = c.id
+        LEFT JOIN subcategories sc ON p.subcategory_id = sc.id
+        LEFT JOIN product_tags pt ON p.id = pt.product_id
+        LEFT JOIN product_benefits pb ON p.id = pb.product_id
+        LEFT JOIN product_ingredients pi ON p.id = pi.product_id
+        WHERE p.id != $1
+          AND p.in_stock = true
+          AND (
+            p.category_id = $2
+            OR p.subcategory_id = $3
+            OR EXISTS (
+              SELECT 1 FROM product_tags
+              WHERE product_id = p.id AND tag = ANY($4)
+            )
+            OR EXISTS (
+              SELECT 1 FROM product_benefits
+              WHERE product_id = p.id AND benefit = ANY($5)
+            )
+          )
+        GROUP BY p.id, c.name, c.slug, sc.name, sc.slug
+        ORDER BY relevance_score DESC, p.rating DESC, p.reviews_count DESC
+        LIMIT $6
+      )
+      SELECT
+        ps.*,
+        COALESCE(ps.tags, ARRAY[]::text[]) as tags,
+        COALESCE(ps.benefits, ARRAY[]::text[]) as benefits,
+        COALESCE(ps.ingredients, ARRAY[]::text[]) as ingredients
+      FROM product_similarity ps
+    `;
+
+    const relatedResult = await pool.query(relatedQuery, [
+      id,
+      product.category_id,
+      product.subcategory_id,
+      product.tags || [],
+      product.benefits || [],
+      parseInt(limit)
+    ]);
+
+    setCache(cacheKey, relatedResult.rows);
+    res.json({
+      products: relatedResult.rows,
+      count: relatedResult.rows.length
+    });
+
+  } catch (error) {
+    console.error('Error fetching related products:', error);
+    res.status(500).json({ error: 'Failed to fetch related products' });
   }
 });
 

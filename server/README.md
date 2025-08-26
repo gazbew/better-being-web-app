@@ -37,7 +37,7 @@ npm install
 npm run dev
 ```
 
-The server will run on `http://localhost:3001`
+The server will run on `http://localhost:3003`
 
 ### API Endpoints
 
@@ -63,5 +63,5 @@ The server will run on `http://localhost:3001`
 Create a `.env` file in the project root with:
 ```env
 DATABASE_URL="your_postgresql_connection_string"
-VITE_API_URL=http://localhost:3001/api
+VITE_API_URL=http://localhost:3003/api
 ```

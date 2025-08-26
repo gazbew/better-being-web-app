@@ -226,6 +226,59 @@ router.put('/profile',
   }
 });
 
-// Remove duplicate - already defined above
+// Get user account statistics
+router.get('/account-stats', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    // Get user basic info
+    const userQuery = `
+      SELECT
+        id,
+        first_name,
+        last_name,
+        email,
+        created_at as member_since
+      FROM users
+      WHERE id = $1
+    `;
+    const userResult = await pool.query(userQuery, [userId]);
+
+    if (userResult.rows.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const user = userResult.rows[0];
+
+    // Get order statistics
+    const orderStatsQuery = `
+      SELECT
+        COUNT(*) as total_orders,
+        COALESCE(SUM(total), 0) as total_spent,
+        COALESCE(AVG(total), 0) as average_order_value,
+        MAX(created_at) as last_order_date
+      FROM orders
+      WHERE user_id = $1 AND status = 'completed'
+    `;
+    const orderStatsResult = await pool.query(orderStatsQuery, [userId]);
+    const orderStats = orderStatsResult.rows[0];
+
+    // Get loyalty points (assuming there's a loyalty_points table or column)
+    // For now, we'll use a simple calculation based on order history
+    const loyaltyPoints = Math.floor(parseFloat(orderStats.total_spent || 0) / 10); // 1 point per $10 spent
+
+    res.json({
+      totalOrders: parseInt(orderStats.total_orders || 0),
+      totalSpent: parseFloat(orderStats.total_spent || 0),
+      loyaltyPoints,
+      memberSince: user.member_since,
+      averageOrderValue: parseFloat(orderStats.average_order_value || 0),
+      lastOrderDate: orderStats.last_order_date
+    });
+  } catch (error) {
+    console.error('Error fetching account stats:', error);
+    res.status(500).json({ error: 'Failed to fetch account statistics' });
+  }
+});
 
 export default router;

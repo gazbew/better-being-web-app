@@ -178,11 +178,106 @@ router.delete('/remove/:cartItemId', authenticateToken, async (req, res) => {
   }
 });
 
+// Get cart count
+router.get('/count', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const query = `
+      SELECT
+        COUNT(*) as itemCount,
+        COALESCE(SUM(quantity), 0) as totalQuantity
+      FROM cart
+      WHERE user_id = $1
+    `;
+
+    const result = await pool.query(query, [userId]);
+    const row = result.rows[0];
+
+    res.json({
+      itemCount: parseInt(row.itemcount),
+      totalQuantity: parseInt(row.totalquantity)
+    });
+  } catch (error) {
+    console.error('Error fetching cart count:', error);
+    res.status(500).json({ error: 'Failed to fetch cart count' });
+  }
+});
+
+// Validate cart items (check availability, stock, etc.)
+router.post('/validate', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const cartQuery = `
+      SELECT
+        c.id as cart_item_id,
+        c.product_id,
+        c.quantity,
+        c.size,
+        p.name as product_name,
+        p.in_stock,
+        p.stock_count,
+        COALESCE(ps.price, p.price) as price,
+        CASE
+          WHEN p.in_stock = false THEN 'out_of_stock'
+          WHEN p.stock_count < c.quantity THEN 'insufficient_stock'
+          WHEN c.size IS NOT NULL AND ps.product_id IS NULL THEN 'invalid_size'
+          ELSE 'available'
+        END as availability_status
+      FROM cart c
+      JOIN products p ON c.product_id = p.id
+      LEFT JOIN product_sizes ps ON p.id = ps.product_id AND c.size = ps.size
+      WHERE c.user_id = $1
+      ORDER BY c.created_at
+    `;
+
+    const result = await pool.query(cartQuery, [userId]);
+    const cartItems = result.rows;
+
+    const availability = cartItems.map(item => ({
+      productId: item.product_id,
+      available: item.availability_status === 'available',
+      message: item.availability_status === 'available' ? 'Available' :
+               item.availability_status === 'out_of_stock' ? 'Out of stock' :
+               item.availability_status === 'insufficient_stock' ? `Only ${item.stock_count} available` :
+               item.availability_status === 'invalid_size' ? 'Size not available' : 'Unknown error'
+    }));
+
+    const valid = availability.every(item => item.available);
+
+    // Calculate cart total
+    const validItems = cartItems.filter(item => item.availability_status === 'available');
+    const totalPrice = validItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+    res.json({
+      valid,
+      cart: {
+        items: validItems.map(item => ({
+          id: item.cart_item_id,
+          productId: item.product_id,
+          quantity: item.quantity,
+          size: item.size,
+          product: {
+            name: item.product_name,
+            price: item.price
+          }
+        })),
+        totalPrice
+      },
+      availability
+    });
+  } catch (error) {
+    console.error('Error validating cart:', error);
+    res.status(500).json({ error: 'Failed to validate cart' });
+  }
+});
+
 // Clear entire cart
 router.delete('/clear', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.id;
-    
+
     await pool.query('DELETE FROM cart WHERE user_id = $1', [userId]);
     res.json({ message: 'Cart cleared successfully' });
   } catch (error) {

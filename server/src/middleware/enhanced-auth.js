@@ -1,11 +1,18 @@
 import jwt from 'jsonwebtoken';
 import pool from '../config/database.js';
+import { authenticateHybrid, optionalHybrid } from './stack-auth.js';
 
 // Enhanced JWT authentication middleware with refresh token support
+// Prefer hybrid auth (local JWT or Stack Auth JWKS). Fallback to legacy if hybrid fails to import.
 export const authenticateToken = async (req, res, next) => {
+  if (authenticateHybrid) return authenticateHybrid(req, res, next);
   try {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+    // Prefer secure HTTP-only cookie; fall back to Authorization header
+    let token = req.cookies?.auth_token;
+    if (!token) {
+      const authHeader = req.headers['authorization'];
+      token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+    }
 
     if (!token) {
       return res.status(401).json({ 
@@ -41,7 +48,8 @@ export const authenticateToken = async (req, res, next) => {
     }
 
     // Check if email is verified for sensitive operations
-    if (!user.email_verified && req.path.includes('/profile') || req.path.includes('/orders')) {
+    // Require email verification for sensitive operations
+    if (!user.email_verified && (req.path.includes('/profile') || req.path.includes('/orders'))) {
       return res.status(403).json({ 
         message: 'Email verification required',
         code: 'EMAIL_NOT_VERIFIED'
@@ -89,9 +97,13 @@ export const authenticateToken = async (req, res, next) => {
 
 // Optional authentication - user info if token present, but doesn't require it
 export const optionalAuth = async (req, res, next) => {
+  if (optionalHybrid) return optionalHybrid(req, res, next);
   try {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
+    let token = req.cookies?.auth_token;
+    if (!token) {
+      const authHeader = req.headers['authorization'];
+      token = authHeader && authHeader.split(' ')[1];
+    }
 
     if (token) {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);

@@ -4,6 +4,7 @@ import { users } from '../config/schema.js';
 import { eq } from 'drizzle-orm';
 import AuthService from '../services/auth.service.js';
 import { authenticateToken, optionalAuth, rateLimitByUser } from '../middleware/enhanced-auth.js';
+import { setAuthCookie, clearAuthCookie } from '../middleware/cookie-auth.js';
 import { authLimiter } from '../middleware/security.js';
 import { asyncHandler } from '../middleware/error-handler.js';
 import {
@@ -50,6 +51,11 @@ router.post('/register',
     }, deviceInfo);
 
     // In production, send verification email instead of returning token
+    // Set secure HTTP-only auth cookie for access token
+    if (result?.tokens?.accessToken) {
+      setAuthCookie(res, result.tokens.accessToken);
+    }
+
     res.status(201).json({
       success: true,
       message: 'User registered successfully. Please check your email to verify your account.',
@@ -74,6 +80,11 @@ router.post('/login',
     const deviceInfo = getDeviceInfo(req);
 
     const result = await AuthService.loginUser(email, password, deviceInfo);
+
+    // Set secure HTTP-only auth cookie for access token
+    if (result?.tokens?.accessToken) {
+      setAuthCookie(res, result.tokens.accessToken);
+    }
 
     res.json({
       success: true,
@@ -169,6 +180,11 @@ router.post('/refresh',
     
     const result = await AuthService.refreshToken(refreshToken);
 
+    // Rotate cookie with new access token
+    if (result?.tokens?.accessToken) {
+      setAuthCookie(res, result.tokens.accessToken);
+    }
+
     res.json({
       success: true,
       message: 'Token refreshed successfully',
@@ -189,6 +205,9 @@ router.post('/logout',
     const { refreshToken } = req.body;
     
     await AuthService.logout(refreshToken);
+
+    // Clear auth cookie on logout
+    clearAuthCookie(res);
 
     res.json({
       success: true,
