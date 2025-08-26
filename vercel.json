@@ -1,18 +1,13 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
-  "builds": [
-    {
-      "src": "dist/index.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "server/src/index.js",
-      "use": "@vercel/node",
-      "config": {
-        "maxDuration": 30
-      }
+  "outputDirectory": "dist",
+  "functions": {
+    "server/src/*.js": {
+      "runtime": "nodejs18.x",
+      "maxDuration": 30
     }
-  ],
+  },
   "routes": [
     {
       "src": "/api/(.*)",
@@ -26,6 +21,5 @@
   "env": {
     "NODE_ENV": "production"
   },
-  "regions": ["fra1"],
-  "outputDirectory": "dist"
+  "regions": ["fra1"]
 }
