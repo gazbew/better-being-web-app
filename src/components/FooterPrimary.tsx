@@ -95,7 +95,7 @@ const FooterPrimary = () => {
 
       {/* Newsletter Section */}
       <div className="relative bg-gradient-to-r from-[#3a3a3a]/80 to-[#2f2f2f]/80 border-b border-[#CD853F]/20 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-6 py-16">
+        <div className="max-w-7xl mx-auto px-6 py-8">
           <div className="text-center max-w-3xl mx-auto">
             <div className="inline-flex items-center gap-3 bg-[#CD853F]/20 backdrop-blur-sm px-6 py-2 rounded-full mb-6">
               <Heart className="w-5 h-5 text-[#F5DEB3]" />
@@ -104,12 +104,12 @@ const FooterPrimary = () => {
               </span>
             </div>
 
-            <h3 className="text-4xl md:text-5xl font-bold text-white mb-6 font-heading">
+            <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 font-heading">
               Stay Connected to Your
               <span className="block text-[#F5DEB3]">Wellness Journey</span>
             </h3>
 
-            <p className="text-white/90 text-lg md:text-xl mb-10 leading-relaxed font-body">
+            <p className="text-white/90 text-base md:text-lg mb-6 leading-relaxed font-body">
               Get exclusive wellness tips, early access to new products, and
               special offers delivered straight to your inbox. Join thousands on
               their path to better being.
@@ -121,16 +121,16 @@ const FooterPrimary = () => {
                 <Input
                   type="email"
                   placeholder="Enter your email address"
-                  className="pl-12 pr-4 py-4 bg-[#2a2a2a]/90 backdrop-blur-sm border-2 border-[#CD853F]/30 focus:border-[#F5DEB3] text-white placeholder-[#F5DEB3]/60 rounded-xl text-lg font-body shadow-gentle focus:shadow-warm transition-all duration-300"
+                  className="pl-10 pr-3 py-2 bg-[#2a2a2a]/90 backdrop-blur-sm border border-[#CD853F]/30 focus:border-[#F5DEB3] text-white placeholder-[#F5DEB3]/60 rounded-lg text-sm font-body shadow-gentle focus:shadow-warm transition-all duration-300"
                 />
               </div>
-              <Button className="bg-[#CD853F] hover:bg-[#B8860B] text-white px-8 py-4 rounded-xl font-bold uppercase tracking-wider shadow-soft hover:shadow-warm transition-all duration-300 group">
+              <Button className="bg-[#CD853F] hover:bg-[#B8860B] text-white px-5 py-3 rounded-lg font-bold uppercase tracking-wide shadow-soft hover:shadow-warm transition-all duration-300 group">
                 Subscribe
                 <Send className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
               </Button>
             </div>
 
-            <p className="text-[#F5DEB3]/70 text-sm mt-4">
+            <p className="text-[#F5DEB3]/70 text-xs mt-2">
               ✨ No spam, just wellness. Unsubscribe anytime.
             </p>
           </div>
@@ -138,36 +138,36 @@ const FooterPrimary = () => {
       </div>
 
       {/* Main Footer Content */}
-      <div className="relative max-w-7xl mx-auto px-6 py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+      <div className="relative max-w-7xl mx-auto px-6 py-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Brand Section */}
           <div className="lg:col-span-1 space-y-8">
             <Link to="/" className="inline-flex items-center gap-4 group">
               <div className="relative">
-                <div className="w-14 h-14 bg-gradient-to-br from-[#CD853F] to-[#B8860B] rounded-2xl flex items-center justify-center group-hover:scale-110 transition-all duration-300 shadow-soft">
-                  <Leaf className="w-7 h-7 text-white" />
+                <div className="w-10 h-10 bg-gradient-to-br from-[#CD853F] to-[#B8860B] rounded-xl flex items-center justify-center group-hover:scale-105 transition-all duration-300 shadow-soft">
+                  <Leaf className="w-5 h-5 text-white" />
                 </div>
                 <div className="absolute -top-1 -right-1 w-4 h-4 bg-[#F5DEB3] rounded-full animate-soft-pulse"></div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-white font-heading">
+                <div className="text-2xl font-bold text-white font-heading">
                   Better Being
                 </div>
-                <div className="text-[#F5DEB3] text-sm font-body -mt-1">
+                <div className="text-[#F5DEB3] text-xs font-body -mt-1">
                   Natural Wellness Solutions
                 </div>
               </div>
             </Link>
 
-            <p className="text-white/90 leading-relaxed font-body text-lg">
+            <p className="text-white/90 leading-relaxed font-body text-sm">
               Transform your wellness journey with our curated collection of
               natural products. Building a healthier world, one conscious choice
               at a time.
             </p>
 
             {/* Social Media */}
-            <div className="flex items-center gap-4">
-              <span className="text-[#F5DEB3] font-semibold text-sm uppercase tracking-wider">
+            <div className="flex items-center gap-3">
+              <span className="text-[#F5DEB3] font-semibold text-xs uppercase tracking-wide">
                 Follow Us
               </span>
               <div className="flex gap-3">
@@ -180,10 +180,10 @@ const FooterPrimary = () => {
                   <a
                     key={label}
                     href={href}
-                    className="w-11 h-11 bg-[#CD853F]/30 hover:bg-[#F5DEB3] rounded-xl flex items-center justify-center transition-all duration-300 group shadow-gentle hover:shadow-warm"
+                    className="w-9 h-9 bg-[#CD853F]/30 hover:bg-[#F5DEB3] rounded-lg flex items-center justify-center transition-all duration-300 group shadow-gentle hover:shadow-warm"
                     aria-label={label}
                   >
-                    <Icon className="h-5 w-5 text-white group-hover:text-[#4a4a4a] transition-colors duration-300" />
+                    <Icon className="h-4 w-4 text-white group-hover:text-[#4a4a4a] transition-colors duration-300" />
                   </a>
                 ))}
               </div>
@@ -192,11 +192,11 @@ const FooterPrimary = () => {
 
           {/* Quick Links */}
           <div className="space-y-8">
-            <h4 className="text-xl font-bold text-[#F5DEB3] uppercase tracking-wider font-heading relative">
+            <h4 className="text-lg font-bold text-[#F5DEB3] uppercase tracking-wide font-heading relative">
               Explore
               <div className="absolute -bottom-2 left-0 w-12 h-0.5 bg-gradient-to-r from-[#F5DEB3] to-transparent"></div>
             </h4>
-            <ul className="space-y-4">
+            <ul className="space-y-2">
               {[
                 { to: "/products", label: "Our Products" },
                 { to: "/wellness", label: "Wellness Hub" },
@@ -210,7 +210,7 @@ const FooterPrimary = () => {
                 <li key={item.to}>
                   <Link
                     to={item.to}
-                    className="text-white/90 hover:text-[#F5DEB3] transition-all duration-300 font-body text-lg group flex items-center gap-2"
+                    className="text-white/90 hover:text-[#F5DEB3] transition-all duration-300 font-body text-sm group flex items-center gap-2"
                   >
                     <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
                     {item.label}
@@ -222,11 +222,11 @@ const FooterPrimary = () => {
 
           {/* Services & Support */}
           <div className="space-y-8">
-            <h4 className="text-xl font-bold text-[#F5DEB3] uppercase tracking-wider font-heading relative">
+            <h4 className="text-lg font-bold text-[#F5DEB3] uppercase tracking-wide font-heading relative">
               Support
               <div className="absolute -bottom-2 left-0 w-12 h-0.5 bg-gradient-to-r from-[#F5DEB3] to-transparent"></div>
             </h4>
-            <ul className="space-y-4">
+            <ul className="space-y-2">
               {[
                 { to: "/account", label: "My Account" },
                 { to: "/shipping", label: "Shipping Info" },

@@ -517,7 +517,7 @@ const Shop = () => {
       {/* Footer provided by DefaultLayout */}
 
       {/* Mobile Bottom Navigation - Visible only on Mobile */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-gradient-to-r from-amber-600 via-orange-500 to-amber-600 text-white shadow-2xl shadow-orange-500/25 border-t border-orange-400/30 backdrop-blur-sm">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-gradient-to-r from-amber-600 via-orange-500 to-amber-600 text-white shadow-lg border-t border-orange-400/30 backdrop-blur-sm">
         <div className="flex">
           {[
             { to: "/", icon: Home, label: "HOME" },
@@ -529,27 +529,27 @@ const Shop = () => {
               {item.to ? (
                 <Link
                   to={item.to}
-                  className="flex flex-col items-center justify-center py-4 hover:bg-white/10 transition-all duration-300 relative group"
+                  className="flex flex-col items-center justify-center py-2 hover:bg-white/10 transition-all duration-300 relative group"
                 >
-                  <item.icon className="w-5 h-5 mb-1 drop-shadow-sm group-hover:scale-110 transition-transform duration-300" />
-                  <span className="text-xs font-bold uppercase tracking-wider drop-shadow-sm">
+                  <item.icon className="w-4 h-4 mb-0.5 drop-shadow-sm group-hover:scale-110 transition-transform duration-300" />
+                  <span className="text-[10px] font-bold uppercase tracking-wide drop-shadow-sm">
                     {item.label}
                   </span>
                 </Link>
               ) : (
                 <button
-                  className={`w-full flex flex-col items-center justify-center py-4 transition-all duration-300 relative group ${
+                  className={`w-full flex flex-col items-center justify-center py-2 transition-all duration-300 relative group ${
                     item.active
-                      ? "bg-gradient-to-br from-amber-700/50 to-orange-700/50"
+                      ? "bg-gradient-to-br from-amber-700/40 to-orange-700/40"
                       : "hover:bg-white/10"
                   }`}
                 >
-                  <item.icon className="w-5 h-5 mb-1 drop-shadow-sm group-hover:scale-110 transition-transform duration-300" />
-                  <span className="text-xs font-bold uppercase tracking-wider drop-shadow-sm">
+                  <item.icon className="w-4 h-4 mb-0.5 drop-shadow-sm group-hover:scale-110 transition-transform duration-300" />
+                  <span className="text-[10px] font-bold uppercase tracking-wide drop-shadow-sm">
                     {item.label}
                   </span>
                   {item.active && (
-                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-8 h-1 bg-gradient-to-r from-amber-300 to-orange-300 rounded-b-full shadow-sm"></div>
+                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-6 h-0.5 bg-gradient-to-r from-amber-300 to-orange-300 rounded-b-full shadow-sm"></div>
                   )}
                 </button>
               )}

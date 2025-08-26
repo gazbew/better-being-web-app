@@ -147,7 +147,8 @@ export const optionalCookieAuth = async (req, res, next) => {
 
 // Helper function to set secure authentication cookie
 export const setAuthCookie = (res, token) => {
-  const isProd = process.env.NODE_ENV === 'production';
+  const forceCrossSite = process.env.ALLOW_CROSS_SITE_COOKIES === 'true';
+  const isProd = process.env.NODE_ENV === 'production' || forceCrossSite;
   const cookieOptions = {
     httpOnly: true,
     secure: isProd, // must be true for SameSite=None
@@ -160,7 +161,8 @@ export const setAuthCookie = (res, token) => {
 
 // Helper function to clear authentication cookie
 export const clearAuthCookie = (res) => {
-  const isProd = process.env.NODE_ENV === 'production';
+  const forceCrossSite = process.env.ALLOW_CROSS_SITE_COOKIES === 'true';
+  const isProd = process.env.NODE_ENV === 'production' || forceCrossSite;
   res.clearCookie('auth_token', {
     httpOnly: true,
     secure: isProd,

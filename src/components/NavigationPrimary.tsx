@@ -371,7 +371,7 @@ const NavigationPrimary = () => {
 
       {/* Navigation Spacer */}
       <div
-        className={`${scrolled ? "h-32" : "h-36"} transition-all duration-300`}
+        className={`${scrolled ? "h-16" : "h-20"} transition-all duration-300`}
       />
     </>
   );

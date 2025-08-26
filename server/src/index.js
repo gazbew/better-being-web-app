@@ -47,6 +47,8 @@ app.use(helmet());
 
 // CORS configuration - use env-driven allowlist via security middleware
 app.use(cors(corsOptions));
+// Ensure preflight responses for all routes
+app.options('*', cors(corsOptions));
 
 // Basic middleware with safe defaults (requestSizeLimits may be applied later if available)
 app.use(express.json());
